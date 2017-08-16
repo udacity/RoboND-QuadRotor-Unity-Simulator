@@ -41,20 +41,20 @@ public class BuildScript : MonoBehaviour
 			"Assets/Scenes/proto4.unity"
 		};
 
-		string basePath = "Builds/DroneSim/";
+		string basePath = "Builds/QuadSim/";
 		string settingFile = Application.dataPath + "/ros_settings.txt";
-		string settingPath = "DroneSim_Win_Data";
+		string settingPath = "QuadSim_Win_Data";
 
-		string extension = "DroneSim_Win.exe";
+		string extension = "QuadSim_Win.exe";
 		if ( target == BuildTarget.StandaloneOSXIntel64 )
 		{
-			extension = "DroneSim_OSX.app";
+			extension = "QuadSim_OSX.app";
 			settingPath = extension + "/Contents";
 		} else
 		if ( target == BuildTarget.StandaloneLinux64 )
 		{
-			extension = "DroneSim_Lin.x86_64";
-			settingPath = "DroneSim_Lin_Data";
+			extension = "QuadSim_Lin.x86_64";
+			settingPath = "QuadSim_Lin_Data";
 		}
 		
 		BuildPipeline.BuildPlayer ( scenes, basePath + extension, target, showBuilt ? BuildOptions.ShowBuiltPlayer : BuildOptions.None );
