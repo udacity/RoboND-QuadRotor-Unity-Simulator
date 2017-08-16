@@ -14,25 +14,65 @@ For issues connecting the sim to your VM or host OS, see the troubleshooting sec
 
 # ROS Services and Topics
 **Quad**
-1. `quad_rotor/cmd_force` (subscribed), of type [Wrench](http://docs.ros.org/jade/api/geometry_msgs/html/msg/Wrench.html)
-2. `quad_rotor/cmd_vel` (subscribed), of type [Twist](http://docs.ros.org/jade/api/geometry_msgs/html/msg/Twist.html)
-3. `quad_rotor/pose` (published), of type [PoseStamped](http://docs.ros.org/jade/api/geometry_msgs/html/msg/PoseStamped.html)
-4. `quad_rotor/imu` (published), of type [Imu](http://docs.ros.org/api/sensor_msgs/html/msg/Imu.html)
-5. `quad_rotor/gravity`, of type [SetBool](http://docs.ros.org/jade/api/std_srvs/html/srv/SetBool.html)
-6. `quad_rotor/x_force_constrained`, of type [SetBool](http://docs.ros.org/jade/api/std_srvs/html/srv/SetBool.html)
-7. `quad_rotor/y_force_constrained`, of type [SetBool](http://docs.ros.org/jade/api/std_srvs/html/srv/SetBool.html)
-8. `quad_rotor/z_force_constrained`, of type [SetBool](http://docs.ros.org/jade/api/std_srvs/html/srv/SetBool.html)
-9. `quad_rotor/x_torque_constrained`, of type [SetBool](http://docs.ros.org/jade/api/std_srvs/html/srv/SetBool.html)
-10. `quad_rotor/y_torque_constrained`, of type [SetBool](http://docs.ros.org/jade/api/std_srvs/html/srv/SetBool.html)
-11. `quad_rotor/z_torque_constrained`, of type [SetBool](http://docs.ros.org/jade/api/std_srvs/html/srv/SetBool.html)
-12. `quad_rotor/reset_orientation`, of type [SetBool](http://docs.ros.org/jade/api/std_srvs/html/srv/SetBool.html)
-13. `quad_rotor/set_pose`, of type _SetPose_ (see Project/Assets/Scripts/Ros/SetPose.srv)
-14. `quad_rotor/clear_path`, of type [SetBool](http://docs.ros.org/jade/api/std_srvs/html/srv/SetBool.html)
-15. `quad_rotor/set_path`, of type _SetPath_ (see Project/Assets/Scripts/Ros/SetPath.srv)
+```
+quad_rotor/cmd_force
+```
+Publish force and torque using a [Wrench](http://docs.ros.org/jade/api/geometry_msgs/html/msg/Wrench.html) message.
+```
+quad_rotor/cmd_vel
+```
+Publish linear and angular velocity using a [Twist](http://docs.ros.org/jade/api/geometry_msgs/html/msg/Twist.html) message
+```
+quad_rotor/pose
+```
+The Quad publishes its pose to this topic using [PoseStamped](http://docs.ros.org/jade/api/geometry_msgs/html/msg/PoseStamped.html)
+```
+quad_rotor/imu
+```
+The Quad publishes its velocity/acceleration using an [Imu](http://docs.ros.org/api/sensor_msgs/html/msg/Imu.html)
+```
+quad_rotor/gravity
+```
+Use this service to toggle gravity on/off using [SetBool](http://docs.ros.org/jade/api/std_srvs/html/srv/SetBool.html)
+```
+quad_rotor/x_force_constrained
+quad_rotor/y_force_constrained
+quad_rotor/z_force_constrained
+```
+Services to constrain movement on an axis using [SetBool](http://docs.ros.org/jade/api/std_srvs/html/srv/SetBool.html)
+```
+quad_rotor/x_torque_constrained
+quad_rotor/y_torque_constrained
+quad_rotor/z_torque_constrained
+```
+Services to constrain rotation on an axis using [SetBool](http://docs.ros.org/jade/api/std_srvs/html/srv/SetBool.html)
+```
+quad_rotor/reset_orientation
+```
+Service to reset the Quad's orientation, of type [SetBool](http://docs.ros.org/jade/api/std_srvs/html/srv/SetBool.html) (data ignored)
+```
+quad_rotor/set_pose
+```
+Service to set the Quad's position and orientation directly, using _SetPose_ (see Assets/Scripts/Ros/SetPose.srv)
+```
+quad_rotor/clear_path
+```
+Service to reset the path planner's current path, of type [SetBool](http://docs.ros.org/jade/api/std_srvs/html/srv/SetBool.html) (data ignored)
+```
+quad_rotor/set_path
+```
+Service to set a path to follow, of type _SetPath_ (see Project/Assets/Scripts/Ros/SetPath.srv). Path must contain 2+ waypoints
 
 **Camera**
-1. `quad_rotor/camera_pose_type`, of type _SetInt_ (see Project/Assets/Scripts/Ros/SetInt.srv)
-2. `quad_rotor/camera_distance`, of type _SetFloat_ (see Project/Assets/Scripts/Ros/SetFloat.srv)
+```
+quad_rotor/camera_pose_type
+```
+Service to set the camera's pose, of type _SetInt_ (see Project/Assets/Scripts/Ros/SetInt.srv). Poses are:  
+0 - Forward / 1 - Side / 2 - Top / 3 - Iso / 4 - Free
+```
+quad_rotor/camera_distance
+```
+Set the distance of the camera to the Quad, of type _SetFloat_ (see Project/Assets/Scripts/Ros/SetFloat.srv)
 
 ### Examples ###
 
