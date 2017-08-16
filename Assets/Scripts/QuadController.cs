@@ -206,15 +206,21 @@ public class QuadController : MonoBehaviour
 		{
 			float rps = maxRotorRPM / 60f;
 			float degPerSec = rps * 360f;
-			if ( useTwist )
+			if ( inputCtrl.active )
 			{
-				curRotorSpeed = Mathf.InverseLerp ( Physics.gravity.y, -Physics.gravity.y, rb.velocity.y ) * degPerSec;
-//				curRotorSpeed = 0.5f * degPerSec * ( rb.velocity.y + Physics.gravity.y ) / -Physics.gravity.y / rb.mass;
+				curRotorSpeed = degPerSec;
 			} else
 			{
-				curRotorSpeed = 0.5f * degPerSec * force.y / -Physics.gravity.y / rb.mass;
+				if ( useTwist )
+				{
+					curRotorSpeed = Mathf.InverseLerp ( Physics.gravity.y, -Physics.gravity.y, rb.velocity.y ) * degPerSec;
+					//				curRotorSpeed = 0.5f * degPerSec * ( rb.velocity.y + Physics.gravity.y ) / -Physics.gravity.y / rb.mass;
+				} else
+				{
+					curRotorSpeed = 0.5f * degPerSec * force.y / -Physics.gravity.y / rb.mass;
+				}
+				
 			}
-//			curRotorSpeed = degPerSec * force.y / thrustForce;
 
 			// use forward for now because rotors are rotated -90x
 			Vector3 rot = Vector3.forward * curRotorSpeed * Time.deltaTime;
