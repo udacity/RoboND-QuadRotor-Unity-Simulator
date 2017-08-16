@@ -1,0 +1,7 @@
+fileFormatVersion: 2
+guid: 3ed58f39e81a42a44ae2057ec9f0db62
+ShaderImporter:
+  defaultTextures:
+  - _Diffuse: {fileID: 2800000, guid: f36bb6e6929b4cf4cbafe6d9aea66673, type: 3}
+  - _HologramSlider: {fileID: 2800000, guid: 8f127a8df03754bb9bc30c6c1cb78d31, type: 3}
+  userData: 

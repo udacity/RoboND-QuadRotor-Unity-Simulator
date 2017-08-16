@@ -1,0 +1,162 @@
+fileFormatVersion: 2
+guid: 5fc3e0aa665af674eacab2a5256f63d2
+TextureImporter:
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: -1
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Graffiti_diffuse_0
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 871
+        width: 401
+        height: 153
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: Graffiti_diffuse_1
+      rect:
+        serializedVersion: 2
+        x: 419
+        y: 899
+        width: 416
+        height: 125
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: Graffiti_diffuse_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 792
+        width: 416
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Graffiti_diffuse_3
+      rect:
+        serializedVersion: 2
+        x: 441
+        y: 718
+        width: 361
+        height: 165
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: Graffiti_diffuse_4
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 625
+        width: 344
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Graffiti_diffuse_5
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 533
+        width: 362
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Graffiti_diffuse_6
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 463
+        width: 371
+        height: 142
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Graffiti_diffuse_7
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 362
+        width: 407
+        height: 152
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Graffiti_diffuse_8
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 326
+        width: 400
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Graffiti_diffuse_9
+      rect:
+        serializedVersion: 2
+        x: 428
+        y: 176
+        width: 374
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Graffiti_diffuse_10
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 160
+        width: 280
+        height: 148
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Graffiti_diffuse_11
+      rect:
+        serializedVersion: 2
+        x: 417
+        y: 9
+        width: 349
+        height: 156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Graffiti_diffuse_12
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 0
+        width: 344
+        height: 143
+      alignment: 0
+      pivot: {x: 0, y: 0}
+  spritePackingTag: 
+  userData: 

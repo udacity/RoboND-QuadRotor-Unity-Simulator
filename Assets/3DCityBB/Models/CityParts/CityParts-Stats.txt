@@ -1,0 +1,5 @@
+CenterPart: 4570 Polys / 6415 Verts
+EastPart: 4777 Polys / 6254 Verts
+WestPart: 4727 Polys / 6186 Verts
+NorthPart: 5749 Polys / 7434 Verts
+SouthPart: 4055 Polys / 5391 Verts

@@ -1,0 +1,202 @@
+fileFormatVersion: 2
+guid: 258cda54c4c1545408c1a34515065065
+timeCreated: 1490916852
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Sidewalk_West
+    100004: Street_West001
+    100006: Street_West002
+    100008: Street_West003
+    100010: Street_West004
+    100012: Street_West005
+    100014: Street_West006
+    100016: Street_West007
+    100018: Street_West008
+    100020: Street_West009
+    100022: Street_West010
+    100024: Street_West011
+    100026: Street_West012
+    100028: Street_West013
+    100030: Street_West014
+    100032: Street_West015
+    100034: Street_West016
+    100036: Street_West017
+    100038: Street_West018
+    100040: Street_West019
+    100042: Street_West020
+    100044: Street_West021
+    100046: Street_West022
+    100048: Street_WestRing001
+    100050: Street_WestRing002
+    400000: //RootNode
+    400002: Sidewalk_West
+    400004: Street_West001
+    400006: Street_West002
+    400008: Street_West003
+    400010: Street_West004
+    400012: Street_West005
+    400014: Street_West006
+    400016: Street_West007
+    400018: Street_West008
+    400020: Street_West009
+    400022: Street_West010
+    400024: Street_West011
+    400026: Street_West012
+    400028: Street_West013
+    400030: Street_West014
+    400032: Street_West015
+    400034: Street_West016
+    400036: Street_West017
+    400038: Street_West018
+    400040: Street_West019
+    400042: Street_West020
+    400044: Street_West021
+    400046: Street_West022
+    400048: Street_WestRing001
+    400050: Street_WestRing002
+    2300000: Sidewalk_West
+    2300002: Street_West001
+    2300004: Street_West002
+    2300006: Street_West003
+    2300008: Street_West004
+    2300010: Street_West005
+    2300012: Street_West006
+    2300014: Street_West007
+    2300016: Street_West008
+    2300018: Street_West009
+    2300020: Street_West010
+    2300022: Street_West011
+    2300024: Street_West012
+    2300026: Street_West013
+    2300028: Street_West014
+    2300030: Street_West015
+    2300032: Street_West016
+    2300034: Street_West017
+    2300036: Street_West018
+    2300038: Street_West019
+    2300040: Street_West020
+    2300042: Street_West021
+    2300044: Street_West022
+    2300046: Street_WestRing001
+    2300048: Street_WestRing002
+    3300000: Sidewalk_West
+    3300002: Street_West001
+    3300004: Street_West002
+    3300006: Street_West003
+    3300008: Street_West004
+    3300010: Street_West005
+    3300012: Street_West006
+    3300014: Street_West007
+    3300016: Street_West008
+    3300018: Street_West009
+    3300020: Street_West010
+    3300022: Street_West011
+    3300024: Street_West012
+    3300026: Street_West013
+    3300028: Street_West014
+    3300030: Street_West015
+    3300032: Street_West016
+    3300034: Street_West017
+    3300036: Street_West018
+    3300038: Street_West019
+    3300040: Street_West020
+    3300042: Street_West021
+    3300044: Street_West022
+    3300046: Street_WestRing001
+    3300048: Street_WestRing002
+    4300000: Sidewalk_West
+    4300002: Street_West001
+    4300004: Street_West002
+    4300006: Street_West003
+    4300008: Street_West004
+    4300010: Street_West005
+    4300012: Street_West006
+    4300014: Street_West007
+    4300016: Street_West008
+    4300018: Street_West009
+    4300020: Street_West010
+    4300022: Street_West011
+    4300024: Street_West012
+    4300026: Street_West013
+    4300028: Street_West014
+    4300030: Street_West015
+    4300032: Street_West016
+    4300034: Street_West017
+    4300036: Street_West018
+    4300038: Street_West019
+    4300040: Street_West020
+    4300042: Street_West021
+    4300044: Street_West022
+    4300046: Street_WestRing001
+    4300048: Street_WestRing002
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

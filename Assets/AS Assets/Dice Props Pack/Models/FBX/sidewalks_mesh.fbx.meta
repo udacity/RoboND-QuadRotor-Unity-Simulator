@@ -1,0 +1,130 @@
+fileFormatVersion: 2
+guid: 80d969a62c6891f44b8cdb56314620d3
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: sidewalk
+    100002: sidewalk 1
+    100004: sidewalkCorner
+    100006: sidewalkCornerRamp
+    100008: sidewalkPost
+    100010: sidewalkPost02
+    100012: sidewalkRamp
+    100014: //RootNode
+    100016: sidewalk01
+    100018: sidewalk02
+    100020: sidewalkHalf01
+    100022: sidewalkHalf02
+    400000: sidewalk
+    400002: sidewalk 1
+    400004: sidewalkCorner
+    400006: sidewalkCornerRamp
+    400008: sidewalkPost
+    400010: sidewalkPost02
+    400012: sidewalkRamp
+    400014: //RootNode
+    400016: sidewalk01
+    400018: sidewalk02
+    400020: sidewalkHalf01
+    400022: sidewalkHalf02
+    2300000: sidewalk 1
+    2300002: sidewalkCorner
+    2300004: sidewalkCornerRamp
+    2300006: sidewalkPost
+    2300008: sidewalkPost02
+    2300010: sidewalkRamp
+    2300012: sidewalk
+    2300014: sidewalk01
+    2300016: sidewalk02
+    2300018: sidewalkHalf01
+    2300020: sidewalkHalf02
+    3300000: sidewalk 1
+    3300002: sidewalkCorner
+    3300004: sidewalkCornerRamp
+    3300006: sidewalkPost
+    3300008: sidewalkPost02
+    3300010: sidewalkRamp
+    3300012: sidewalk
+    3300014: sidewalk01
+    3300016: sidewalk02
+    3300018: sidewalkHalf01
+    3300020: sidewalkHalf02
+    4300000: sidewalk
+    4300002: sidewalkCorner
+    4300004: sidewalkCornerRamp
+    4300006: sidewalkRamp
+    4300008: sidewalkPost
+    4300010: sidewalkPost02
+    4300012: sidewalk01
+    4300014: sidewalk02
+    4300016: sidewalkHalf01
+    4300018: sidewalkHalf02
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 2
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.01
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 90
+    normalImportMode: 1
+    tangentImportMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

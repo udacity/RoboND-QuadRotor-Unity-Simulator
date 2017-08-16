@@ -1,0 +1,7 @@
+{
+	"vm-ip" : "192.168.30.111",
+	"vm-port" : 11311,
+	"vm-override" : true,
+	"host-ip": "0.0.0.0",
+	"host-override" : false
+}

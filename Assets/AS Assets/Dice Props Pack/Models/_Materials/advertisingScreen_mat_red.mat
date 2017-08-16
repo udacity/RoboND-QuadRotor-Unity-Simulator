@@ -1,0 +1,198 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: advertisingScreen_mat_red
+  m_Shader: {fileID: 4800000, guid: 3ed58f39e81a42a44ae2057ec9f0db62, type: 3}
+  m_ShaderKeywords:
+  - GLOW11_GLOW_GLOWCOLOR
+  - GLOW11_MULTIPLY_GLOWCOLOR
+  m_CustomRenderQueue: -1
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Diffuse
+        second:
+          m_Texture: {fileID: 2800000, guid: d1886b863d8cd5a4f9ef514e4d9127a0, type: 3}
+          m_Scale: {x: 10, y: 10}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Illum
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Ramp
+        second:
+          m_Texture: {fileID: 2800000, guid: 28732d0a58d2cf4408fd0688586ad1d0, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _GlowTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Cube
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Refraction
+        second:
+          m_Texture: {fileID: 2800000, guid: 0f48dedae6ff7eb459dadd478f5791fb, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _HologramSlider
+        second:
+          m_Texture: {fileID: 2800000, guid: a6c46b0205796304998bbf9bd3422529, type: 3}
+          m_Scale: {x: 1, y: 3}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Flicker
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Sampler
+        second:
+          m_Texture: {fileID: 2800000, guid: 7a79c2cfb33f2b64d897c76e8f653055, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node755
+        second:
+          m_Texture: {fileID: 2800000, guid: 6e2ac0433b7b73340b6d39634a32dfad, type: 3}
+          m_Scale: {x: 2, y: 2}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _HologramStripes
+        second:
+          m_Texture: {fileID: 2800000, guid: b370a1b908278ac45868c01d8d2c7e08, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _HologramVerical
+        second:
+          m_Texture: {fileID: 2800000, guid: 1d13dccd315d3b3409181cd2092f1edd, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _Cutoff
+        second: .5
+      data:
+        first:
+          name: _Emission
+        second: 1
+      data:
+        first:
+          name: _Shininess
+        second: .078125
+      data:
+        first:
+          name: _Outline
+        second: .807462692
+      data:
+        first:
+          name: _EmissionLM
+        second: 0
+      data:
+        first:
+          name: _GlowStrength
+        second: 1
+      data:
+        first:
+          name: _RefractionIntensity
+        second: 1
+      data:
+        first:
+          name: _PanSpeed
+        second: 1.20000005
+      data:
+        first:
+          name: _Alpha
+        second: .200000003
+      data:
+        first:
+          name: _FlickerAlpha
+        second: 1
+      data:
+        first:
+          name: _FlickerSpeed
+        second: .200000003
+      data:
+        first:
+          name: _alpha
+        second: 1
+      data:
+        first:
+          name: _node632
+        second: 1
+      data:
+        first:
+          name: _TransparencyAmount
+        second: 1
+      data:
+        first:
+          name: _Transparency
+        second: .798507452
+      data:
+        first:
+          name: _TransLightWrapping
+        second: 0
+    m_Colors:
+      data:
+        first:
+          name: _Color
+        second: {r: 1, g: 0, b: .310344696, a: 1}
+      data:
+        first:
+          name: _SpecColor
+        second: {r: .5, g: .5, b: .5, a: 1}
+      data:
+        first:
+          name: _GlowColor
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _ReflectColor
+        second: {r: 1, g: 1, b: 1, a: .5}
+      data:
+        first:
+          name: _tint
+        second: {r: .415686309, g: .388235301, b: .53725493, a: 1}
+      data:
+        first:
+          name: _color
+        second: {r: .00735294819, g: .95892477, b: 1, a: 1}

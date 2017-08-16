@@ -1,0 +1,166 @@
+fileFormatVersion: 2
+guid: 1a05c68100831824cbbb54f164f1d449
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: barrel01
+    100002: barrel02
+    100004: barrel03
+    100006: box01
+    100008: box02
+    100010: box03
+    100012: capsule01
+    100014: capsule02
+    100016: capsule03
+    100018: chest01
+    100020: chest02
+    100022: chest03
+    100024: container01
+    100026: container02
+    100028: container03
+    100030: //RootNode
+    100032: crate01
+    100034: crate02
+    100036: crate03
+    400000: barrel01
+    400002: barrel02
+    400004: barrel03
+    400006: box01
+    400008: box02
+    400010: box03
+    400012: capsule01
+    400014: capsule02
+    400016: capsule03
+    400018: chest01
+    400020: chest02
+    400022: chest03
+    400024: container01
+    400026: container02
+    400028: container03
+    400030: //RootNode
+    400032: crate01
+    400034: crate02
+    400036: crate03
+    2300000: barrel01
+    2300002: barrel02
+    2300004: barrel03
+    2300006: box01
+    2300008: box02
+    2300010: box03
+    2300012: capsule01
+    2300014: capsule02
+    2300016: capsule03
+    2300018: chest01
+    2300020: chest02
+    2300022: chest03
+    2300024: container01
+    2300026: container02
+    2300028: container03
+    2300030: crate01
+    2300032: crate02
+    2300034: crate03
+    3300000: barrel01
+    3300002: barrel02
+    3300004: barrel03
+    3300006: box01
+    3300008: box02
+    3300010: box03
+    3300012: capsule01
+    3300014: capsule02
+    3300016: capsule03
+    3300018: chest01
+    3300020: chest02
+    3300022: chest03
+    3300024: container01
+    3300026: container02
+    3300028: container03
+    3300030: crate01
+    3300032: crate02
+    3300034: crate03
+    4300000: box01
+    4300002: box02
+    4300004: box03
+    4300006: barrel01
+    4300008: barrel02
+    4300010: barrel03
+    4300012: capsule01
+    4300014: capsule02
+    4300016: capsule03
+    4300018: crate01
+    4300020: crate02
+    4300022: crate03
+    4300024: chest01
+    4300026: chest02
+    4300028: chest03
+    4300030: container01
+    4300032: container02
+    4300034: container03
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 2
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.01
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

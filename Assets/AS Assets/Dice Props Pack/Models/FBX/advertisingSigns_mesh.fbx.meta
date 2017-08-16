@@ -1,0 +1,161 @@
+fileFormatVersion: 2
+guid: 3cd9c3c85bda6f7489a7e23c1a4f442c
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: adBanner
+    100002: adBannerScreen
+    100004: adColumn
+    100006: adColumnScreen
+    100008: adDisplay_Tall
+    100010: adDisplay_Wide
+    100012: adFrame_H
+    100014: adFrame_V
+    100016: adFrameScreen_H
+    100018: adFrameScreen_V
+    100020: adStand
+    100022: adStandScreens
+    100024: adTower
+    100026: adTowerFrame
+    100028: adTowerScreen
+    100030: //RootNode
+    100032: adWall
+    100034: adWallScreen
+    400000: adBanner
+    400002: adBannerScreen
+    400004: adColumn
+    400006: adColumnScreen
+    400008: adDisplay_Tall
+    400010: adDisplay_Wide
+    400012: adFrame_H
+    400014: adFrame_V
+    400016: adFrameScreen_H
+    400018: adFrameScreen_V
+    400020: adStand
+    400022: adStandScreens
+    400024: adTower
+    400026: adTowerFrame
+    400028: adTowerScreen
+    400030: //RootNode
+    400032: adWall
+    400034: adWallScreen
+    2300000: adBanner
+    2300002: adBannerScreen
+    2300004: adColumn
+    2300006: adColumnScreen
+    2300008: adDisplay_Tall
+    2300010: adDisplay_Wide
+    2300012: adFrame_H
+    2300014: adFrame_V
+    2300016: adFrameScreen_H
+    2300018: adFrameScreen_V
+    2300020: adStand
+    2300022: adStandScreens
+    2300024: adTower
+    2300026: adTowerFrame
+    2300028: adTowerScreen
+    2300030: adWall
+    2300032: adWallScreen
+    3300000: adBanner
+    3300002: adBannerScreen
+    3300004: adColumn
+    3300006: adColumnScreen
+    3300008: adDisplay_Tall
+    3300010: adDisplay_Wide
+    3300012: adFrame_H
+    3300014: adFrame_V
+    3300016: adFrameScreen_H
+    3300018: adFrameScreen_V
+    3300020: adStand
+    3300022: adStandScreens
+    3300024: adTower
+    3300026: adTowerFrame
+    3300028: adTowerScreen
+    3300030: adWall
+    3300032: adWallScreen
+    4300000: adFrame_H
+    4300002: adFrameScreen_H
+    4300004: adFrame_V
+    4300006: adFrameScreen_V
+    4300008: adBanner
+    4300010: adBannerScreen
+    4300012: adStand
+    4300014: adStandScreens
+    4300016: adWall
+    4300018: adWallScreen
+    4300020: adColumn
+    4300022: adColumnScreen
+    4300024: adTower
+    4300026: adTowerFrame
+    4300028: adTowerScreen
+    4300030: adDisplay_Tall
+    4300032: adDisplay_Wide
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 2
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.01
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 1
+    tangentImportMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

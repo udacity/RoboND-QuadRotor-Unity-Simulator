@@ -1,0 +1,20 @@
+class Action
+{
+	class ActionGoal (_action_goal_type)
+	{
+		class(?) Goal (_goal_type)
+		{}
+	}
+	
+	class ActionResult (_action_result_type)
+	{
+		class(?) Result (_result_type)
+		{}
+	}
+	
+	class ActionFeedback (_action_feedback_type)
+	{
+		class(?) Feedback (_feedback_type)
+		{}
+	}
+}

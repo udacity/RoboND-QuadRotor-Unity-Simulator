@@ -1,0 +1,8 @@
+One-lane street: 20 Polys / 76 Verts
+One-lane street bends: 168 Polys / 324 Verts
+CrossT: 54 Polys / 154 Verts
+CrossX: 85 Polys / 228 Verts
+
+Two-lane street: 35 Polys / 128 Verts
+Two-lane street bends: 280 Polys / 576 Verts
+Cross2X: 101 Polys / 284 Verts

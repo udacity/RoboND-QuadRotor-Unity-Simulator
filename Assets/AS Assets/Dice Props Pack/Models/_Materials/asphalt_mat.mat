@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: asphalt_mat
+  m_Shader: {fileID: 7, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: []
+  m_CustomRenderQueue: -1
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 7e72ca6a43e4db24b9c3617e72f2ee5b, type: 3}
+          m_Scale: {x: 100, y: 100}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Diffuse
+        second:
+          m_Texture: {fileID: 2800000, guid: 7e72ca6a43e4db24b9c3617e72f2ee5b, type: 3}
+          m_Scale: {x: 100, y: 20}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Detail
+        second:
+          m_Texture: {fileID: 2800000, guid: a3e2b36184230894d829449ae81a0546, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Ramp
+        second:
+          m_Texture: {fileID: 2800000, guid: 28732d0a58d2cf4408fd0688586ad1d0, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Illum
+        second:
+          m_Texture: {fileID: 2800000, guid: 7e72ca6a43e4db24b9c3617e72f2ee5b, type: 3}
+          m_Scale: {x: 100, y: 100}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Glow
+        second:
+          m_Texture: {fileID: 2800000, guid: 7e72ca6a43e4db24b9c3617e72f2ee5b, type: 3}
+          m_Scale: {x: 100, y: 20}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _RampShade
+        second:
+          m_Texture: {fileID: 8900000, guid: b995d4bd9d11078d11005b9844295342, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _Bands
+        second: 4
+      data:
+        first:
+          name: _Gloss
+        second: .5
+      data:
+        first:
+          name: _Emission
+        second: .402985096
+      data:
+        first:
+          name: _Offset
+        second: .00499999989
+      data:
+        first:
+          name: _GlowIntensity
+        second: 0
+      data:
+        first:
+          name: _Outline
+        second: .597014904
+      data:
+        first:
+          name: _OutlineWidth
+        second: .0299999993
+    m_Colors:
+      data:
+        first:
+          name: _Color
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlowColor
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _OutlineColor
+        second: {r: 0, g: 0, b: 0, a: 1}

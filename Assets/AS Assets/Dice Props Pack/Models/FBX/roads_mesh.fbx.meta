@@ -1,0 +1,163 @@
+fileFormatVersion: 2
+guid: b8adc9e46cf04ba4593c22d2ab4343ef
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: road
+    100002: road02
+    100004: road4Way
+    100006: road4Way02
+    100008: roadRampDown
+    100010: roadRampDown02
+    100012: roadRampUp
+    100014: roadRampUp02
+    100016: //RootNode
+    100018: roadTJunction
+    100020: roadTJunction02
+    100022: roadWithShoulder
+    100024: road_group
+    100026: roadRampDown01
+    100028: roadRampUp01
+    100030: road01
+    100032: roadFourWay01
+    100034: roadFourWay02
+    100036: roadTJunction01
+    400000: road
+    400002: road02
+    400004: road4Way
+    400006: road4Way02
+    400008: roadRampDown
+    400010: roadRampDown02
+    400012: roadRampUp
+    400014: roadRampUp02
+    400016: //RootNode
+    400018: roadTJunction
+    400020: roadTJunction02
+    400022: roadWithShoulder
+    400024: road_group
+    400026: roadRampDown01
+    400028: roadRampUp01
+    400030: road01
+    400032: roadFourWay01
+    400034: roadFourWay02
+    400036: roadTJunction01
+    2300000: road
+    2300002: road02
+    2300004: road4Way
+    2300006: road4Way02
+    2300008: roadRampDown
+    2300010: roadRampDown02
+    2300012: roadRampUp
+    2300014: roadRampUp02
+    2300016: roadTJunction
+    2300018: roadTJunction02
+    2300020: roadWithShoulder
+    2300022: roadRampDown01
+    2300024: roadRampUp01
+    2300026: road01
+    2300028: roadFourWay01
+    2300030: roadFourWay02
+    2300032: roadTJunction01
+    3300000: road
+    3300002: road02
+    3300004: road4Way
+    3300006: road4Way02
+    3300008: roadRampDown
+    3300010: roadRampDown02
+    3300012: roadRampUp
+    3300014: roadRampUp02
+    3300016: roadTJunction
+    3300018: roadTJunction02
+    3300020: roadWithShoulder
+    3300022: roadRampDown01
+    3300024: roadRampUp01
+    3300026: road01
+    3300028: roadFourWay01
+    3300030: roadFourWay02
+    3300032: roadTJunction01
+    4300000: road
+    4300002: roadTJunction
+    4300004: road4Way
+    4300006: roadWithShoulder
+    4300008: roadRampUp
+    4300010: roadRampDown
+    4300012: road02
+    4300014: roadTJunction02
+    4300016: road4Way02
+    4300018: roadRampUp02
+    4300020: roadRampDown02
+    4300022: roadRampUp01
+    4300024: roadRampDown01
+    4300026: road01
+    4300028: roadTJunction01
+    4300030: roadFourWay01
+    4300032: roadFourWay02
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 2
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.01
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 1
+    tangentImportMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

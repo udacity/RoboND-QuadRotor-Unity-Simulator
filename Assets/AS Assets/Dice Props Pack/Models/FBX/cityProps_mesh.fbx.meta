@@ -1,0 +1,196 @@
+fileFormatVersion: 2
+guid: 563c8af9cb7b1474db1b276408c1edf1
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: drinkVendor01
+    100004: drinkVendor02
+    100006: flowerbed01
+    100008: flowerbed01_Corner
+    100010: flowerbed02
+    100012: flowerbed02_Corner
+    100014: hydrant01
+    100016: hydrant02
+    100018: infoKiosk01
+    100020: infoKiosk02
+    100022: mailbox01
+    100024: mailbox02
+    100026: newspaperVendor01
+    100028: newspaperVendor02
+    100030: newspaperVendor03
+    100032: phoneBooth
+    100034: powerCabinet
+    100036: powerTransformer
+    100038: flowerbed01_Ground
+    100040: flowerbed02_Ground
+    100042: fountain01
+    100044: fountain01_Corner
+    100046: fountain02
+    100048: fountain02_Corner
+    400000: //RootNode
+    400002: drinkVendor01
+    400004: drinkVendor02
+    400006: flowerbed01
+    400008: flowerbed01_Corner
+    400010: flowerbed02
+    400012: flowerbed02_Corner
+    400014: hydrant01
+    400016: hydrant02
+    400018: infoKiosk01
+    400020: infoKiosk02
+    400022: mailbox01
+    400024: mailbox02
+    400026: newspaperVendor01
+    400028: newspaperVendor02
+    400030: newspaperVendor03
+    400032: phoneBooth
+    400034: powerCabinet
+    400036: powerTransformer
+    400038: flowerbed01_Ground
+    400040: flowerbed02_Ground
+    400042: fountain01
+    400044: fountain01_Corner
+    400046: fountain02
+    400048: fountain02_Corner
+    2300000: drinkVendor01
+    2300002: drinkVendor02
+    2300004: flowerbed01
+    2300006: flowerbed01_Corner
+    2300008: flowerbed02
+    2300010: flowerbed02_Corner
+    2300012: hydrant01
+    2300014: hydrant02
+    2300016: infoKiosk01
+    2300018: infoKiosk02
+    2300020: mailbox01
+    2300022: mailbox02
+    2300024: newspaperVendor01
+    2300026: newspaperVendor02
+    2300028: newspaperVendor03
+    2300030: phoneBooth
+    2300032: powerCabinet
+    2300034: powerTransformer
+    2300036: flowerbed01_Ground
+    2300038: flowerbed02_Ground
+    2300040: fountain01
+    2300042: fountain01_Corner
+    2300044: fountain02
+    2300046: fountain02_Corner
+    3300000: drinkVendor01
+    3300002: drinkVendor02
+    3300004: flowerbed01
+    3300006: flowerbed01_Corner
+    3300008: flowerbed02
+    3300010: flowerbed02_Corner
+    3300012: hydrant01
+    3300014: hydrant02
+    3300016: infoKiosk01
+    3300018: infoKiosk02
+    3300020: mailbox01
+    3300022: mailbox02
+    3300024: newspaperVendor01
+    3300026: newspaperVendor02
+    3300028: newspaperVendor03
+    3300030: phoneBooth
+    3300032: powerCabinet
+    3300034: powerTransformer
+    3300036: flowerbed01_Ground
+    3300038: flowerbed02_Ground
+    3300040: fountain01
+    3300042: fountain01_Corner
+    3300044: fountain02
+    3300046: fountain02_Corner
+    4300000: powerTransformer
+    4300002: powerCabinet
+    4300004: infoKiosk01
+    4300006: infoKiosk02
+    4300008: newspaperVendor01
+    4300010: newspaperVendor02
+    4300012: newspaperVendor03
+    4300014: phoneBooth
+    4300016: drinkVendor01
+    4300018: drinkVendor02
+    4300020: hydrant01
+    4300022: flowerbed01_Corner
+    4300024: flowerbed02_Corner
+    4300026: flowerbed02
+    4300028: flowerbed01
+    4300030: mailbox01
+    4300032: mailbox02
+    4300034: hydrant02
+    4300036: flowerbed01_Ground
+    4300038: flowerbed02_Ground
+    4300040: fountain01
+    4300042: fountain01_Corner
+    4300044: fountain02
+    4300046: fountain02_Corner
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 2
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.01
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 1
+    tangentImportMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
