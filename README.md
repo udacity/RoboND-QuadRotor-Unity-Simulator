@@ -154,3 +154,20 @@ This value can override the _sim's_ IP to respond to requests if you're having t
 If you need to change `host-ip`, you'll want to set this to _true_.
 
 If you modify any settings in the file, you'll need to stop and play (in the Editor) or relaunch the sim afterward.
+
+
+**Ros is connected but topics or services are not working**  
+If the sim appears to be connected but you're not able to publish to topics or call services, and you're _not_ running the sim from a Linux host, your VM may be passing its hostname instead of its IP with these requests. To fix it, you'll need to set the environment variable `ROS_IP`. It should look something like this:
+```
+ROS_IP=192.168.30.111
+```
+With the IP being your VM's IP.  
+To have it set automatically, add a line like the following to your `.bashrc`:  
+```
+export ROS_IP=`echo $(hostname -I)`
+```
+And then just run the following to reload .bashrc:  
+```
+source ~/.bashrc
+```
+And relaunch the sim (or Unity). You should now be able to properly publish topics and call services.
