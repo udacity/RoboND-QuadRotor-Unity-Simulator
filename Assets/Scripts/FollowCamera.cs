@@ -37,6 +37,8 @@ public class FollowCamera : MonoBehaviour
 	ServiceServer distanceSrv;
 	ServiceServer poseTypeSrv;
 
+	[HideInInspector]
+	public Camera cam;
 	bool setRotationFlag;
 	Quaternion targetRotation;
 	float initialFollowDistance;
@@ -48,7 +50,8 @@ public class FollowCamera : MonoBehaviour
 		if ( ActiveCamera == null )
 			ActiveCamera = this;
 		initialFollowDistance = followDistance;
-		GetComponent<Camera> ().depthTextureMode |= DepthTextureMode.MotionVectors;
+		cam = GetComponent<Camera> ();
+		cam.depthTextureMode |= DepthTextureMode.MotionVectors;
 	}
 
 	void Start ()

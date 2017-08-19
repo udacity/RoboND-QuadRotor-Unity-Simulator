@@ -4,9 +4,9 @@ using UnityEngine;
 using Pathing;
 using Ros_CSharp;
 
-using Vec3 = Messages.geometry_msgs.Vector3;
-using PoseStamped = Messages.geometry_msgs.PoseStamped;
-using Imu = Messages.sensor_msgs.Imu;
+//using Vec3 = Messages.geometry_msgs.Vector3;
+//using PoseStamped = Messages.geometry_msgs.PoseStamped;
+//using Imu = Messages.sensor_msgs.Imu;
 
 public enum DecelerationFactor
 {
@@ -23,6 +23,14 @@ public class PathFollower : MonoBehaviour
 
 	public QuadController quad;
 
+	// simple follow vars
+	public float maxVelocity = 10;
+	public float maxTilt = 10;
+	public float acceleration = 10;
+	public float arriveDist = 5;
+	public float rotSpeed = 90;
+
+	// controller vars
 	public float maxSpeed = 5;
 	public float maxTorque = 17;
 	public float minDist = 1;
@@ -33,6 +41,7 @@ public class PathFollower : MonoBehaviour
 	public AttitudeControllerNode attController;
 
 	Transform tr;
+	Rigidbody rb;
 	Path path;
 	PathSample destination;
 	int curNode;
@@ -43,18 +52,19 @@ public class PathFollower : MonoBehaviour
 
 
 	double thrust;
-	Vec3 torque;
+//	Vec3 torque;
 
 	void Awake ()
 	{
 		tr = transform;
+		rb = GetComponent<Rigidbody> ();
 		groundMask = LayerMask.GetMask ( "Ground" );
 
-		posController.torqueCallback = TorqueUpdateCallback;
-		posController.thrustCallback = ThrustUpdateCallback;
-		attController.torqueCallback = TorqueUpdateCallback;
-		attController.thrustCallback = ThrustUpdateCallback;
-		hoverController.thrustCallback = ThrustUpdateCallback;
+//		posController.torqueCallback = TorqueUpdateCallback;
+//		posController.thrustCallback = ThrustUpdateCallback;
+//		attController.torqueCallback = TorqueUpdateCallback;
+//		attController.thrustCallback = ThrustUpdateCallback;
+//		hoverController.thrustCallback = ThrustUpdateCallback;
 	}
 
 	void FixedUpdate ()
@@ -77,8 +87,9 @@ public class PathFollower : MonoBehaviour
 				}
 
 				curNode++;
+				arriveDist = ( path.Nodes [ curNode ].position - destination.position ).magnitude * 0.05f;
 				destination = path.Nodes [ curNode ];
-				SetControllers ();
+//				SetControllers ();
 			}
 			following = true;
 			UpdateSteering ();
@@ -90,6 +101,62 @@ public class PathFollower : MonoBehaviour
 	}
 
 	void UpdateSteering ()
+	{
+		Vector3 force = Vector3.zero;
+		AdjustTilt ();
+//		force += Seek ();
+		force += Arrive ();
+		force = Vector3.ClampMagnitude ( force, maxVelocity );
+		rb.velocity = force;
+	}
+
+	Vector3 Seek ()
+	{
+		Vector3 toTarget = destination.position - rb.position;
+		Vector3 desiredVelocity = toTarget.normalized * maxVelocity;
+		return desiredVelocity - rb.velocity;
+	}
+
+	Vector3 Arrive ()
+	{
+		Vector3 toTarget = destination.position - rb.position;
+		float dist = toTarget.magnitude;
+//		Vector3 desiredVelocity = toTarget.normalized * maxVelocity;
+//		if ( dist < arriveDist )
+//		{
+//			desiredVelocity *= ( toTarget.sqrMagnitude / dist ) * 2;
+//		}
+
+		float deceleration = 2f;
+		float decelerationTweaker = 0.3f;
+
+		float speed = dist / ( deceleration * decelerationTweaker );
+		Vector3 desiredVelocity = toTarget * speed / dist; // dist is supposed to be toTarget.magnitude
+
+
+		return desiredVelocity - rb.velocity;
+	}
+
+	Vector3 Avoidance ()
+	{
+		return Vector3.zero;
+	}
+
+	void AdjustTilt ()
+	{
+		Vector3 toTarget = destination.position - tr.position;
+		Quaternion q1 = Quaternion.LookRotation ( quad.Forward, tr.up );
+		Quaternion q2 = Quaternion.LookRotation ( toTarget );
+		Quaternion qOffset = q1 * Quaternion.Inverse ( tr.rotation );
+
+		tr.rotation = qOffset * Quaternion.RotateTowards ( q1, q2, 5 * Time.deltaTime );
+		
+//		Vector3 axis = Vector3.Cross ( toTarget.normalized, Vector3.up );
+//		Debug.DrawLine ( tr.position, tr.position + axis * 10,  Color.red );
+		
+	}
+
+/*	void UpdateSteering ()
 	{
 		torque = new Vec3 ();
 		thrust = 0;
@@ -113,7 +180,7 @@ public class PathFollower : MonoBehaviour
 
 		quad.ApplyMotorForce ( Vector3.up * (float) thrust );
 		quad.ApplyMotorTorque ( torque.ToUnityVector () );
-	}
+	}*/
 
 	float FixAngle (float angle)
 	{
@@ -134,7 +201,7 @@ public class PathFollower : MonoBehaviour
 			tr.rotation = p.Nodes [ 0 ].orientation;
 			curNode = 1;
 			destination = p.Nodes [ 1 ];
-			SetControllers ();
+//			SetControllers ();
 
 			Debug.Log ( "path set" );
 			
@@ -146,7 +213,7 @@ public class PathFollower : MonoBehaviour
 		}
 	}
 
-	void SetControllers ()
+/*	void SetControllers ()
 	{
 		double startTime = ROS.GetTime ().data.toSec ();
 		posController.SetGoal ( new Messages.geometry_msgs.Point ( destination.position ) );
@@ -166,5 +233,5 @@ public class PathFollower : MonoBehaviour
 	void ThrustUpdateCallback (double _thrust)
 	{
 		thrust += _thrust;
-	}
+	}*/
 }
