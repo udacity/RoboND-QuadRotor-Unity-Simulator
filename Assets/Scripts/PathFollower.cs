@@ -29,6 +29,7 @@ public class PathFollower : MonoBehaviour
 	public float acceleration = 10;
 	public float arriveDist = 5;
 	public float rotSpeed = 90;
+	public bool repeatPath;
 
 	// controller vars
 	public float maxSpeed = 5;
@@ -72,21 +73,26 @@ public class PathFollower : MonoBehaviour
 		if ( active && destination != null )
 		{
 			float testDistance = minDist * minDist;
-//			if ( curNode == path.Nodes.Length - 1 )
-//				testDistance = arriveDist * arriveDist;
 			if ( ( destination.position - tr.position ).sqrMagnitude < testDistance )
 			{
 				if ( curNode == path.Nodes.Length - 1 )
 				{
-					path = null;
-					destination = null;
-					following = false;
-					// clear the visualization of the path
-					PathPlanner.ClearViz ();
-					return;
-				}
+					if ( repeatPath )
+					{
+						curNode = 0;
 
-				curNode++;
+					} else
+					{
+						path = null;
+						destination = null;
+						following = false;
+						// clear the visualization of the path
+						PathPlanner.ClearViz ();
+						return;
+					}
+				} else
+					curNode++;
+
 				arriveDist = ( path.Nodes [ curNode ].position - destination.position ).magnitude * 0.05f;
 				destination = path.Nodes [ curNode ];
 //				SetControllers ();
@@ -147,12 +153,19 @@ public class PathFollower : MonoBehaviour
 		Vector3 toTarget = destination.position - tr.position;
 		Quaternion q1 = Quaternion.LookRotation ( quad.Forward, tr.up );
 		Quaternion q2 = Quaternion.LookRotation ( toTarget );
-		Quaternion qOffset = q1 * Quaternion.Inverse ( tr.rotation );
+		Quaternion qOffset = Quaternion.FromToRotation ( quad.Forward, tr.forward );
 
-		tr.rotation = qOffset * Quaternion.RotateTowards ( q1, q2, 5 * Time.deltaTime );
-		
-//		Vector3 axis = Vector3.Cross ( toTarget.normalized, Vector3.up );
-//		Debug.DrawLine ( tr.position, tr.position + axis * 10,  Color.red );
+		tr.rotation = qOffset * Quaternion.RotateTowards ( q1, q2, rotSpeed * Time.deltaTime );
+
+		float stoppingDist = arriveDist * arriveDist;
+		Vector3 axis = Vector3.Cross ( quad.Forward, toTarget );
+		if ( toTarget.sqrMagnitude > stoppingDist )
+		{
+			
+		} else
+		{
+			
+		}
 		
 	}
 

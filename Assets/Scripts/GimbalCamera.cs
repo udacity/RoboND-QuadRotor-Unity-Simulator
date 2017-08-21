@@ -60,7 +60,7 @@ public class GimbalCamera : MonoBehaviour
 		switch ( followType )
 		{
 		case FollowType.None:
-			gimbalParent.rotation = lastRotation;
+//			gimbalParent.rotation = lastRotation;
 			break;
 
 		case FollowType.Position:
