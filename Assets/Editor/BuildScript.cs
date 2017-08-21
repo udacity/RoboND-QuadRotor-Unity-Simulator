@@ -36,8 +36,8 @@ public class BuildScript : MonoBehaviour
 	static void Build (BuildTarget target, bool showBuilt = true)
 	{
 		string[] scenes = new string[] {
-			"Assets/Scenes/loader.unity",
-			"Assets/Scenes/quad_indoor.unity",
+//			"Assets/Scenes/loader.unity",
+//			"Assets/Scenes/quad_indoor.unity",
 			"Assets/Scenes/proto4.unity"
 		};
 
