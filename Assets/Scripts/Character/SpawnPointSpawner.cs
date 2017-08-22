@@ -8,9 +8,33 @@ public class SpawnPointSpawner : MonoBehaviour
 	public Transform[] spawnPoints;
 	public Transform targetInstance;
 	public OrbitCamera followCam;
+	public bool spawnNewPeople;
+	public float spawnTimer = 60;
+
+	float nextSpawnTime;
 
 	void Awake ()
 	{
+		SpawnPerson ();
+		nextSpawnTime = Time.time + spawnTimer;
+	}
+
+	void Update ()
+	{
+		if ( spawnNewPeople )
+		{
+			if ( Time.time > nextSpawnTime )
+			{
+				SpawnPerson ();
+				nextSpawnTime = Time.time + spawnTimer;
+			}
+		}
+	}
+
+	void SpawnPerson ()
+	{
+		if ( targetInstance != null )
+			Destroy ( targetInstance.gameObject );
 		Transform target = spawnTargets [ Random.Range ( 0, spawnTargets.Length ) ];
 		Transform spawn = GetRandomPoint ();
 		targetInstance = Instantiate ( target );
