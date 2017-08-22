@@ -64,4 +64,38 @@ public class BuildScript : MonoBehaviour
 //		Debug.Log ( "source file: " + settingFile + "\ntarget file: " + targetFile );
 		System.IO.File.Copy ( settingFile, targetFile );
 	}
+
+	[MenuItem ("Udacity/Build Indoor", false, 24)]
+	static void BuildDebug ()
+	{
+		string[] scenes = new string[] {
+			"Assets/Scenes/quad_indoor.unity"
+		};
+
+		// for now build just mac
+		BuildTarget target = BuildTarget.StandaloneOSXIntel64;
+
+		string basePath = "Builds/QuadSim/";
+		string settingFile = Application.dataPath + "/ros_settings.txt";
+		string settingPath = "Indoor_Win_Data";
+
+		string extension = "Indoor_Win.exe";
+		if ( target == BuildTarget.StandaloneOSXIntel64 )
+		{
+			extension = "Indoor_OSX.app";
+			settingPath = extension + "/Contents";
+		} else
+		if ( target == BuildTarget.StandaloneLinux64 )
+		{
+			extension = "Indoor_Lin.x86_64";
+			settingPath = "Indoor_Lin_Data";
+		}
+
+		BuildPipeline.BuildPlayer ( scenes, basePath + extension, target, BuildOptions.ShowBuiltPlayer );
+
+		// go up one from Assets
+		string targetFile = Application.dataPath + "/../" + basePath + settingPath + "/ros_settings.txt";
+		//		Debug.Log ( "source file: " + settingFile + "\ntarget file: " + targetFile );
+		System.IO.File.Copy ( settingFile, targetFile );
+	}
 }

@@ -40,6 +40,7 @@ public class ROSController : MonoBehaviour
 	public bool overrideURI;
 	public string rosIP = "0.0.0.0";
 	public bool overrideIP;
+	public XmlRpcUtil.XMLRPC_LOG_LEVEL logLevel = XmlRpcUtil.XMLRPC_LOG_LEVEL.ERROR;
 
 	ROSStatus status;
 	bool initComplete;
@@ -300,7 +301,7 @@ public class ROSController : MonoBehaviour
 			Debug.LogError ("Why is this null!?");
 		#endif
 
-//		XmlRpcUtil.SetLogLevel(XmlRpcUtil.XMLRPC_LOG_LEVEL.ERROR);
+		XmlRpcUtil.SetLogLevel ( logLevel );
 		if ( ROS.ok && !stopping )
 		{
 			lock ( instanceLock )
