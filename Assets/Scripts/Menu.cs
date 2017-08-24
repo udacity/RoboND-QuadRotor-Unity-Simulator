@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Menu : MonoBehaviour
 {
@@ -14,7 +15,9 @@ public class Menu : MonoBehaviour
 	public GameObject peopleSpawnerObject;
 	public GameObject peopleCamObject;
 	public GameObject recordingObject;
-
+	public Toggle heroToggle;
+	public Toggle otherToggle;
+	public Text otherText;
 
 	void Awake ()
 	{
@@ -31,6 +34,12 @@ public class Menu : MonoBehaviour
 		{
 			UnityEngine.SceneManagement.SceneManager.LoadScene ( UnityEngine.SceneManagement.SceneManager.GetActiveScene ().name );
 		}
+		if ( otherToggle.interactable != heroToggle.isOn )
+		{
+			otherToggle.interactable = heroToggle.isOn;
+			otherText.color = otherToggle.interactable ? Color.white : Color.gray;
+		}
+
 	}
 
 	void EnableCanvas ()
@@ -55,6 +64,7 @@ public class Menu : MonoBehaviour
 		// deep learning
 		if ( mode == 1 )
 		{
+			peopleSpawnerObject.GetComponent<SpawnPointSpawner> ().UseHero ( heroToggle.isOn, otherToggle.isOn );
 			rosObject.SetActive ( false );
 			quadObject.SetActive ( false );
 			quadCamObject.SetActive ( false );

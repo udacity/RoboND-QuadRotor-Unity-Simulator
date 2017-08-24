@@ -16,6 +16,65 @@ public class AppearancePreset
 	public Color bodyColor = Color.white;
 	public Color hairColor = Color.white;
 	public bool female;
+
+	public AppearancePreset () {}
+	public AppearancePreset (CharacterCustomization c)
+	{
+		fullBody = -1;
+		for ( int i = 0; i < c.fullBody.Length; i++ )
+			if ( c.fullBody [ i ].activeSelf )
+			{
+				fullBody = i;
+				break;
+			}
+
+		for ( int i = 0; i < c.overs.Length; i++ )
+			if ( c.overs [ i ].activeSelf )
+			{
+				over = i;
+				break;
+			}
+
+		for (int i = 0; i < c.tops.Length; i++)
+			if ( c.tops[i].activeSelf )
+			{
+				top = i;
+				break;
+			}
+
+		for ( int i = 0; i < c.bottoms.Length; i++ )
+			if ( c.bottoms [ i ].activeSelf )
+			{
+				bottom = i;
+				break;
+			}
+
+		for ( int i = 0; i < c.shoes.Length; i++ )
+			if ( c.shoes[i].activeSelf )
+			{
+				shoes = i;
+				break;
+			}
+
+		for ( int i = 0; i < c.underTop.Length; i++ )
+			if ( c.underTop[i].activeSelf )
+			{
+				underTop = i;
+				break;
+			}
+
+		for ( int i = 0; i < c.underBottom.Length; i++ )
+			if ( c.underBottom[i].activeSelf )
+			{
+				underBottom = i;
+				break;
+			}
+
+		hairColor = c.hair.material.color;
+		bodyColor = c.body.material.color;
+
+		female = c.name.ToLower ().Contains ( "female" );
+	}
 }
 
 public class CharacterCustomization : MonoBehaviour
@@ -37,15 +96,18 @@ public class CharacterCustomization : MonoBehaviour
 	// Use this for initialization
 	void Awake ()
 	{
+		if ( fullBody == null )
+			fullBody = new GameObject[0];
+		if ( underTop == null )
+			underTop = new GameObject[0];
+		if ( overs == null )
+			overs = new GameObject[0];
+	}
+
+	void Start ()
+	{
 		if ( !spawned )
 		{
-			if ( fullBody == null )
-				fullBody = new GameObject[0];
-			if ( underTop == null )
-				underTop = new GameObject[0];
-			if ( overs == null )
-				overs = new GameObject[0];
-			
 			bool useFullBody = false;
 			
 			if ( fullBody != null && fullBody.Length > 0 )
@@ -101,15 +163,15 @@ public class CharacterCustomization : MonoBehaviour
 
 		} else
 		{
-			if ( preset.top != -1 )
+			if ( preset.top != -1 && tops.Length > preset.top )
 				tops [ preset.top ].SetActive ( true );
-			if ( preset.bottom != -1 )
+			if ( preset.bottom != -1 && bottoms.Length > preset.bottom )
 				bottoms [ preset.bottom ].SetActive ( true );
-			if ( preset.over != -1 )
+			if ( preset.over != -1 && overs.Length > preset.over )
 				overs [ preset.over ].SetActive ( true );
 		}
 
-		if ( preset.shoes != -1 )
+		if ( preset.shoes != -1 && shoes.Length > preset.shoes )
 			shoes [ preset.shoes ].SetActive ( true );
 
 		body.material.color = preset.bodyColor;

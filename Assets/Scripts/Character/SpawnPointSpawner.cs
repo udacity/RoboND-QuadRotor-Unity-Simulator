@@ -12,8 +12,11 @@ public class SpawnPointSpawner : MonoBehaviour
 	public float spawnTimer = 60;
 	public int spawnCount = 1;
 
-	public bool usePresets;
-	public AppearancePreset[] presets;
+	[HideInInspector]
+	public bool useHeroPreset;
+	public AppearancePreset heroPreset;
+	[HideInInspector]
+	public bool othersWithHero;
 
 	List<GameObject> activePeople;
 	List<float> spawnTimers;
@@ -25,12 +28,15 @@ public class SpawnPointSpawner : MonoBehaviour
 		activePeople = new List<GameObject> ();
 		spawnTimers = new List<float> ();
 		spawnPoints = GetComponentsInChildren<Transform> ( false );
-		nextSpawnTime = Time.time + spawnTimer;
 		defaultLayer = LayerMask.NameToLayer ( "Default" );
 		SpawnPerson ();
-		for ( int i = 0; i < spawnCount - 1; i++ )
+		nextSpawnTime = Time.time + spawnTimer;
+		if ( !useHeroPreset || othersWithHero )
 		{
-			SpawnPerson ( false );
+			for ( int i = 0; i < spawnCount - 1; i++ )
+			{
+				SpawnPerson ( false );
+			}
 		}
 	}
 
@@ -55,7 +61,7 @@ public class SpawnPointSpawner : MonoBehaviour
 
 	void SpawnPerson (bool isTarget = true, int activeIndex = -1)
 	{
-		Transform target = spawnTargets [ Random.Range ( 0, spawnTargets.Length ) ];
+		Transform target = useHeroPreset ? ( spawnTargets [ heroPreset.female ? 1 : 0 ] ) : spawnTargets [ Random.Range ( 0, spawnTargets.Length ) ];
 		Transform spawn = GetRandomPoint ();
 		if ( isTarget )
 		{
@@ -63,8 +69,11 @@ public class SpawnPointSpawner : MonoBehaviour
 				Destroy ( targetInstance.gameObject );
 			targetInstance = Instantiate ( target );
 			targetInstance.position = spawn.position;
+			if ( useHeroPreset )
+				targetInstance.GetComponent<CharacterCustomization> ().SetAppearance ( heroPreset );
 			targetInstance.gameObject.SetActive ( true );
 			followCam.target = targetInstance;
+			targetInstance.name = "Hero";
 			
 		} else
 		{
@@ -103,5 +112,11 @@ public class SpawnPointSpawner : MonoBehaviour
 				SetLayerRecursively ( c, layer );
 			}
 		}
+	}
+
+	public void UseHero (bool hero, bool others)
+	{
+		useHeroPreset = hero;
+		othersWithHero = others;
 	}
 }
