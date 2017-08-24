@@ -43,6 +43,7 @@ public class SimpleQuadController : MonoBehaviour
 				controller.rb.isKinematic = true;
 				controller.rb.isKinematic = false;
 				controller.rb.freezeRotation = true;
+				controller.rb.velocity = Vector3.zero;
 			} else
 				controller.rb.freezeRotation = false;
 		}

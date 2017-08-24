@@ -114,39 +114,55 @@ public class ROSController : MonoBehaviour
 	void GetConfigFile ()
 	{
 		string filename = Application.dataPath + "/ros_settings.txt";
+		if ( logLevel == XmlRpcUtil.XMLRPC_LOG_LEVEL.DEBUG || logLevel == XmlRpcUtil.XMLRPC_LOG_LEVEL.INFO )
+			Debug.Log ( "Loading ros_settings from " + filename );
 
 		if ( File.Exists ( filename ) )
 		{
-//			Debug.Log ( "exists" );
+			if ( logLevel == XmlRpcUtil.XMLRPC_LOG_LEVEL.DEBUG || logLevel == XmlRpcUtil.XMLRPC_LOG_LEVEL.INFO )
+				Debug.Log ( "file exists" );
 			using ( var fs = new FileStream ( filename, FileMode.Open, FileAccess.Read ) )
 			{
 				byte[] bytes = new byte[fs.Length]; 
 				fs.Read ( bytes, 0, bytes.Length );
 				string json = System.Text.Encoding.UTF8.GetString ( bytes );
-//				Debug.Log ( "json: " + json );
-				JSONObject jo = new JSONObject ( json );
-				if ( jo.HasField ( "vm-override" ) && jo.GetField ( "vm-override" ).b )
+				if ( logLevel == XmlRpcUtil.XMLRPC_LOG_LEVEL.DEBUG || logLevel == XmlRpcUtil.XMLRPC_LOG_LEVEL.INFO )
+					Debug.Log ( "json contents:\n" + json );
+				Debug.Log ( "reading json..." );
+				try
 				{
-					if ( jo.HasField ( "vm-ip" ) && jo.GetField ( "vm-ip" ).IsString )
-						rosMasterURI = "http://" + jo.GetField ( "vm-ip" ).str;
-					if ( jo.HasField ( "vm-port" ) && jo.GetField ( "vm-port" ).IsNumber )
-						rosMasterURI += ":" + ( (int) ( jo.GetField ( "vm-port" ).n ) ).ToString ();
-					else
-						rosMasterURI += ":11311";
-//					ROS.ROS_HOSTNAME = "udacity";
-					Debug.Log ( "setting ip to " + rosMasterURI );
-					overrideURI = true;
+					JSONObject jo = new JSONObject ( json );
+					if ( jo.HasField ( "vm-override" ) && jo.GetField ( "vm-override" ).b )
+					{
+						if ( logLevel == XmlRpcUtil.XMLRPC_LOG_LEVEL.DEBUG || logLevel == XmlRpcUtil.XMLRPC_LOG_LEVEL.INFO )
+							Debug.Log ("attempting to set ros_master_uri");
+						if ( jo.HasField ( "vm-ip" ) && jo.GetField ( "vm-ip" ).IsString )
+							rosMasterURI = "http://" + jo.GetField ( "vm-ip" ).str;
+						if ( jo.HasField ( "vm-port" ) && jo.GetField ( "vm-port" ).IsNumber )
+							rosMasterURI += ":" + ( (int) ( jo.GetField ( "vm-port" ).n ) ).ToString ();
+						else
+							rosMasterURI += ":11311";
+						Debug.Log ( "setting ros_master_uri to " + rosMasterURI );
+						overrideURI = true;
+					}
+					if ( jo.HasField ( "host-override" ) && jo.GetField ( "host-override" ).b )
+					{
+						if ( logLevel == XmlRpcUtil.XMLRPC_LOG_LEVEL.DEBUG || logLevel == XmlRpcUtil.XMLRPC_LOG_LEVEL.INFO )
+							Debug.Log ("attempting to set host's ip");
+						if ( jo.HasField ( "host-ip" ) && jo.GetField ( "host-ip" ).IsString )
+							rosIP = jo.GetField ( "host-ip" ).str;
+						overrideIP = true;
+					}
 				}
-				if ( jo.HasField ( "host-override" ) && jo.GetField ( "host-override" ).b )
+				catch (Exception e)
 				{
-					if ( jo.HasField ( "host-ip" ) && jo.GetField ( "host-ip" ).IsString )
-						rosIP = jo.GetField ( "host-ip" ).str;
-					overrideIP = true;
+					Debug.LogError ( "There was an exception while reading json contents, of type " + e.GetType () );
 				}
 			}
 		} else
 		{
-//			Debug.Log ( "not exists" );
+			if ( logLevel == XmlRpcUtil.XMLRPC_LOG_LEVEL.DEBUG || logLevel == XmlRpcUtil.XMLRPC_LOG_LEVEL.INFO )
+				Debug.Log ( "file not found" );
 		}
 	}
 
@@ -155,7 +171,7 @@ public class ROSController : MonoBehaviour
 		while ( !ROS.shutting_down )
 		{
 			connectedToMaster = master.check ();
-			Thread.Sleep ( 500 );
+			Thread.Sleep ( status == ROSStatus.Connected ? 10000 : 500 );
 		}
 		connectedToMaster = false;
 		Thread.CurrentThread.Join ( 10 );

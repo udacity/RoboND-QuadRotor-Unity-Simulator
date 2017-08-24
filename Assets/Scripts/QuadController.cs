@@ -243,7 +243,7 @@ public class QuadController : MonoBehaviour
 		rb.useGravity = UseGravity;
 		CheckConstraints ();
 
-		if ( MotorsEnabled )
+		if ( MotorsEnabled && !inputCtrl.active )
 		{
 			if ( useTwist )
 			{
