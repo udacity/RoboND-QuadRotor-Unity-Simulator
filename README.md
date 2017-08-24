@@ -171,3 +171,6 @@ And then just run the following to reload .bashrc:
 source ~/.bashrc
 ```
 And relaunch the sim (or Unity). You should now be able to properly publish topics and call services.
+
+**Services work, subscribing works, publishing doesn't**
+If this happens, whichever platform you're on, go ahead and edit the ros_settings file; Set `host-override` to _True_ and set `host-ip` to your _host_'s IP address. Stop any topics being published, relaunch the sim, and it should work.
