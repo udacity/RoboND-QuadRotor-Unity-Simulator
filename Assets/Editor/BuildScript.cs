@@ -73,6 +73,7 @@ public class BuildScript : MonoBehaviour
 		};
 
 		// for now build just mac
+//		BuildTarget target = BuildTarget.StandaloneWindows64;
 		BuildTarget target = BuildTarget.StandaloneOSXIntel64;
 
 		string basePath = "Builds/QuadSim/";
@@ -91,7 +92,7 @@ public class BuildScript : MonoBehaviour
 			settingPath = "Indoor_Lin_Data";
 		}
 
-		BuildPipeline.BuildPlayer ( scenes, basePath + extension, target, BuildOptions.ShowBuiltPlayer );
+		BuildPipeline.BuildPlayer ( scenes, basePath + extension, target, BuildOptions.Development | BuildOptions.ShowBuiltPlayer );
 
 		// go up one from Assets
 		string targetFile = Application.dataPath + "/../" + basePath + settingPath + "/ros_settings.txt";
