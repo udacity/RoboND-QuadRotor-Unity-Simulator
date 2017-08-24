@@ -9,6 +9,7 @@ public class OrbitCamera : MonoBehaviour
 	public Transform viewCam;
 	public Transform colorCam;
 	public Transform bwCam;
+	public Transform bwCam2;
 	public Transform target;
 
 	public float vRotSpeed = 90;
@@ -27,6 +28,7 @@ public class OrbitCamera : MonoBehaviour
 	Transform tr;
 	Camera cam1;
 	Camera cam2;
+	Camera cam3;
 	float distanceDelta;
 	float vAngleDelta;
 	float desiredZ;
@@ -43,10 +45,12 @@ public class OrbitCamera : MonoBehaviour
 		tr = transform;
 		distanceDelta = distSpeed;
 		vAngleDelta = vRotSpeed;
-		colorCam.localPosition = bwCam.localPosition = -Vector3.forward * minDist;
+		colorCam.localPosition = bwCam.localPosition =  bwCam2.localPosition = -Vector3.forward * minDist;
 		cam1 = colorCam.GetComponent<Camera> ();
 		cam2 = bwCam.GetComponent<Camera> ();
 		cam2.SetReplacementShader ( whiteShader, "" );
+		cam3 = bwCam2.GetComponent<Camera> ();
+		cam3.SetReplacementShader ( whiteShader, "" );
 		Time.timeScale = timeScale;
 		recordFrequency = 1f / recordFrequency;
 		RecordingController.BeginRecordCallback = OnBeginRecording;
@@ -98,7 +102,7 @@ public class OrbitCamera : MonoBehaviour
 			lp.z = desiredZ;
 //			lp.z = Mathf.MoveTowards ( lp.z, desiredZ, 10 * Time.deltaTime );
 		// and assign the new distance
-		viewCam.localPosition = colorCam.localPosition = bwCam.localPosition = lp;
+		viewCam.localPosition = colorCam.localPosition = bwCam.localPosition = bwCam2.localPosition = lp;
 
 
 		// adjust time scale
@@ -182,6 +186,14 @@ public class OrbitCamera : MonoBehaviour
 		tex.Apply ();
 		bytes = tex.EncodeToPNG ();
 		path = Path.Combine ( directory, "cam2_" + prefix + ".png" );
+		File.WriteAllBytes ( path, bytes );
+
+		targetTexture = cam3.targetTexture;
+		RenderTexture.active = targetTexture;
+		tex.ReadPixels ( new Rect ( 0, 0, targetTexture.width, targetTexture.height ), 0, 0 );
+		tex.Apply ();
+		bytes = tex.EncodeToPNG ();
+		path = Path.Combine ( directory, "cam3_" + prefix + ".png" );
 		File.WriteAllBytes ( path, bytes );
 
 		bytes = null;

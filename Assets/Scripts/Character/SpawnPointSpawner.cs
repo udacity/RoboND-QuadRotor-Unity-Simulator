@@ -21,14 +21,14 @@ public class SpawnPointSpawner : MonoBehaviour
 	List<GameObject> activePeople;
 	List<float> spawnTimers;
 	float nextSpawnTime;
-	int defaultLayer;
+	int peopleLayer;
 
 	void Awake ()
 	{
 		activePeople = new List<GameObject> ();
 		spawnTimers = new List<float> ();
 		spawnPoints = GetComponentsInChildren<Transform> ( false );
-		defaultLayer = LayerMask.NameToLayer ( "Default" );
+		peopleLayer = LayerMask.NameToLayer ( "People" );
 		SpawnPerson ();
 		nextSpawnTime = Time.time + spawnTimer;
 		if ( !useHeroPreset || othersWithHero )
@@ -93,7 +93,7 @@ public class SpawnPointSpawner : MonoBehaviour
 				activePeople.Add ( person.gameObject );
 				spawnTimers.Add ( Time.time + Random.Range ( 55f, 150f ) );
 			}
-			SetLayerRecursively ( person, defaultLayer );
+			SetLayerRecursively ( person, peopleLayer );
 		}
 	}
 
