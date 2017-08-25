@@ -7,11 +7,14 @@ public class Menu : MonoBehaviour
 {
 	public Canvas canvas;
 
+	// follow me
 	public GameObject rosObject;
 	public GameObject quadObject;
 	public GameObject quadCamObject;
 	public GameObject quadCanvasObject;
+	public GameObject commandServerObject;
 
+	// training
 	public GameObject peopleSpawnerObject;
 	public GameObject peopleCamObject;
 	public GameObject recordingObject;
@@ -52,10 +55,11 @@ public class Menu : MonoBehaviour
 		// controls
 		if ( mode == 0 )
 		{
-			rosObject.SetActive ( true );
+//			rosObject.SetActive ( true );
 			quadObject.SetActive ( true );
 			quadCamObject.SetActive ( true );
 			quadCanvasObject.SetActive ( true );
+			commandServerObject.SetActive ( true );
 			peopleSpawnerObject.SetActive ( false );
 			peopleCamObject.SetActive ( false );
 			recordingObject.SetActive ( false );
@@ -69,6 +73,7 @@ public class Menu : MonoBehaviour
 			quadObject.SetActive ( false );
 			quadCamObject.SetActive ( false );
 			quadCanvasObject.SetActive ( false );
+			commandServerObject.SetActive ( false );
 			peopleSpawnerObject.SetActive ( true );
 			peopleCamObject.SetActive ( true );
 			recordingObject.SetActive ( true );

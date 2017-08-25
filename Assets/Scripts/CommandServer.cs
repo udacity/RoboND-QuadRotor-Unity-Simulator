@@ -9,25 +9,29 @@ using UnityEngine.UI;
 
 public class CommandServer : MonoBehaviour
 {
-	public Camera frontFacingCamera;
+	public QuadController quad;
+	public Camera colorCam;
+	public Camera depthCam;
 	private SocketIOComponent _socket;
-	public RawImage inset1;
-	public RawImage inset2;
-	public RawImage inset3;
+
+//	public RawImage inset3;
 
 	Texture2D inset1Tex;
 	Texture2D inset2Tex;
-	Texture2D inset3Tex;
+//	Texture2D inset3Tex;
+
+	DateTime origin = new DateTime (1970, 1, 1, 0, 0, 0);
 
 	void Start()
 	{
-		_socket = GetComponent<SocketIOComponent>();
-		_socket.On("open", OnOpen);
-		_socket.On("steer", OnSteer);
-		_socket.On("manual", onManual);
+		_socket = GetComponent<SocketIOComponent> ();
+		_socket.On ( "open", OnOpen );
+		_socket.On ( "object_detected", OnObjectDetected );
+		_socket.On ( "create_box_marker", OnCreateBoxMarker );
+		_socket.On ( "delete_marker", OnDeleteMarker );
 		inset1Tex = new Texture2D ( 1, 1 );
 		inset2Tex = new Texture2D ( 1, 1 );
-		inset3Tex = new Texture2D ( 1, 1 );
+//		inset3Tex = new Texture2D ( 1, 1 );
 	}
 
 	void Update ()
@@ -36,17 +40,78 @@ public class CommandServer : MonoBehaviour
 
 	void OnOpen(SocketIOEvent obj)
 	{
-//		Debug.Log("Connection Open");
-		EmitTelemetry(obj);
+		Debug.Log ( "Connection Open" );
+		EmitTelemetry ();
 	}
 
-	// 
-	void onManual(SocketIOEvent obj)
+	void OnObjectDetected (SocketIOEvent obj)
 	{
-		EmitTelemetry (obj);
+		Debug.Log ( "Object detected" );
+
+		JSONObject json = obj.data;
+		int[] coords = {
+			(int) json.GetField ( "x" ).n,
+			(int) json.GetField ( "y" ).n
+		};
+		string name = json.GetField ( "object_name" ).str;
+		double timestamp = json.GetField ( "timestamp" ).f;
+
+		Dictionary<string, string> data = new Dictionary<string, string> ();
+		data [ "action" ] = "object";
+		data [ "name" ] = name;
+
+		Ack ( new JSONObject ( data ) );
 	}
 
-	void OnSteer(SocketIOEvent obj)
+	void OnCreateBoxMarker (SocketIOEvent obj)
+	{
+		Debug.Log ( "Create marker" );
+		JSONObject json = obj.data;
+		string id = json.GetField ( "id" ).str;
+		string pose = json.GetField ( "pose" ).str;
+//		float[] pose = {
+//			json.GetField ( "x" ).f,
+//			json.GetField ( "y" ).f,
+//			json.GetField ( "z" ).f,
+//			json.GetField ( "roll" ).f,
+//			json.GetField ( "pitch" ).f,
+//			json.GetField ( "yaw" ).f
+//		};
+		string color = json.GetField ( "color" ).str;
+//		int[] color = {
+//			json.GetField ( "r" ).n,
+//			json.GetField ( "g" ).n,
+//			json.GetField ( "b" ).n
+//		};
+		float alpha = json.GetField ( "alpha" ).f;
+		float duration = json.GetField ( "seconds" ).f;
+
+		Dictionary<string, string> data = new Dictionary<string, string> ();
+		data [ "action" ] = "create";
+		data [ "id" ] = id;
+
+		Ack ( new JSONObject ( data ) );
+	}
+
+	void OnDeleteMarker (SocketIOEvent obj)
+	{
+		Debug.Log ( "Delete marker" );
+		JSONObject json = obj.data;
+		string id = json.GetField ( "id" ).str;
+
+		Dictionary<string, string> data = new Dictionary<string, string> ();
+		data [ "action" ] = "delete";
+		data [ "id" ] = id;
+
+		Ack ( new JSONObject ( data ) );
+	}
+
+	void Ack (JSONObject obj)
+	{
+		_socket.Emit ( "Ack", obj );
+	}
+
+/*	void OnSteer(SocketIOEvent obj)
 	{
 //		Debug.Log ( "Steer" );
 		JSONObject jsonObject = obj.data;
@@ -128,36 +193,33 @@ public class CommandServer : MonoBehaviour
 //				inset3.CrossFadeAlpha ( 0, 0.0f, true );
 		}
 		EmitTelemetry(obj);
-	}
+	}*/
 
-	void EmitTelemetry(SocketIOEvent obj)
+	void EmitTelemetry ()
 	{
 //		Debug.Log ( "Emitting" );
-		UnityMainThreadDispatcher.Instance().Enqueue(() =>
+		UnityMainThreadDispatcher.Instance ().Enqueue ( () =>
 		{
-			print("Attempting to Send...");
+			print ( "Attempting to Send..." );
 
 			// Collect Data from the Car
-			Dictionary<string, string> data = new Dictionary<string, string>();
+			Dictionary<string, string> data = new Dictionary<string, string> ();
 
-/*			data["steering_angle"] = robotController.SteerAngle.ToString("N4");
-//			data["vert_angle"] = robotController.VerticalAngle.ToString ("N4");
-			data["throttle"] = robotController.ThrottleInput.ToString("N4");
-			data["brake"] = robotController.BrakeInput.ToString ("N4");
-			data["speed"] = robotController.Speed.ToString("N4");
-			Vector3 pos = robotController.Position;
-			data["position"] = pos.x.ToString ("N4") + "," + pos.z.ToString ("N4");
-			data["pitch"] = robotController.Pitch.ToString ("N4");
-			// new: convert the angle to CCW, x-based
-			data["yaw"] = IRobotController.ConvertAngleToCCWXBased ( robotController.Yaw ).ToString ("N4");
-			data["roll"] = robotController.Roll.ToString ("N4");
-			data["fixed_turn"] = robotController.IsTurningInPlace ? "1" : "0";
-			data["near_sample"] = robotController.IsNearObjective ? "1" : "0";
-			data["picking_up"] = robotController.IsPickingUpSample ? "1" : "0";*/
-			data["image"] = Convert.ToBase64String(CameraHelper.CaptureFrame(frontFacingCamera));
+			data [ "timestamp" ] = Timestamp ().ToString ();
+			Vector3 v = quad.Position.ToRos ();
+			data [ "position" ] = v.x.ToString ( "N4" ) + "," + v.y.ToString ( "N4" ) + "," + v.z.ToString ( "N4" );
+			v = ( -quad.Rotation.eulerAngles ).ToRos ();
+			data [ "rpy" ] = v.x.ToString ( "N4" ) + "," + v.y.ToString ( "N4" ) + "," + v.z.ToString ( "N4" );
+			data [ "rgb" ] = Convert.ToBase64String ( CameraHelper.CaptureFrame ( colorCam ) );
+			data [ "depth" ] = Convert.ToBase64String ( CameraHelper.CaptureFrame ( depthCam ) );
 
 //			Debug.Log ("sangle " + data["steering_angle"] + " vert " + data["vert_angle"] + " throt " + data["throttle"] + " speed " + data["speed"] + " image " + data["image"]);
-			_socket.Emit("telemetry", new JSONObject(data));
-		});
+			_socket.Emit ( "telemetry", new JSONObject ( data ) );
+		} );
+	}
+
+	double Timestamp ()
+	{
+		return ( DateTime.UtcNow - origin ).TotalSeconds;
 	}
 }
