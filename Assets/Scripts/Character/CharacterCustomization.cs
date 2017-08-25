@@ -160,22 +160,37 @@ public class CharacterCustomization : MonoBehaviour
 		if ( preset.fullBody != -1 )
 		{
 			fullBody [ preset.fullBody ].SetActive ( true );
+			fullBody [ preset.fullBody ].GetComponent<Renderer> ().material.color = Color.red;
 
 		} else
 		{
 			if ( preset.top != -1 && tops.Length > preset.top )
+			{
 				tops [ preset.top ].SetActive ( true );
+				tops [ preset.top ].GetComponent<Renderer> ().material.color = Color.red;
+			}
 			if ( preset.bottom != -1 && bottoms.Length > preset.bottom )
+			{
 				bottoms [ preset.bottom ].SetActive ( true );
+				bottoms [ preset.bottom ].GetComponent<Renderer> ().material.color = Color.red;
+			}
 			if ( preset.over != -1 && overs.Length > preset.over )
+			{
 				overs [ preset.over ].SetActive ( true );
+				overs [ preset.over ].GetComponent<Renderer> ().material.color = Color.red;
+			}
 		}
 
 		if ( preset.shoes != -1 && shoes.Length > preset.shoes )
+		{
 			shoes [ preset.shoes ].SetActive ( true );
+			shoes [ preset.shoes ].GetComponent<Renderer> ().material.color = Color.red;
+		}
 
 		body.material.color = preset.bodyColor;
 		hair.material.color = preset.hairColor;
+		hair.material.color = Color.red * 0.75f;
+		hair.material.SetColor ( "_SpecColor", Color.black );
 		spawned = true;
 	}
 }

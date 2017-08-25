@@ -29,7 +29,7 @@ public class SimpleQuadController : MonoBehaviour
 			controller = GetComponent<QuadController> ();
 		if ( followCam == null )
 			followCam = camTransform.GetComponent<FollowCamera> ();
-		active = false;
+//		active = false;
 	}
 
 	void LateUpdate ()

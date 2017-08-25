@@ -21,7 +21,7 @@ public class CommandServer : MonoBehaviour
 
 	void Start()
 	{
-		_socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
+		_socket = GetComponent<SocketIOComponent>();
 		_socket.On("open", OnOpen);
 		_socket.On("steer", OnSteer);
 		_socket.On("manual", onManual);
