@@ -152,8 +152,8 @@ public class CommandServer : MonoBehaviour
 			Vector3 v = quad.Position.ToRos ();
 			Vector3 v2 = ( -quad.Rotation.eulerAngles ).ToRos ();
 			data [ "pose" ] = v.x.ToString ( "N4" ) + "," + v.y.ToString ( "N4" ) + "," + v.z.ToString ( "N4" ) + "," + v2.x.ToString ( "N4" ) + "," + v2.y.ToString ( "N4" ) + "," + v2.z.ToString ( "N4" );
-			data [ "rgb" ] = Convert.ToBase64String ( CameraHelper.CaptureFrame ( colorCam ) );
-			data [ "depth" ] = Convert.ToBase64String ( CameraHelper.CaptureFrame ( depthCam ) );
+			data [ "rgb_image" ] = Convert.ToBase64String ( CameraHelper.CaptureFrame ( colorCam ) );
+			data [ "depth_image" ] = Convert.ToBase64String ( CameraHelper.CaptureFrame ( depthCam ) );
 
 //			Debug.Log ("sangle " + data["steering_angle"] + " vert " + data["vert_angle"] + " throt " + data["throttle"] + " speed " + data["speed"] + " image " + data["image"]);
 			_socket.Emit ( "sensor_frame", new JSONObject ( data ) );
