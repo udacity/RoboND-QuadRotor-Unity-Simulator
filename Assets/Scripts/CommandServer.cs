@@ -94,24 +94,39 @@ public class CommandServer : MonoBehaviour
 	{
 		Debug.Log ( "Create marker" );
 		JSONObject json = obj.data;
+		// grab the info from json. info is set up as:
+		// "id": "id"
+		// "pose": [x,y,z,roll,pitch,yaw]
+		// "dimensions": [w,h,d]
+		// "color": [r,g,b,a]
+		// "duration": #.#
 		string id = json.GetField ( "id" ).str;
 		string pose = json.GetField ( "pose" ).str;
-//		float[] pose = {
-//			json.GetField ( "x" ).f,
-//			json.GetField ( "y" ).f,
-//			json.GetField ( "z" ).f,
-//			json.GetField ( "roll" ).f,
-//			json.GetField ( "pitch" ).f,
-//			json.GetField ( "yaw" ).f
-//		};
+		string dims = json.GetField ( "dimensions" ).str;
 		string color = json.GetField ( "color" ).str;
-//		int[] color = {
-//			json.GetField ( "r" ).n,
-//			json.GetField ( "g" ).n,
-//			json.GetField ( "b" ).n
-//		};
+		string[] values = pose.Split ( ',' );
+		double[] vals = new double[9];
+		for ( int i = 0; i < values.Length; i++ )
+			vals [ i ] = double.Parse ( values [ i ] );
+		values = dims.Split ( ',' );
+		for ( int i = 0; i < values.Length; i++ )
+			vals [ 6 + i ] = double.Parse ( values [ i ] );
+		
+		string[] channels = color.Split ( ',' );
+		float[] newChannels = new float[4];
+		for ( int i = 0; i < 4; i++ )
+			newChannels [ i ] = (float) double.Parse ( channels [ i ] );
+		Color c = new Color ( newChannels [ 0 ], newChannels [ 1 ], newChannels [ 2 ], newChannels [ 3 ] );
 		float alpha = json.GetField ( "alpha" ).f;
 		float duration = json.GetField ( "seconds" ).f;
+
+		Vector3 pos = new Vector3 ( (float) vals [ 0 ], (float) vals [ 1 ], (float) vals [ 2 ] ).ToUnity ();
+		Vector3 euler = new Vector3 ( (float) vals [ 3 ], (float) vals [ 4 ], (float) vals [ 5 ] ).ToUnity ();
+		Quaternion rot = Quaternion.Euler ( euler );
+		Vector3 size = new Vector3 ( (float) vals [ 6 ], (float) vals [ 7 ], (float) vals [ 8 ] ).ToUnity ();
+
+		MarkerMaker.AddMarker ( id, pos, rot, size, c, duration );
+		
 
 		Dictionary<string, string> data = new Dictionary<string, string> ();
 		data [ "action" ] = "create";
@@ -125,6 +140,8 @@ public class CommandServer : MonoBehaviour
 		Debug.Log ( "Delete marker" );
 		JSONObject json = obj.data;
 		string id = json.GetField ( "id" ).str;
+
+		MarkerMaker.DeleteMarker ( id );
 
 		Dictionary<string, string> data = new Dictionary<string, string> ();
 		data [ "action" ] = "delete";

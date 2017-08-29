@@ -73,6 +73,7 @@ public class QuadController : MonoBehaviour
 	public float maxRotorRPM = 3600;
 	[SerializeField]
 	float curRotorSpeed;
+	public bool showTelemetry;
 
 	// recording vars
 	public float pathRecordFrequency = 3;
@@ -293,27 +294,9 @@ public class QuadController : MonoBehaviour
 
 	void OnGUI ()
 	{
-		string info = @"Force: " + Force.ToRos ().ToString () +
-		              "\nTorque: " + Torque.ToRos ().ToString () +
-		              "\nPosition: " + Position.ToRos ().ToString () +
-		              "\nRPY: " + ( -Rotation.eulerAngles ).ToRos ().ToString () +
-		              "\nLinear Vel.: " + LinearVelocity.ToRos ().ToString () +
-		              "\nAngular Vel.: " + AngularVelocity.ToRos ().ToString () +
-		              "\nGravity " + ( UseGravity ? "on" : "off" ) +
-		              "\nLocal input " + ( inputCtrl.active ? "on" : "off" );
-		if ( ConstrainForceX )
-			info += "\nX Movement constrained";
-		if ( ConstrainForceY )
-			info += "\nY Movement constrained";
-		if ( ConstrainForceZ )
-			info += "\nZ Movement constrained";
-		if ( ConstrainTorqueX )
-			info += "\nX Rotation constrained";
-		if ( ConstrainTorqueY )
-			info += "\nY Rotation constrained";
-		if ( ConstrainTorqueZ )
-			info += "\nZ Rotation constrained";
-
+		string info = "";
+		Vector2 size;
+		Rect r;
 		GUIStyle label = GUI.skin.label;
 		TextClipping clipping = label.clipping;
 		label.clipping = TextClipping.Overflow;
@@ -322,18 +305,50 @@ public class QuadController : MonoBehaviour
 		int fontSize = label.fontSize;
 		label.fontSize = (int) ( 22f * Screen.height / 1080 );
 
-		Vector2 size = label.CalcSize ( new GUIContent ( info ) );
-		Rect r = new Rect ( 10, 10, size.x + 10, size.y );
-		GUI.Box ( r, "" );
-		GUI.Box ( r, "" );
-		r.x += 5;
+		if ( showTelemetry )
+		{
+			info = @"Force: " + Force.ToRos ().ToString () +
+				"\nTorque: " + Torque.ToRos ().ToString () +
+				"\nPosition: " + Position.ToRos ().ToString () +
+				"\nRPY: " + ( -Rotation.eulerAngles ).ToRos ().ToString () +
+				"\nLinear Vel.: " + LinearVelocity.ToRos ().ToString () +
+				"\nAngular Vel.: " + AngularVelocity.ToRos ().ToString () +
+				"\nGravity " + ( UseGravity ? "on" : "off" ) +
+				"\nLocal input " + ( inputCtrl.active ? "on" : "off" );
+			if ( ConstrainForceX )
+				info += "\nX Movement constrained";
+			if ( ConstrainForceY )
+				info += "\nY Movement constrained";
+			if ( ConstrainForceZ )
+				info += "\nZ Movement constrained";
+			if ( ConstrainTorqueX )
+				info += "\nX Rotation constrained";
+			if ( ConstrainTorqueY )
+				info += "\nY Rotation constrained";
+			if ( ConstrainTorqueZ )
+				info += "\nZ Rotation constrained";
+			
+//			GUIStyle label = GUI.skin.label;
+//			TextClipping clipping = label.clipping;
+//			label.clipping = TextClipping.Overflow;
+//			bool wrap = label.wordWrap;
+//			label.wordWrap = false;
+//			int fontSize = label.fontSize;
+//			label.fontSize = (int) ( 22f * Screen.height / 1080 );
+			
+			size = label.CalcSize ( new GUIContent ( info ) );
+			r = new Rect ( 10, 10, size.x + 10, size.y );
+			GUI.Box ( r, "" );
+			GUI.Box ( r, "" );
+			r.x += 5;
+			
+			GUILayout.BeginArea ( r );
+			GUILayout.Label ( info );
+			GUILayout.EndArea ();
+			
+		} // telemetry
 
-		GUILayout.BeginArea ( r );
-		GUILayout.Label ( info );
-		GUILayout.EndArea ();
-
-
-
+		// show axis arrows
 		if ( drawArrows )
 		{
 			bool showMovement = ConstrainForceX || ConstrainForceY || ConstrainForceZ || drawArrowsAlways;
@@ -402,19 +417,11 @@ public class QuadController : MonoBehaviour
 //			GUI.DrawTexture ( new Rect ( tip.x - 2, tip.y - 2, 4, 4 ), dot );
 //			GUI.color = Color.black;
 //			GUI.DrawTexture ( new Rect ( screenPos.x - 2, screenPos.y - 2, 4, 4 ), dot );
-		}
+		} // axis arrows
 
 		GUI.color = Color.white;
-//		GUIStyle label = GUI.skin.label;
-//		TextClipping clipping = label.clipping;
-//		label.clipping = TextClipping.Overflow;
-//		bool wrap = label.wordWrap;
-//		label.wordWrap = false;
-//		int fontSize = label.fontSize;
-//		label.fontSize = (int) ( 22f * Screen.height / 1080 );
 
-//		info = "";
-
+		// show controls legend
 		if ( showLegend )
 		{
 			info = @"L: Legend on/off

@@ -91,9 +91,10 @@ public class FollowCamera : MonoBehaviour
 			rmbTime = Time.time;
 		if ( Input.GetMouseButtonUp ( 1 ) && Time.time - rmbTime < 0.1f )
 		{
-			Vector3 forward = target.forward.forward;
-			Vector3 right = target.right.right;
-			transform.rotation = Quaternion.LookRotation ( forward - right - Vector3.up, forward - right + Vector3.up );
+			transform.rotation = Quaternion.LookRotation ( target.transform.forward - Vector3.up, target.transform.forward + Vector3.up );
+//			Vector3 forward = target.forward.forward;
+//			Vector3 right = target.right.right;
+//			transform.rotation = Quaternion.LookRotation ( forward - right - Vector3.up, forward - right + Vector3.up );
 		}
 
 		if ( Input.GetMouseButton ( 1 ) && Time.time - rmbTime > 0.2f )
@@ -161,12 +162,14 @@ public class FollowCamera : MonoBehaviour
 			break;
 
 		case CameraPoseType.ZNorm:
-			targetRotation = Quaternion.LookRotation ( -Vector3.up, ( Vector3.forward - Vector3.right ).normalized );
+			targetRotation = Quaternion.LookRotation ( -Vector3.up, Vector3.forward.normalized );
+//			targetRotation = Quaternion.LookRotation ( -Vector3.up, ( Vector3.forward - Vector3.right ).normalized );
 			break;
 
 		case CameraPoseType.Iso:
 		case CameraPoseType.Free:
-			targetRotation = Quaternion.LookRotation ( ( Vector3.forward - Vector3.right - Vector3.up ).normalized, ( Vector3.forward - Vector3.right + Vector3.up ).normalized );
+			targetRotation = Quaternion.LookRotation ( ( Vector3.forward - Vector3.up ).normalized, ( Vector3.forward + Vector3.up ).normalized );
+//			targetRotation = Quaternion.LookRotation ( ( Vector3.forward - Vector3.right - Vector3.up ).normalized, ( Vector3.forward - Vector3.right + Vector3.up ).normalized );
 			break;
 		}
 

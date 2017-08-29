@@ -63,12 +63,14 @@ public class SimpleQuadController : MonoBehaviour
 		
 		Vector3 input = new Vector3 ( Input.GetAxis ( "Horizontal" ), Input.GetAxis ( "Thrust" ), Input.GetAxis ( "Vertical" ) );
 
-		Vector3 forwardVelocity = Vector3.forward * input.z * moveSpeed;
-		Vector3 sidewaysVelocity = Vector3.right * input.x * moveSpeed;
-		Vector3 upVelocity = Vector3.up * input.y * thrustForce;
-		Vector3 inputVelo = forwardVelocity + sidewaysVelocity + upVelocity;
+		Vector3 inputVelo = new Vector3 ( input.x * moveSpeed, input.y * thrustForce, input.z * moveSpeed );
+//		Vector3 forwardVelocity = Vector3.forward * input.z * moveSpeed;
+//		Vector3 sidewaysVelocity = Vector3.right * input.x * moveSpeed;
+//		Vector3 upVelocity = Vector3.up * input.y * thrustForce;
+//		Vector3 inputVelo = forwardVelocity + sidewaysVelocity + upVelocity;
 
-		Vector3 forward = transform.forward - transform.right;
+		Vector3 forward = transform.forward;
+//		Vector3 forward = transform.forward - transform.right;
 		forward.y = 0;
 		Quaternion rot = Quaternion.LookRotation ( forward.normalized, Vector3.up );
 
@@ -76,11 +78,11 @@ public class SimpleQuadController : MonoBehaviour
 		rb.velocity = rot * inputVelo;
 //		transform.Rotate ( Vector3.up * input.x * thrustForce * Time.deltaTime, Space.World );
 
-		float x = input.z / 2 + input.x / 2;
-		float z = input.z / 2 - input.x / 2;
+//		float x = input.z / 2 + input.x / 2;
+//		float z = input.z / 2 - input.x / 2;
 		Vector3 euler = transform.localEulerAngles;
-		euler.x = maxTilt * x;
-		euler.z = maxTilt * z;
+		euler.x = maxTilt * input.z;
+		euler.z = maxTilt * -input.x;
 		transform.localEulerAngles = euler;
 
 		float yaw = Input.GetAxis ( "Yaw" );

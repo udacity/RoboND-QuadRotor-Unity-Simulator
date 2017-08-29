@@ -44,7 +44,7 @@ public class GimbalCamera : MonoBehaviour
 	void LateUpdate ()
 	{
 		// manual input test
-		if ( Input.GetMouseButtonDown ( 0 ) )
+/*		if ( Input.GetMouseButtonDown ( 0 ) )
 		{
 			Vector3 point = Input.mousePosition;
 			point.z = FollowCamera.ActiveCamera.cam.nearClipPlane;
@@ -66,7 +66,7 @@ public class GimbalCamera : MonoBehaviour
 		if ( Input.GetMouseButtonDown ( 2 ) )
 		{
 			Sweep ();
-		}
+		}*/
 
 		switch ( followType )
 		{
