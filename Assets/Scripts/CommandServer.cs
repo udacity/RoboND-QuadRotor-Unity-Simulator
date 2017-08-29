@@ -37,7 +37,7 @@ public class CommandServer : MonoBehaviour
 		inset2Tex = new Texture2D ( 1, 1 );
 //		inset3Tex = new Texture2D ( 1, 1 );
 
-		broadcastFrequency = 60;
+		broadcastFrequency = 30; //60;
 		broadcastThread = new Thread ( ThreadFunc );
 		broadcastThread.Start ();
 		Debug.Log ( "starting" );
