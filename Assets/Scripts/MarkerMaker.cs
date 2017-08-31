@@ -37,6 +37,19 @@ public class MarkerMaker : MonoBehaviour
 
 	public static void AddMarker (string id, Vector3 pos, Quaternion rot, Vector3 size, Color c, float duration)
 	{
+		if ( duration == -1 )
+			duration = Mathf.Infinity;
+		if ( instance.markers.ContainsKey ( id ) )
+		{
+			var marker = instance.markers [ id ];
+			marker.transform.position = pos;
+			marker.transform.rotation = rot;
+			marker.transform.localScale = size;
+			marker.material.color = c;
+			marker.UpdateDuration ( duration );
+			return;
+		}
+
 		var inst = Instantiate ( instance.prefab );
 		inst.transform.position = pos;
 		inst.transform.rotation = rot;

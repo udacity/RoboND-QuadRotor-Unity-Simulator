@@ -18,4 +18,10 @@ public class MarkerObject : MonoBehaviour
 		startTime = Time.time;
 		name = startTime.ToString ();
 	}
+
+	public void UpdateDuration (float duration)
+	{
+		startTime = Time.time;
+		duration = duration;
+	}
 }
