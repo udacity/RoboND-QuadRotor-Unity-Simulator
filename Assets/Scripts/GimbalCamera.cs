@@ -39,6 +39,7 @@ public class GimbalCamera : MonoBehaviour
 		vizSphere = GameObject.CreatePrimitive ( PrimitiveType.Sphere ).transform;
 		vizSphere.localScale = Vector3.one * 0.5f;
 		vizSphere.GetComponent<Renderer> ().material.color = Color.blue * 0.5f;
+		Destroy ( vizSphere.GetComponent<Collider> () );
 	}
 
 	void LateUpdate ()

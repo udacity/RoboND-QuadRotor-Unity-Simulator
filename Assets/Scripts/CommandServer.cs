@@ -51,7 +51,8 @@ public class CommandServer : MonoBehaviour
 
 	void OnDestroy ()
 	{
-		broadcastThread.Abort ();
+		if ( broadcastThread != null )
+			broadcastThread.Abort ();
 	}
 
 	void ThreadFunc ()

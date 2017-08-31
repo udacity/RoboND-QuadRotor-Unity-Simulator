@@ -13,6 +13,7 @@ public class Menu : MonoBehaviour
 	public GameObject quadCamObject;
 	public GameObject quadCanvasObject;
 	public GameObject commandServerObject;
+	public Toggle peopleToggle;
 
 	// training
 	public GameObject peopleSpawnerObject;
@@ -60,7 +61,12 @@ public class Menu : MonoBehaviour
 			quadCamObject.SetActive ( true );
 			quadCanvasObject.SetActive ( true );
 			commandServerObject.SetActive ( true );
-			peopleSpawnerObject.SetActive ( false );
+			if ( peopleToggle.isOn )
+			{
+				peopleSpawnerObject.GetComponent<SpawnPointSpawner> ().UseHero ( heroToggle.isOn, otherToggle.isOn );
+				peopleSpawnerObject.SetActive ( true );
+			} else
+				peopleSpawnerObject.SetActive ( false );
 			peopleCamObject.SetActive ( false );
 			recordingObject.SetActive ( false );
 		} else
