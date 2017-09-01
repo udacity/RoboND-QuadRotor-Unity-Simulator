@@ -118,8 +118,7 @@ public class CommandServer : MonoBehaviour
 		for ( int i = 0; i < 4; i++ )
 			newChannels [ i ] = (float) double.Parse ( channels [ i ] );
 		Color c = new Color ( newChannels [ 0 ], newChannels [ 1 ], newChannels [ 2 ], newChannels [ 3 ] );
-		float alpha = json.GetField ( "alpha" ).f;
-		float duration = json.GetField ( "seconds" ).f;
+		float duration = json.GetField ( "duration" ).f;
 
 		Vector3 pos = new Vector3 ( (float) vals [ 0 ], (float) vals [ 1 ], (float) vals [ 2 ] ).ToUnity ();
 		Vector3 euler = new Vector3 ( (float) vals [ 3 ], (float) vals [ 4 ], (float) vals [ 5 ] ).ToUnity ();
