@@ -47,6 +47,7 @@ public class MarkerMaker : MonoBehaviour
 			marker.transform.localScale = size;
 			marker.material.color = c;
 			marker.UpdateDuration ( duration );
+			marker.name = id;
 			return;
 		}
 
@@ -56,6 +57,7 @@ public class MarkerMaker : MonoBehaviour
 		inst.transform.localScale = size;
 		inst.material.color = c;
 		inst.duration = duration;
+		inst.name = id;
 		instance.markers.Add ( id, inst );
 	}
 

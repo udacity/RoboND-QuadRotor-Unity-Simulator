@@ -12,6 +12,7 @@ public class CommandServer : MonoBehaviour
 {
 	public QuadController quad;
 	public GimbalCamera gimbal;
+	public TargetFollower follower;
 	public Camera colorCam;
 	public Camera depthCam;
 	private SocketIOComponent _socket;
@@ -78,16 +79,26 @@ public class CommandServer : MonoBehaviour
 		Debug.Log ( "Object detected" );
 
 		JSONObject json = obj.data;
-		int[] camera_coords = {
-			(int) json.GetField ( "x" ).n,
-			(int) json.GetField ( "y" ).n
+		List<JSONObject> list = json.GetField ( "coords" ).list;
+		float[] pos = {
+			list[0].f,
+			list[1].f,
+			list[2].f
 		};
-		string name = json.GetField ( "object_name" ).str;
-		double timestamp = json.GetField ( "timestamp" ).f;
+//		int[] camera_coords = {
+//			(int) json.GetField ( "x" ).n,
+//			(int) json.GetField ( "y" ).n
+//		};
+//		string name = json.GetField ( "object_name" ).str;
+//		float timestamp = json.GetField ( "timestamp" ).f;
+
+		Vector3 position = new Vector3 ( pos [ 0 ], pos [ 1 ], pos [ 2 ] ).ToUnity ();
+		Debug.Log ( "Setting follow point to " + position );
+		follower.SetFollowPoint ( position );
 
 		Dictionary<string, string> data = new Dictionary<string, string> ();
 		data [ "action" ] = "object";
-		data [ "name" ] = name;
+//		data [ "name" ] = name;
 
 		Ack ( new JSONObject ( data ) );
 	}

@@ -16,7 +16,7 @@ public class MarkerObject : MonoBehaviour
 		Renderer r = GetComponent<Renderer> ();
 		material = r.material;
 		startTime = Time.time;
-		name = startTime.ToString ();
+//		name = startTime.ToString ();
 	}
 
 	public void UpdateDuration (float duration)

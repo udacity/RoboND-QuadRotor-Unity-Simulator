@@ -109,7 +109,6 @@ public class TargetFollower : MonoBehaviour
 	{
 		followPoint = point;
 		following = true;
+		inputCtrl.active = false;
 	}
-
-
 }
