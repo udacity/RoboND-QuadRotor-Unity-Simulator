@@ -109,12 +109,34 @@ public class CommandServer : MonoBehaviour
 		Debug.Log ( "color is a " + json.GetField ( "color" ).type );
 		Debug.Log ( "duration is a " + json.GetField ( "duration" ).type );
 
-//		int id = (int) json.GetField ( "id" ).n;
-//		List<JSONObject> values = json.GetField ( "pose" ).list;
-//		float[] pose = new float[values.Count];
-//		for ( int i = 0; i < pose.Length; i++ )
-//			pose [ i ] = values [ i ].f;
-		
+		int id = (int) json.GetField ( "id" ).n;
+		List<JSONObject> values = json.GetField ( "pose" ).list;
+		float[] pose = new float[values.Count];
+		for ( int i = 0; i < pose.Length; i++ )
+			pose [ i ] = values [ i ].f;
+		values = json.GetField ( "dimensions" ).list;
+		float[] dimensions = new float[values.Count];
+		for ( int i = 0; i < dimensions.Length; i++ )
+			dimensions [ i ] = values [ i ].f;
+		values = json.GetField ( "color" ).list;
+		float[] color = new float[values.Count];
+		for ( int i = 0; i < color.Length; i++ )
+			color [ i ] = values [ i ].f;
+		float duration = json.GetField ( "duration" ).f;
+
+		Vector3 pos = new Vector3 ( (float) pose [ 0 ], (float) pose [ 1 ], (float) pose [ 2 ] ).ToUnity ();
+		Vector3 euler = new Vector3 ( (float) pose [ 3 ], (float) pose [ 4 ], (float) pose [ 5 ] ).ToUnity ();
+		Quaternion rot = Quaternion.Euler ( euler );
+		Vector3 size = new Vector3 ( (float) dimensions [ 0 ], (float) dimensions [ 1 ], (float) dimensions [ 2 ] ).ToUnity ();
+		Color c = new Color ( color [ 0 ], color [ 1 ], color [ 2 ], color [ 3 ] );
+
+		MarkerMaker.AddMarker ( id.ToString (), pos, rot, size, c, duration );
+
+		Dictionary<string, string> data = new Dictionary<string, string> ();
+		data [ "action" ] = "create";
+		data [ "id" ] = id.ToString ();
+
+		Ack ( new JSONObject ( data ) );
 	}
 
 /*	void OnCreateBoxMarker (SocketIOEvent obj)
@@ -184,13 +206,14 @@ public class CommandServer : MonoBehaviour
 	{
 		Debug.Log ( "Delete marker" );
 		JSONObject json = obj.data;
-		string id = json.GetField ( "id" ).str;
+		int id = (int) json.GetField ( "id" ).n;
+//		string id = json.GetField ( "id" ).str;
 
-		MarkerMaker.DeleteMarker ( id );
+		MarkerMaker.DeleteMarker ( id.ToString () );
 
 		Dictionary<string, string> data = new Dictionary<string, string> ();
 		data [ "action" ] = "delete";
-		data [ "id" ] = id;
+		data [ "id" ] = id.ToString ();
 
 		Ack ( new JSONObject ( data ) );
 	}
