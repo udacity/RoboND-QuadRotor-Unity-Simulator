@@ -138,9 +138,9 @@ public class QuadController : MonoBehaviour
 
 	void Start ()
 	{
-		rb.inertiaTensorRotation = Quaternion.identity;
+//		rb.inertiaTensorRotation = Quaternion.identity;
 		// for whatever reason, setting inertiaTensorRotation stops the quad from accepting commands (mostly torque) until it's deactivated and activated
-		QuadActivator.Activate ( gameObject );
+//		QuadActivator.Activate ( gameObject );
 	}
 
 	void Update ()

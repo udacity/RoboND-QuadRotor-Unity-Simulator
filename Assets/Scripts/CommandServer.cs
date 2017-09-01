@@ -11,6 +11,7 @@ using System.Threading;
 public class CommandServer : MonoBehaviour
 {
 	public QuadController quad;
+	public GimbalCamera gimbal;
 	public Camera colorCam;
 	public Camera depthCam;
 	private SocketIOComponent _socket;
@@ -169,6 +170,9 @@ public class CommandServer : MonoBehaviour
 			Vector3 v = quad.Position.ToRos ();
 			Vector3 v2 = ( -quad.Rotation.eulerAngles ).ToRos ();
 			data [ "pose" ] = v.x.ToString ( "N4" ) + "," + v.y.ToString ( "N4" ) + "," + v.z.ToString ( "N4" ) + "," + v2.x.ToString ( "N4" ) + "," + v2.y.ToString ( "N4" ) + "," + v2.z.ToString ( "N4" );
+			v = gimbal.Position.ToRos ();
+			v2 = ( -gimbal.Rotation.eulerAngles ).ToRos ();
+			data [ "gimbal_pose" ] = v.x.ToString ( "N4" ) + "," + v.y.ToString ( "N4" ) + "," + v.z.ToString ( "N4" ) + "," + v2.x.ToString ( "N4" ) + "," + v2.y.ToString ( "N4" ) + "," + v2.z.ToString ( "N4" );
 			data [ "rgb_image" ] = Convert.ToBase64String ( CameraHelper.CaptureFrame ( colorCam ) );
 			data [ "depth_image" ] = Convert.ToBase64String ( CameraHelper.CaptureFrame ( depthCam ) );
 

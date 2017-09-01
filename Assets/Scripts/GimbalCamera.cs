@@ -6,6 +6,8 @@ enum FollowType { None, Position, Transform, Sweep };
 
 public class GimbalCamera : MonoBehaviour
 {
+	public Vector3 Position { get; protected set; }
+	public Quaternion Rotation { get; protected set; }
 	public Transform gimbalParent;
 	[Range (5, 180)]
 	public float sweepCone = 90;
@@ -44,6 +46,9 @@ public class GimbalCamera : MonoBehaviour
 
 	void LateUpdate ()
 	{
+		Vector3 v = Vector3.RotateTowards ( tr.forward, Vector3.up, cam.fieldOfView * Mathf.Deg2Rad * 0.5f, 0 );
+		v = v.normalized * cam.farClipPlane;
+		Debug.DrawRay ( tr.position, v, Color.green, Time.deltaTime, false );
 		// manual input test
 /*		if ( Input.GetMouseButtonDown ( 0 ) )
 		{
@@ -103,6 +108,9 @@ public class GimbalCamera : MonoBehaviour
 			gimbalParent.eulerAngles = euler;
 			break;
 		}
+
+		Position = tr.position;
+		Rotation = tr.rotation;
 	}
 
 	public void LookAt (Vector3 position)

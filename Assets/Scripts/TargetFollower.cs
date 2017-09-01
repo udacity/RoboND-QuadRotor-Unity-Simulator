@@ -49,7 +49,7 @@ public class TargetFollower : MonoBehaviour
 			{
 				Color c = Random.ColorHSV ();
 				c.a = Random.value * 0.5f + 0.5f;
-				MarkerMaker.AddMarker ( Time.time.ToString (), hit.point, FollowCamera.ActiveCamera.transform.rotation, Vector3.one, c, Random.Range ( 3f, 8f ) );
+				MarkerMaker.AddMarker ( Time.time.ToString (), hit.point, Quaternion.LookRotation ( hit.point - FollowCamera.ActiveCamera.transform.position, FollowCamera.ActiveCamera.transform.up ), Vector3.one, c, Random.Range ( 3f, 8f ) );
 			}
 		}
 
