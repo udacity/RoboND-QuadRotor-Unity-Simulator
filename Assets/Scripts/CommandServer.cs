@@ -102,6 +102,40 @@ public class CommandServer : MonoBehaviour
 		// "dimensions": [w,h,d]
 		// "color": [r,g,b,a]
 		// "duration": #.#
+		Debug.Log ( "json:\n" + json.Print ( true ) );
+		Debug.Log ( "id is a " + json.GetField ( "id" ).type );
+		Debug.Log ( "pose is a " + json.GetField ( "pose" ).type );
+		Debug.Log ( "dimensions is a " + json.GetField ( "dimensions" ).type );
+		Debug.Log ( "color is a " + json.GetField ( "color" ).type );
+		Debug.Log ( "duration is a " + json.GetField ( "duration" ).type );
+
+//		int id = (int) json.GetField ( "id" ).n;
+//		List<JSONObject> values = json.GetField ( "pose" ).list;
+//		float[] pose = new float[values.Count];
+//		for ( int i = 0; i < pose.Length; i++ )
+//			pose [ i ] = values [ i ].f;
+		
+	}
+
+/*	void OnCreateBoxMarker (SocketIOEvent obj)
+	{
+		Debug.Log ( "Create marker" );
+		JSONObject json = obj.data;
+		// grab the info from json. info is set up as:
+		// "id": "id"
+		// "pose": [x,y,z,roll,pitch,yaw]
+		// "dimensions": [w,h,d]
+		// "color": [r,g,b,a]
+		// "duration": #.#
+
+		// check that all the fields exist
+		Debug.Log ( "json is:\n" + json.Print ( true ) );
+		ValidateField ( json, "id", JSONObject.Type.STRING );
+		ValidateField ( json, "pose", JSONObject.Type.STRING );
+		ValidateField ( json, "dimensions", JSONObject.Type.STRING );
+		ValidateField ( json, "color", JSONObject.Type.STRING );
+		ValidateField ( json, "duration", JSONObject.Type.NUMBER );
+
 		string id = json.GetField ( "id" ).str;
 		string pose = json.GetField ( "pose" ).str;
 		string dims = json.GetField ( "dimensions" ).str;
@@ -134,6 +168,16 @@ public class CommandServer : MonoBehaviour
 		data [ "id" ] = id;
 
 		Ack ( new JSONObject ( data ) );
+	}*/
+	void ValidateField (JSONObject obj, string fieldName, JSONObject.Type fieldType)
+	{
+		if ( obj.HasField ( fieldName ) && obj.GetField ( fieldName ).type == fieldType )
+			Debug.Log ( "Field " + fieldName + "ok" );
+		else
+		if ( obj.HasField ( fieldName ) )
+			Debug.Log ( "Field " + fieldName + " is type " + obj.GetField ( fieldName ).type + ", expected: " + fieldType );
+		else
+			Debug.Log ( "No field named " + fieldName );
 	}
 
 	void OnDeleteMarker (SocketIOEvent obj)
