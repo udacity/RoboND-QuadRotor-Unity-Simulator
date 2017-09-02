@@ -23,6 +23,10 @@ public class OrbitCamera : MonoBehaviour
 	public float recordFrequency = 10;
 
 	public Shader whiteShader;
+	public bool localControl;
+	public float moveSpeed = 15;
+	public float rotationSpeed = 2;
+	public float zoomSpeed = 2;
 
 
 	Transform tr;
@@ -39,6 +43,7 @@ public class OrbitCamera : MonoBehaviour
 	bool recording;
 	float nextRecordTime;
 	int imageCount;
+	bool focusTarget;
 
 	void Awake ()
 	{
@@ -59,6 +64,58 @@ public class OrbitCamera : MonoBehaviour
 
 	void LateUpdate ()
 	{
+		if ( Input.GetKeyDown ( KeyCode.F12 ) )
+		{
+			localControl = !localControl;
+			return;
+		}
+
+		if ( localControl )
+		{
+			Vector3 input = new Vector3 ( Input.GetAxis ( "Horizontal" ), Input.GetAxis ( "Thrust" ), Input.GetAxis ( "Vertical" ) );
+//			Vector3 inputVelo = new Vector3 ( input.x * moveSpeed, input.y * moveSpeed, input.z * moveSpeed );
+
+			Vector2 mouse = new Vector3 ( Input.GetAxis ( "Mouse X" ), Input.GetAxis ( "Mouse Y" ) );
+
+			if ( mouse != Vector2.zero )
+			{
+				tr.RotateAround ( cam1.transform.position, Vector3.up, mouse.x * rotationSpeed );
+				tr.RotateAround ( cam1.transform.position, tr.right, -mouse.y * rotationSpeed );
+//				tr.Rotate ( Vector3.up * mouse.x * rotationSpeed, Space.World );
+//				tr.Rotate ( Vector3.right * -mouse.y * rotationSpeed, Space.Self );
+			}
+			float frameMove = moveSpeed * Time.deltaTime * ( Input.GetButton ( "Sprint" ) ? 3 : 1 );
+			if ( input != Vector3.zero )
+				transform.Translate ( input * frameMove, Space.Self );
+
+			if ( recording && Input.GetKeyDown ( KeyCode.G ) )
+				WriteImage ();
+
+			if ( Input.GetKeyDown ( KeyCode.F ) && target != null )
+			{
+				focusTarget = true;
+			}
+			if ( focusTarget )
+			{
+				Vector3 desired = target.position + Vector3.up * 2 - tr.forward * minDist;
+				tr.position = Vector3.MoveTowards ( tr.position, desired, 400 * Time.deltaTime );
+				if ( ( desired - tr.position ).sqrMagnitude < 0.1f )
+					focusTarget = false;
+			}
+
+			float scroll = Input.GetAxis ( "Mouse ScrollWheel" );
+			if ( scroll != 0 )
+			{
+				Vector3 lpos = viewCam.localPosition;
+				lpos.z += scroll * zoomSpeed;
+				lpos.z = Mathf.Clamp ( lpos.z, -maxDist, -minDist );
+				viewCam.localPosition = colorCam.localPosition = bwCam.localPosition = bwCam2.localPosition = lpos;
+			}
+
+			return;
+		}
+
+
 		if ( target == null )
 			return;
 		// position our camera base with the character's head, roughly
@@ -78,11 +135,10 @@ public class OrbitCamera : MonoBehaviour
 
 		// adjust the distance from target
 		Vector3 lp = viewCam.localPosition;
-		desiredZ += distanceDelta * Time.deltaTime;
-//		lp.z += distanceDelta * Time.deltaTime;
-		if ( desiredZ <= minDist || desiredZ >= maxDist )
+		desiredZ -= distanceDelta * Time.deltaTime;
+		if ( desiredZ >= -minDist || desiredZ <= -maxDist )
 		{
-			desiredZ = Mathf.Clamp ( desiredZ, minDist, maxDist );
+			desiredZ = Mathf.Clamp ( desiredZ, -minDist, -maxDist );
 			distanceDelta *= -1;
 		}
 
@@ -93,9 +149,9 @@ public class OrbitCamera : MonoBehaviour
 		if ( Physics.SphereCast ( ray, 0.05f, out hit, desiredZ ) )
 		{
 //			Debug.Log ( "hitting " + hit.collider.name );
-			lp.z = hit.distance - 0.1f;
-			if ( lp.z < 1 )
-				lp.z = 1;
+			lp.z = -( hit.distance - 0.1f );
+			if ( lp.z > -1 )
+				lp.z = -1;
 			Debug.DrawRay ( ray.origin, ray.direction * hit.distance, Color.red );
 
 		} else
@@ -151,6 +207,9 @@ public class OrbitCamera : MonoBehaviour
 			GUI.Label ( r, timeLabel );
 			GUI.skin.label.fontSize = fontSize;
 		}
+
+		GUI.Box ( new Rect ( 5, Screen.height - 25, 60, 20 ), "" );
+		GUI.Label ( new Rect ( 10, Screen.height - 25, 60, 20 ), "Input " + ( localControl ? "on" : "off" ) );
 	}
 
 	void OnBeginRecording ()
