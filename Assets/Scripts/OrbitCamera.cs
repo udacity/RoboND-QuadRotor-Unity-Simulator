@@ -135,16 +135,16 @@ public class OrbitCamera : MonoBehaviour
 
 		// adjust the distance from target
 		Vector3 lp = viewCam.localPosition;
-		desiredZ -= distanceDelta * Time.deltaTime;
-		if ( desiredZ >= -minDist || desiredZ <= -maxDist )
+		desiredZ += distanceDelta * Time.deltaTime;
+		if ( desiredZ <= minDist || desiredZ >= maxDist )
 		{
-			desiredZ = Mathf.Clamp ( desiredZ, -minDist, -maxDist );
+			desiredZ = Mathf.Clamp ( desiredZ, minDist, maxDist );
 			distanceDelta *= -1;
 		}
 
 		// check if character is obscured from camera
 		// use forward instead of -forward because cameras are rotated 180
-		Ray ray = new Ray ( tr.position, tr.forward );
+		Ray ray = new Ray ( tr.position, -tr.forward );
 		RaycastHit hit;
 		if ( Physics.SphereCast ( ray, 0.05f, out hit, desiredZ ) )
 		{
@@ -155,7 +155,7 @@ public class OrbitCamera : MonoBehaviour
 			Debug.DrawRay ( ray.origin, ray.direction * hit.distance, Color.red );
 
 		} else
-			lp.z = desiredZ;
+			lp.z = -desiredZ;
 //			lp.z = Mathf.MoveTowards ( lp.z, desiredZ, 10 * Time.deltaTime );
 		// and assign the new distance
 		viewCam.localPosition = colorCam.localPosition = bwCam.localPosition = bwCam2.localPosition = lp;
