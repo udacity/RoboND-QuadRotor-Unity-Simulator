@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*
- * LocalQuadInput: queries keyboard and either applies force/torque directly to a QuadController, or to a QRKeyboardTeleop.
+ * LocalQuadInput: queries keyboard and either applies force/torque directly to a QuadMotor, or to a QRKeyboardTeleop.
  * If using the Teleop, check 'useTeleop' in the inspector, and there must be a QRKeyboardTeleop component assigned.
- * If controlling a local controller otherwise, uncheck 'useTeleop' and there must be a QuadController component assigned.
+ * If controlling a local controller otherwise, uncheck 'useTeleop' and there must be a QuadMotor component assigned.
  */
 
 public class LocalQuadInput : MonoBehaviour
 {
-	public QuadController droneController;
+	public QuadMotor droneController;
 	public QRKeyboardTeleop teleop;
 	public PathFollower pather;
 	public bool useTeleop;

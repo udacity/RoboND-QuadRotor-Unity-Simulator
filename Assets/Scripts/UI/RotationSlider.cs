@@ -7,7 +7,7 @@ public enum RotationAxis { X, Y, Z }
 
 public class RotationSlider : MonoBehaviour
 {
-	public QuadController quad;
+	public QuadMotor quad;
 	public RotationAxis axis;
 
 	public void OnValueChanged (float value)

@@ -20,7 +20,7 @@ public enum CameraPoseType
 public class FollowCamera : MonoBehaviour
 {
 	public static FollowCamera ActiveCamera;
-	public QuadController target;
+	public QuadMotor target;
 	public CameraMotionBlur blurScript;
 	public float followDistance = 5;
 	public float height = 4;

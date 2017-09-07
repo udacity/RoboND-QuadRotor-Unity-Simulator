@@ -4,35 +4,57 @@ using UnityEngine;
 
 public class SimpleQuadController : MonoBehaviour
 {
+	public Vector3 LastTargetPoint { get { return lastTargetPoint; } }
+
+	public static SimpleQuadController ActiveController;
 	public Transform chassis;
 	public Transform camTransform;
-	public QuadController controller;
+	public QuadMotor controller;
 	public FollowCamera followCam;
 	public PathFollower pather;
+	public GimbalCamera gimbal;
+	public TargetFollower follower;
+
 	public float moveSpeed = 10;
 	public float thrustForce = 25;
 	public float maxTilt = 22.5f;
 	public float tiltSpeed = 22.5f;
 	public float turnSpeed = 90;
+	public StateController stateController;
 
 	Rigidbody rb;
 	float tiltX;
 	float tiltZ;
 
-	public bool active;
+	public bool localInput;
+	Vector3 lastTargetPoint;
 	
 	void Awake ()
 	{
+		ActiveController = this;
 		rb = GetComponent<Rigidbody> ();
 		rb.constraints = RigidbodyConstraints.FreezeRotation;
 		if ( controller == null )
-			controller = GetComponent<QuadController> ();
+			controller = GetComponent<QuadMotor> ();
 		if ( followCam == null )
 			followCam = camTransform.GetComponent<FollowCamera> ();
-//		active = false;
+
+		stateController.SetState ( "Patrol" );
 	}
 
 	void LateUpdate ()
+	{
+		if ( Input.GetKeyDown ( KeyCode.F12 ) )
+		{
+			if ( stateController.IsCurrentStateName ( "Local" ) )
+				stateController.RevertState ();
+			else
+				stateController.SetState ( "Local" );
+				
+		}
+	}
+
+/*	void LateUpdate ()
 	{
 		if ( Input.GetKeyDown ( KeyCode.F12 ) )
 		{
@@ -92,30 +114,41 @@ public class SimpleQuadController : MonoBehaviour
 			camTransform.Rotate ( Vector3.up * yaw * turnSpeed * Time.deltaTime, Space.World );
 		}
 
-		if ( Input.GetKeyDown ( KeyCode.P ) )
-		{
-			PathPlanner.AddNode ( controller.Position, controller.Rotation );
-		}
-		if ( Input.GetKeyDown ( KeyCode.O ) )
-		{
-			controller.ResetOrientation ();
-			pather.SetPath ( new Pathing.Path ( PathPlanner.GetPath () ) );
-			PathPlanner.Clear ( false ); // clear the path but keep the visualization
-		}
-		if ( Input.GetKeyDown ( KeyCode.I ) )
-		{
-			PathPlanner.Clear ();
-		}
-	}
+//		if ( Input.GetKeyDown ( KeyCode.P ) )
+//		{
+//			PathPlanner.AddNode ( controller.Position, controller.Rotation );
+//		}
+//		if ( Input.GetKeyDown ( KeyCode.O ) )
+//		{
+//			controller.ResetOrientation ();
+//			pather.SetPath ( new Pathing.Path ( PathPlanner.GetPath () ) );
+//			PathPlanner.Clear ( false ); // clear the path but keep the visualization
+//		}
+//		if ( Input.GetKeyDown ( KeyCode.I ) )
+//		{
+//			PathPlanner.Clear ();
+//		}
+	}*/
 
 	void OnGUI ()
 	{
-		GUI.backgroundColor = active ? Color.green : Color.red;
+		GUI.backgroundColor = localInput ? Color.green : Color.red;
 //		GUI.contentColor = Color.white;
 		Rect r = new Rect ( 10, Screen.height - 100, 60, 25 );
-		if ( GUI.Button ( r, "Input " + ( active ? "on" : "off" ) ) )
+		if ( GUI.Button ( r, "Input " + ( localInput ? "on" : "off" ) ) )
 		{
-			active = !active;
+			localInput = !localInput;
 		}
+	}
+
+	public void OnTargetDetected (Vector3 point)
+	{
+		lastTargetPoint = point;
+		stateController.SetState ( "Follow" );
+	}
+
+	public void OnTargetLost ()
+	{
+		stateController.SetState ( "Patrol" );
 	}
 }

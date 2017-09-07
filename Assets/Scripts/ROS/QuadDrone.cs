@@ -26,12 +26,12 @@ using SetPath = Messages.quad_controller.SetPath;
 
 
 /*
- * QuadDrone: receives messages from a QRKeyboardTeleop, and applies force/torque to a QuadController
+ * QuadDrone: receives messages from a QRKeyboardTeleop, and applies force/torque to a QuadMotor
  */
 
 public class QuadDrone : MonoBehaviour
 {
-	public QuadController droneController;
+	public QuadMotor droneController;
 	public SimpleQuadController inputCtrl;
 	public PathFollower pather;
 	public bool active;
@@ -140,7 +140,7 @@ public class QuadDrone : MonoBehaviour
 
 	void TwistCallback (Twist msg)
 	{
-		if ( inputCtrl.active )
+		if ( inputCtrl.localInput )
 			return;
 
 		Vector3 linear = msg.linear.ToUnityVector ();
@@ -156,7 +156,7 @@ public class QuadDrone : MonoBehaviour
 
 	void WrenchCallback (Wrench msg)
 	{
-		if ( inputCtrl.active )
+		if ( inputCtrl.localInput )
 			return;
 
 		Vector3 force = msg.force.ToUnityVector ();
@@ -211,8 +211,8 @@ public class QuadDrone : MonoBehaviour
 		// image info
 		Image img = new Image ();
 //		img.header = new Messages.std_msgs.Header ( ps.header );
-		img.width = (uint) QuadController.ImageWidth;
-		img.height = (uint) QuadController.ImageHeight;
+		img.width = (uint) QuadMotor.ImageWidth;
+		img.height = (uint) QuadMotor.ImageHeight;
 		img.encoding = "mono16"; // "rgba8";
 		img.step = img.width * 2; // * 4
 		img.is_bigendian = 1;

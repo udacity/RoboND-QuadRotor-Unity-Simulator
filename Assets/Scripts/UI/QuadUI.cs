@@ -48,14 +48,14 @@ public class QuadUI : MonoBehaviour
 
 	public void OnRecordButton ()
 	{
-		if (QuadController.ActiveController.isRecordingPath)
+		if (QuadMotor.ActiveController.isRecordingPath)
 		{
 			recordButtonText.text = "Record Path";
-			QuadController.ActiveController.EndRecordPath ();
+			QuadMotor.ActiveController.EndRecordPath ();
 		} else
 		{
 			recordButtonText.text = "Stop Recording";
-			QuadController.ActiveController.BeginRecordPath ();
+			QuadMotor.ActiveController.BeginRecordPath ();
 		}
 	}
 }

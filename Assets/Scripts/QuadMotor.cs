@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Profiling;
 
-public class QuadController : MonoBehaviour
+public class QuadMotor : MonoBehaviour
 {
 	const float MPHToMS = 2.23693629205f;
-	public static QuadController ActiveController;
+	public static QuadMotor ActiveController;
 	public static int ImageWidth = 640;
 	public static int ImageHeight = 480;
 
@@ -120,7 +120,7 @@ public class QuadController : MonoBehaviour
 		Right = right.forward;
 		Up = transform.up;
 		CreateCameraTex ();
-		transform.position = Vector3.up * 10;
+//		transform.position = Vector3.up * 10;
 		UseGravity = rb.useGravity;
 		UpdateConstraints ();
 		rb.maxAngularVelocity = Mathf.Infinity;
@@ -207,21 +207,22 @@ public class QuadController : MonoBehaviour
 		{
 			float rps = maxRotorRPM / 60f;
 			float degPerSec = rps * 360f;
-			if ( inputCtrl.active )
-			{
-				curRotorSpeed = degPerSec;
-			} else
-			{
-				if ( useTwist )
-				{
-					curRotorSpeed = Mathf.InverseLerp ( Physics.gravity.y, -Physics.gravity.y, rb.velocity.y ) * degPerSec;
-					//				curRotorSpeed = 0.5f * degPerSec * ( rb.velocity.y + Physics.gravity.y ) / -Physics.gravity.y / rb.mass;
-				} else
-				{
-					curRotorSpeed = 0.5f * degPerSec * force.y / -Physics.gravity.y / rb.mass;
-				}
-				
-			}
+			curRotorSpeed = degPerSec;
+//			if ( inputCtrl.active )
+//			{
+//				curRotorSpeed = degPerSec;
+//			} else
+//			{
+//				if ( useTwist )
+//				{
+//					curRotorSpeed = Mathf.InverseLerp ( Physics.gravity.y, -Physics.gravity.y, rb.velocity.y ) * degPerSec;
+//					//				curRotorSpeed = 0.5f * degPerSec * ( rb.velocity.y + Physics.gravity.y ) / -Physics.gravity.y / rb.mass;
+//				} else
+//				{
+//					curRotorSpeed = 0.5f * degPerSec * force.y / -Physics.gravity.y / rb.mass;
+//				}
+//				
+//			}
 
 			// use forward for now because rotors are rotated -90x
 			Vector3 rot = Vector3.forward * curRotorSpeed * Time.deltaTime;
@@ -314,7 +315,7 @@ public class QuadController : MonoBehaviour
 				"\nLinear Vel.: " + LinearVelocity.ToRos ().ToString () +
 				"\nAngular Vel.: " + AngularVelocity.ToRos ().ToString () +
 				"\nGravity " + ( UseGravity ? "on" : "off" ) +
-				"\nLocal input " + ( inputCtrl.active ? "on" : "off" );
+				"\nLocal input " + ( inputCtrl.localInput ? "on" : "off" );
 			if ( ConstrainForceX )
 				info += "\nX Movement constrained";
 			if ( ConstrainForceY )

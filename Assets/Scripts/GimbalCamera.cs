@@ -105,6 +105,7 @@ public class GimbalCamera : MonoBehaviour
 			}
 			Vector3 euler = gimbalParent.eulerAngles;
 			euler.y = sweepAccum;
+			euler.z = 0;
 			gimbalParent.eulerAngles = euler;
 			break;
 		}

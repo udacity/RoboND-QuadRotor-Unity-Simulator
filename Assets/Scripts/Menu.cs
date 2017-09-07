@@ -63,7 +63,7 @@ public class Menu : MonoBehaviour
 			commandServerObject.SetActive ( true );
 			if ( peopleToggle.isOn )
 			{
-				peopleSpawnerObject.GetComponent<SpawnPointSpawner> ().UseHero ( heroToggle.isOn, otherToggle.isOn );
+				peopleSpawnerObject.GetComponent<PeopleSpawner> ().UseHero ( heroToggle.isOn, otherToggle.isOn );
 				peopleSpawnerObject.SetActive ( true );
 			} else
 				peopleSpawnerObject.SetActive ( false );
@@ -74,7 +74,7 @@ public class Menu : MonoBehaviour
 		// deep learning
 		if ( mode == 1 )
 		{
-			peopleSpawnerObject.GetComponent<SpawnPointSpawner> ().UseHero ( heroToggle.isOn, otherToggle.isOn );
+			peopleSpawnerObject.GetComponent<PeopleSpawner> ().UseHero ( heroToggle.isOn, otherToggle.isOn );
 			rosObject.SetActive ( false );
 			quadObject.SetActive ( false );
 			quadCamObject.SetActive ( false );

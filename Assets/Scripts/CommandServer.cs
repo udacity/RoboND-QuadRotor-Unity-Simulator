@@ -10,7 +10,7 @@ using System.Threading;
 
 public class CommandServer : MonoBehaviour
 {
-	public QuadController quad;
+	public QuadMotor quad;
 	public GimbalCamera gimbal;
 	public TargetFollower follower;
 	public Camera colorCam;

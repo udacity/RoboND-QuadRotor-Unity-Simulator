@@ -21,7 +21,7 @@ public class PathFollower : MonoBehaviour
 	public bool HasPath { get { return path != null; } }
 	public bool active;
 
-	public QuadController quad;
+	public QuadMotor quad;
 
 	// simple follow vars
 	public float maxVelocity = 10;

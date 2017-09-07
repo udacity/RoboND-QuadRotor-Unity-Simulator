@@ -34,7 +34,7 @@ public class CharacterPresetMaker : MonoBehaviour
 
 		AppearancePreset preset = new AppearancePreset ( appearance );
 
-		SpawnPointSpawner script = spawner.GetComponent<SpawnPointSpawner> ();
+		PeopleSpawner script = spawner.GetComponent<PeopleSpawner> ();
 		script.heroPreset = preset;
 
 		DestroyImmediate ( person );
