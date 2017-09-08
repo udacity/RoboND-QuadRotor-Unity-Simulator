@@ -251,8 +251,8 @@ public class CommandServer : MonoBehaviour
 			v = gimbal.Position.ToRos ();
 			v2 = ( -gimbal.Rotation.eulerAngles ).ToRos ();
 			data [ "gimbal_pose" ] = v.x.ToString ( "N4" ) + "," + v.y.ToString ( "N4" ) + "," + v.z.ToString ( "N4" ) + "," + v2.x.ToString ( "N4" ) + "," + v2.y.ToString ( "N4" ) + "," + v2.z.ToString ( "N4" );
-//			data [ "rgb_image" ] = Convert.ToBase64String ( CameraHelper.CaptureFrame ( colorCam ) );
-//			data [ "depth_image" ] = Convert.ToBase64String ( CameraHelper.CaptureDepthFrame ( depthCam ) );
+			data [ "rgb_image" ] = Convert.ToBase64String ( CameraHelper.CaptureFrame ( colorCam ) );
+			data [ "depth_image" ] = Convert.ToBase64String ( CameraHelper.CaptureDepthFrame ( depthCam ) );
 
 //			Debug.Log ("sangle " + data["steering_angle"] + " vert " + data["vert_angle"] + " throt " + data["throttle"] + " speed " + data["speed"] + " image " + data["image"]);
 			_socket.Emit ( "sensor_frame", new JSONObject ( data ) );
