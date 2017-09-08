@@ -11,12 +11,14 @@ public class LocalInputState : DroneState
 	public float turnSpeed = 90;
 
 	Transform camTransform;
+	Transform tr;
 	Rigidbody rb;
 
 	public override void OnEnter ()
 	{
 		base.OnEnter ();
 
+		tr = motor.transform;
 		rb = motor.rb;
 		motor.UseGravity = false;
 		rb.isKinematic = true;
@@ -24,6 +26,7 @@ public class LocalInputState : DroneState
 		rb.freezeRotation = true;
 		if ( camTransform == null )
 			camTransform = FollowCamera.ActiveCamera.transform;
+		follower.Stop ();
 	}
 
 	public override void OnUpdate ()
@@ -33,6 +36,7 @@ public class LocalInputState : DroneState
 
 	public override void OnLateUpdate ()
 	{
+//		Debug.Log ( "local" );
 		if ( Input.GetKeyDown ( KeyCode.R ) )
 		{
 			motor.ResetOrientation ();
@@ -43,26 +47,26 @@ public class LocalInputState : DroneState
 
 		Vector3 inputVelo = new Vector3 ( input.x * moveSpeed, input.y * thrustForce, input.z * moveSpeed );
 
-		Vector3 forward = transform.forward;
+		Vector3 forward = tr.forward;
 		forward.y = 0;
 		Quaternion rot = Quaternion.LookRotation ( forward.normalized, Vector3.up );
 
 		rb.velocity = rot * inputVelo;
-		Vector3 euler = transform.localEulerAngles;
+		Vector3 euler = tr.localEulerAngles;
 		euler.x = maxTilt * input.z;
 		euler.z = maxTilt * -input.x;
-		transform.localEulerAngles = euler;
+		tr.localEulerAngles = euler;
 
 		float yaw = Input.GetAxis ( "Yaw" );
 		if ( yaw != 0 )
 		{
-			transform.Rotate ( Vector3.up * yaw * turnSpeed * Time.deltaTime, Space.World );
+			tr.Rotate ( Vector3.up * yaw * turnSpeed * Time.deltaTime, Space.World );
 			camTransform.Rotate ( Vector3.up * yaw * turnSpeed * Time.deltaTime, Space.World );
 		}
 	}
 
 	public override void OnExit ()
 	{
-		motor.rb.freezeRotation = false;
+//		motor.rb.freezeRotation = false;
 	}
 }

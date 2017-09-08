@@ -49,14 +49,6 @@ public class QuadMotor : MonoBehaviour
 	public float maxForce = 100;
 	public float maxTorqueDegrees = 17;
 	public float maxTorqueRadians;
-//	public bool clampMaxSpeed = true;
-//	public bool clampAngularVelocity = true;
-//	public float maxSpeedMPH = 60;
-//	public float maxSpeedMS;
-//	public float maxAngularDegrees = 17;
-//	public float maxAngularRadians;
-//	public float thrustForce = 2000;
-//	public float torqueForce = 500;
 	public ForceMode forceMode = ForceMode.Force;
 	public ForceMode torqueMode = ForceMode.Force;
 
@@ -80,6 +72,15 @@ public class QuadMotor : MonoBehaviour
 	[System.NonSerialized]
 	public bool isRecordingPath;
 	float nextNodeTime;
+
+	// patrol vars
+	public float maxPatrolSpeed = 30;
+	public float patrolWaitTime = 3;
+	public float parolAccelTime = 3;
+	public float gimbalSweepVAngle = 45;
+
+	// target follow vars
+
 
 	[System.NonSerialized]
 	public Rigidbody rb;
@@ -114,7 +115,7 @@ public class QuadMotor : MonoBehaviour
 			rearLeftRotor,
 			rearRightRotor
 		};
-		MotorsEnabled = true;
+		MotorsEnabled = false;
 //		UseGravity = false;
 		Forward = forward.forward;
 		Right = right.forward;
@@ -224,7 +225,7 @@ public class QuadMotor : MonoBehaviour
 //				
 //			}
 
-			// use forward for now because rotors are rotated -90x
+			// use forward for now because rotors are rotated -90
 			Vector3 rot = Vector3.forward * curRotorSpeed * Time.deltaTime;
 			frontLeftRotor.Rotate ( rot );
 			frontRightRotor.Rotate ( -rot );
@@ -233,7 +234,7 @@ public class QuadMotor : MonoBehaviour
 		}
 	}
 
-	void FixedUpdate ()
+/*	void FixedUpdate ()
 	{
 		if ( resetFlag )
 		{
@@ -291,7 +292,7 @@ public class QuadMotor : MonoBehaviour
 			}
 		}
 		curSpeed = rb.velocity.magnitude;
-	}
+	}*/
 
 	void OnGUI ()
 	{
@@ -433,12 +434,7 @@ Q/E: Turn around
 Scroll wheel: zoom in/out
 RMB (drag): Rotate camera
 RMB: Reset camera
-G: Gravity on/off
 R: Reset Quad orientation
-1-4: Cycle views
-P: Plot waypoint
-O: Follow path
-I: Clear waypoints
 Esc: Quit";
 
 			size = label.CalcSize ( new GUIContent ( info ) );
@@ -528,6 +524,7 @@ Esc: Quit";
 
 	public void ResetOrientation ()
 	{
+		Debug.Log ( "reset" );
 		transform.rotation = Quaternion.identity;
 		force = Vector3.zero;
 		torque = Vector3.zero;
@@ -544,6 +541,7 @@ Esc: Quit";
 	{
 		if ( setPoseFlag )
 		{
+			Debug.Log ( "setpose" );
 			transform.position = posePosition;
 			transform.rotation = poseOrientation;
 			force = Vector3.zero;

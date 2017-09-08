@@ -55,7 +55,12 @@ public class TargetFollower : MonoBehaviour
 //				MarkerMaker.AddMarker ( Time.time.ToString (), hit.point, Quaternion.LookRotation ( hit.point - FollowCamera.ActiveCamera.transform.position, FollowCamera.ActiveCamera.transform.up ), Vector3.one, c, Random.Range ( 3f, 8f ) );
 //			}
 //		}
+		if ( active && following )
+			UpdateSteering ();
+	}
 
+	void FixedUpdate ()
+	{
 		if ( active && following )
 		{
 			Vector3 toTarget = followPoint - transform.position;
@@ -68,7 +73,7 @@ public class TargetFollower : MonoBehaviour
 				return;
 			}
 
-			UpdateSteering ();
+//			UpdateSteering ();
 		}
 	}
 
@@ -78,7 +83,7 @@ public class TargetFollower : MonoBehaviour
 		AdjustTilt ();
 //		force += Seek ();
 		force += Arrive ();
-		force += Avoidance ();
+//		force += Avoidance ();
 		force = Vector3.ClampMagnitude ( force, maxSpeed );
 		rb.velocity = force;
 	}
@@ -154,5 +159,10 @@ public class TargetFollower : MonoBehaviour
 		followPoint = point;
 		following = true;
 		inputCtrl.localInput = false;
+	}
+
+	public void Stop ()
+	{
+		following = false;
 	}
 }

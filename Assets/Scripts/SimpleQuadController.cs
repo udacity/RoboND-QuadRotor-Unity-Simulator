@@ -21,6 +21,7 @@ public class SimpleQuadController : MonoBehaviour
 	public float tiltSpeed = 22.5f;
 	public float turnSpeed = 90;
 	public StateController stateController;
+	public bool allowPathPlanning;
 
 	Rigidbody rb;
 	float tiltX;
@@ -38,7 +39,11 @@ public class SimpleQuadController : MonoBehaviour
 			controller = GetComponent<QuadMotor> ();
 		if ( followCam == null )
 			followCam = camTransform.GetComponent<FollowCamera> ();
+	}
 
+	void Start ()
+	{
+//		stateController.SetState ( "Local" );
 		stateController.SetState ( "Patrol" );
 	}
 
@@ -52,14 +57,23 @@ public class SimpleQuadController : MonoBehaviour
 				stateController.SetState ( "Local" );
 				
 		}
+		if ( Input.GetMouseButtonDown ( 0 ) )
+		{
+			Ray ray = followCam.cam.ScreenPointToRay ( Input.mousePosition );
+			RaycastHit hit;
+			if ( Physics.Raycast ( ray, out hit ) )
+			{
+				follower.SetFollowPoint ( hit.point );
+			}
+		}
 	}
 
 /*	void LateUpdate ()
 	{
 		if ( Input.GetKeyDown ( KeyCode.F12 ) )
 		{
-			active = !active;
-			if ( active )
+			localInput = !localInput;
+			if ( localInput )
 			{
 				controller.UseGravity = false;
 				controller.rb.isKinematic = true;
@@ -80,28 +94,17 @@ public class SimpleQuadController : MonoBehaviour
 			controller.UseGravity = !controller.UseGravity;
 		}
 
-		if ( !active )
+		if ( !localInput )
 			return;
 		
 		Vector3 input = new Vector3 ( Input.GetAxis ( "Horizontal" ), Input.GetAxis ( "Thrust" ), Input.GetAxis ( "Vertical" ) );
-
 		Vector3 inputVelo = new Vector3 ( input.x * moveSpeed, input.y * thrustForce, input.z * moveSpeed );
-//		Vector3 forwardVelocity = Vector3.forward * input.z * moveSpeed;
-//		Vector3 sidewaysVelocity = Vector3.right * input.x * moveSpeed;
-//		Vector3 upVelocity = Vector3.up * input.y * thrustForce;
-//		Vector3 inputVelo = forwardVelocity + sidewaysVelocity + upVelocity;
 
 		Vector3 forward = transform.forward;
-//		Vector3 forward = transform.forward - transform.right;
 		forward.y = 0;
 		Quaternion rot = Quaternion.LookRotation ( forward.normalized, Vector3.up );
 
-//		rb.AddRelativeForce ( chassis.rotation * inputVelo * Time.deltaTime, ForceMode.VelocityChange );
 		rb.velocity = rot * inputVelo;
-//		transform.Rotate ( Vector3.up * input.x * thrustForce * Time.deltaTime, Space.World );
-
-//		float x = input.z / 2 + input.x / 2;
-//		float z = input.z / 2 - input.x / 2;
 		Vector3 euler = transform.localEulerAngles;
 		euler.x = maxTilt * input.z;
 		euler.z = maxTilt * -input.x;
@@ -114,20 +117,23 @@ public class SimpleQuadController : MonoBehaviour
 			camTransform.Rotate ( Vector3.up * yaw * turnSpeed * Time.deltaTime, Space.World );
 		}
 
-//		if ( Input.GetKeyDown ( KeyCode.P ) )
-//		{
-//			PathPlanner.AddNode ( controller.Position, controller.Rotation );
-//		}
-//		if ( Input.GetKeyDown ( KeyCode.O ) )
-//		{
-//			controller.ResetOrientation ();
-//			pather.SetPath ( new Pathing.Path ( PathPlanner.GetPath () ) );
-//			PathPlanner.Clear ( false ); // clear the path but keep the visualization
-//		}
-//		if ( Input.GetKeyDown ( KeyCode.I ) )
-//		{
-//			PathPlanner.Clear ();
-//		}
+		if ( allowPathPlanning )
+		{
+			if ( Input.GetKeyDown ( KeyCode.P ) )
+			{
+				PathPlanner.AddNode ( controller.Position, controller.Rotation );
+			}
+			if ( Input.GetKeyDown ( KeyCode.O ) )
+			{
+				controller.ResetOrientation ();
+				pather.SetPath ( new Pathing.Path ( PathPlanner.GetPath () ) );
+				PathPlanner.Clear ( false ); // clear the path but keep the visualization
+			}
+			if ( Input.GetKeyDown ( KeyCode.I ) )
+			{
+				PathPlanner.Clear ();
+			}
+		}
 	}*/
 
 	void OnGUI ()

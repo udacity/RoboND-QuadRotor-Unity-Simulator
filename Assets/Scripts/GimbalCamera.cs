@@ -135,10 +135,11 @@ public class GimbalCamera : MonoBehaviour
 		vizSphere.gameObject.SetActive ( false );
 	}
 
-	public void Sweep ()
+	public void Sweep (float vAngle = 45)
 	{
 		followType = FollowType.Sweep;
-		gimbalParent.localRotation = Quaternion.identity;
+		gimbalParent.localRotation = Quaternion.Euler ( new Vector3 ( vAngle, 0, 0 ) );
+//		gimbalParent.localRotation = Quaternion.identity;
 		vizSphere.gameObject.SetActive ( false );
 		sweepAccum = 0;
 	}

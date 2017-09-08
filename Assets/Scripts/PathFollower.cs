@@ -70,6 +70,7 @@ public class PathFollower : MonoBehaviour
 
 	void FixedUpdate ()
 	{
+		Debug.Log ( "??" );
 		if ( active && destination != null )
 		{
 			float testDistance = minDist * minDist;

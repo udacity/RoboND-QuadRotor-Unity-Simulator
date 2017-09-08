@@ -7,14 +7,17 @@ public class FollowTargetState : DroneState
 	Transform followTarget;
 	Vector3 followPoint;
 	LayerMask targetMask;
+	Rigidbody rb;
 
 	public override void OnEnter ()
 	{
 		base.OnEnter ();
 
+		rb = motor.rb;
 		followPoint = control.LastTargetPoint;
 		followTarget = PeopleSpawner.instance.targetInstance;
 		follower.arriveCallback = OnArrived;
+		rb.freezeRotation = true;
 	}
 
 	public override void OnUpdate ()
