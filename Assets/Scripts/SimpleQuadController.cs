@@ -143,7 +143,10 @@ public class SimpleQuadController : MonoBehaviour
 		Rect r = new Rect ( 10, Screen.height - 100, 60, 25 );
 		if ( GUI.Button ( r, "Input " + ( localInput ? "on" : "off" ) ) )
 		{
-			localInput = !localInput;
+			if ( stateController.IsCurrentStateName ( "Local" ) )
+				stateController.RevertState ();
+			else
+				stateController.SetState ( "Local" );
 		}
 	}
 
