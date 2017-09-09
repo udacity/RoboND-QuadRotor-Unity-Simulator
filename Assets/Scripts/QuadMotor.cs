@@ -123,7 +123,7 @@ public class QuadMotor : MonoBehaviour
 		CreateCameraTex ();
 //		transform.position = Vector3.up * 10;
 		UseGravity = rb.useGravity;
-		UpdateConstraints ();
+//		UpdateConstraints ();
 		rb.maxAngularVelocity = Mathf.Infinity;
 		inputCtrl = GetComponent<SimpleQuadController> ();
 //		dot = new Texture2D ( 1, 1 );
