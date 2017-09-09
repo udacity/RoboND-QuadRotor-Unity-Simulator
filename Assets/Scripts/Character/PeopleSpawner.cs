@@ -97,12 +97,12 @@ public class PeopleSpawner : MonoBehaviour
 			{
 				Destroy ( activePeople [ activeIndex ] );
 				activePeople [ activeIndex ] = person.gameObject;
-				spawnTimers [ activeIndex ] = Time.time + Random.Range ( 55f, 150f );
+				spawnTimers [ activeIndex ] = Time.time + Random.Range ( 30f, 45f );
 				
 			} else
 			{
 				activePeople.Add ( person.gameObject );
-				spawnTimers.Add ( Time.time + Random.Range ( 55f, 150f ) );
+				spawnTimers.Add ( Time.time + Random.Range ( 30f, 45f ) );
 			}
 			SetLayerRecursively ( person, peopleLayer );
 			person.GetComponent<PersonBehavior> ().Wander ();
