@@ -69,7 +69,7 @@ public class PeopleSpawner : MonoBehaviour
 
 	void SpawnPerson (bool isTarget = true, int activeIndex = -1)
 	{
-		Transform target = useHeroPreset ? ( spawnTargets [ heroPreset.female ? 1 : 0 ] ) : spawnTargets [ Random.Range ( 0, spawnTargets.Length ) ];
+		Transform target = ( useHeroPreset && isTarget ) ? ( spawnTargets [ heroPreset.female ? 1 : 0 ] ) : spawnTargets [ Random.Range ( 0, spawnTargets.Length ) ];
 //		Transform spawn = GetRandomPoint ();
 		if ( isTarget )
 		{
