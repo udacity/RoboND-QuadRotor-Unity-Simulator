@@ -9,6 +9,10 @@ public class GimbalCamera : MonoBehaviour
 	public Vector3 Position { get; protected set; }
 	public Quaternion Rotation { get; protected set; }
 	public Transform gimbalParent;
+	public Camera colorCam;
+	public Camera depthCam;
+	public Camera maskCam;
+	public Camera maskCam2;
 	[Range (5, 180)]
 	public float sweepCone = 90;
 	public float sweepSpeed = 0.5f;
@@ -31,23 +35,22 @@ public class GimbalCamera : MonoBehaviour
 
 	void Awake ()
 	{
-		cam = GetComponent<Camera> ();
-		tr = transform;
+		tr = colorCam.transform;
 		if ( gimbalParent == null )
 			gimbalParent = tr;
 		initialLocalRotation = gimbalParent.localRotation;
 		lastRotation = gimbalParent.rotation;
 		followType = FollowType.None;
-		vizSphere = GameObject.CreatePrimitive ( PrimitiveType.Sphere ).transform;
-		vizSphere.localScale = Vector3.one * 0.5f;
-		vizSphere.GetComponent<Renderer> ().material.color = Color.blue * 0.5f;
-		Destroy ( vizSphere.GetComponent<Collider> () );
+//		vizSphere = GameObject.CreatePrimitive ( PrimitiveType.Sphere ).transform;
+//		vizSphere.localScale = Vector3.one * 0.5f;
+//		vizSphere.GetComponent<Renderer> ().material.color = Color.blue * 0.5f;
+//		Destroy ( vizSphere.GetComponent<Collider> () );
 	}
 
 	void LateUpdate ()
 	{
-		Vector3 v = Vector3.RotateTowards ( tr.forward, Vector3.up, cam.fieldOfView * Mathf.Deg2Rad * 0.5f, 0 );
-		v = v.normalized * cam.farClipPlane;
+		Vector3 v = Vector3.RotateTowards ( tr.forward, Vector3.up, colorCam.fieldOfView * Mathf.Deg2Rad * 0.5f, 0 );
+		v = v.normalized * colorCam.farClipPlane;
 		Debug.DrawRay ( tr.position, v, Color.green, Time.deltaTime, false );
 		// manual input test
 /*		if ( Input.GetMouseButtonDown ( 0 ) )
@@ -82,12 +85,12 @@ public class GimbalCamera : MonoBehaviour
 
 		case FollowType.Position:
 			gimbalParent.LookAt ( followPosition, Vector3.up );
-			vizSphere.position = followPosition;
+//			vizSphere.position = followPosition;
 			break;
 
 		case FollowType.Transform:
 			gimbalParent.LookAt ( followTarget.position, Vector3.up );
-			vizSphere.position = followTarget.position;
+//			vizSphere.position = followTarget.position;
 			break;
 
 		case FollowType.Sweep:
@@ -118,21 +121,21 @@ public class GimbalCamera : MonoBehaviour
 	{
 		followType = FollowType.Position;
 		followPosition = position;
-		vizSphere.gameObject.SetActive ( true );
+//		vizSphere.gameObject.SetActive ( true );
 	}
 
 	public void LookAt (Transform target)
 	{
 		followType = FollowType.Transform;
 		followTarget = target;
-		vizSphere.gameObject.SetActive ( true );
+//		vizSphere.gameObject.SetActive ( true );
 	}
 
 	public void StopLooking ()
 	{
 		followType = FollowType.None;
 		lastRotation = gimbalParent.rotation;
-		vizSphere.gameObject.SetActive ( false );
+//		vizSphere.gameObject.SetActive ( false );
 	}
 
 	public void Sweep (float vAngle = 45)
@@ -140,7 +143,13 @@ public class GimbalCamera : MonoBehaviour
 		followType = FollowType.Sweep;
 		gimbalParent.localRotation = Quaternion.Euler ( new Vector3 ( vAngle, 0, 0 ) );
 //		gimbalParent.localRotation = Quaternion.identity;
-		vizSphere.gameObject.SetActive ( false );
+//		vizSphere.gameObject.SetActive ( false );
 		sweepAccum = 0;
+	}
+
+	public void SetSecondaryCam (int cam)
+	{
+		depthCam.enabled = ( cam == 0 );
+		maskCam.enabled = ( cam == 1 );
 	}
 }

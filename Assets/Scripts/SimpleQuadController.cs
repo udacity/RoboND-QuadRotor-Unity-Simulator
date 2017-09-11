@@ -59,13 +59,16 @@ public class SimpleQuadController : MonoBehaviour
 		}
 		if ( Input.GetMouseButtonDown ( 0 ) )
 		{
-			Ray ray = followCam.cam.ScreenPointToRay ( Input.mousePosition );
-			RaycastHit hit;
-			if ( Physics.Raycast ( ray, out hit ) )
-			{
-				follower.SetFollowPoint ( hit.point );
-			}
+			OnTargetDetected ( Vector3.zero );
+//			Ray ray = followCam.cam.ScreenPointToRay ( Input.mousePosition );
+//			RaycastHit hit;
+//			if ( Physics.Raycast ( ray, out hit ) )
+//			{
+//				follower.SetFollowPoint ( hit.point );
+//			}
 		}
+		if ( Input.GetMouseButtonDown ( 2 ) )
+			OnTargetLost ();
 	}
 
 /*	void LateUpdate ()

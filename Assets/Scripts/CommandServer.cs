@@ -11,11 +11,12 @@ using System.Threading;
 public class CommandServer : MonoBehaviour
 {
 	public QuadMotor quad;
-	public GimbalCamera gimbal;
 	public TargetFollower follower;
 	public Camera colorCam;
 	public Camera depthCam;
 	private SocketIOComponent _socket;
+	SimpleQuadController control;
+	GimbalCamera gimbal;
 
 //	public RawImage inset3;
 
@@ -33,15 +34,18 @@ public class CommandServer : MonoBehaviour
 		_socket = GetComponent<SocketIOComponent> ();
 		_socket.On ( "open", OnOpen );
 		_socket.On ( "object_detected", OnObjectDetected );
+		_socket.On ( "object_lost", OnObjectLost );
 		_socket.On ( "create_box_marker", OnCreateBoxMarker );
 		_socket.On ( "delete_marker", OnDeleteMarker );
 		inset1Tex = new Texture2D ( 1, 1 );
 		inset2Tex = new Texture2D ( 1, 1 );
 //		inset3Tex = new Texture2D ( 1, 1 );
 
-		broadcastFrequency = 30; //60;
+		broadcastFrequency = 10; //30; //60;
 		broadcastThread = new Thread ( ThreadFunc );
 		broadcastThread.Start ();
+		control = quad.inputCtrl;
+		gimbal = control.gimbal;
 		Debug.Log ( "starting" );
 //		EmitTelemetry ();
 	}
@@ -93,14 +97,21 @@ public class CommandServer : MonoBehaviour
 //		float timestamp = json.GetField ( "timestamp" ).f;
 
 		Vector3 position = new Vector3 ( pos [ 0 ], pos [ 1 ], pos [ 2 ] ).ToUnity ();
-		Debug.Log ( "Setting follow point to " + position );
-		follower.SetFollowPoint ( position );
+		Debug.Log ( "Target detected at " + position );
+		control.OnTargetDetected ( position );
+//		follower.SetFollowPoint ( position );
 
 		Dictionary<string, string> data = new Dictionary<string, string> ();
 		data [ "action" ] = "object";
 //		data [ "name" ] = name;
 
 		Ack ( new JSONObject ( data ) );
+	}
+
+	void OnObjectLost (SocketIOEvent obj)
+	{
+		Debug.Log ( "Object lost" );
+		control.OnTargetLost ();
 	}
 
 	void OnCreateBoxMarker (SocketIOEvent obj)
@@ -251,8 +262,14 @@ public class CommandServer : MonoBehaviour
 			v = gimbal.Position.ToRos ();
 			v2 = ( -gimbal.Rotation.eulerAngles ).ToRos ();
 			data [ "gimbal_pose" ] = v.x.ToString ( "N4" ) + "," + v.y.ToString ( "N4" ) + "," + v.z.ToString ( "N4" ) + "," + v2.x.ToString ( "N4" ) + "," + v2.y.ToString ( "N4" ) + "," + v2.z.ToString ( "N4" );
+//			System.Diagnostics.Stopwatch w = new System.Diagnostics.Stopwatch ();
+//			w.Start ();
+//			CameraHelper.CaptureFrame (colorCam);
+//			CameraHelper.CaptureDepthFrame (depthCam);
 			data [ "rgb_image" ] = Convert.ToBase64String ( CameraHelper.CaptureFrame ( colorCam ) );
 			data [ "depth_image" ] = Convert.ToBase64String ( CameraHelper.CaptureDepthFrame ( depthCam ) );
+//			w.Stop ();
+//			Debug.Log ("capture took " + w.ElapsedMilliseconds + "ms");
 
 //			Debug.Log ("sangle " + data["steering_angle"] + " vert " + data["vert_angle"] + " throt " + data["throttle"] + " speed " + data["speed"] + " image " + data["image"]);
 			_socket.Emit ( "sensor_frame", new JSONObject ( data ) );

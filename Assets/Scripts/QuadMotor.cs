@@ -80,7 +80,8 @@ public class QuadMotor : MonoBehaviour
 	public float gimbalSweepVAngle = 45;
 
 	// target follow vars
-
+	public float followDistance = 2;
+	public float followHeight = 2;
 
 	[System.NonSerialized]
 	public Rigidbody rb;

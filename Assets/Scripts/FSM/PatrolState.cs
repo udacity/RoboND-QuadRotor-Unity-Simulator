@@ -68,7 +68,9 @@ public class PatrolState : DroneState
 			speedPercent = 1;
 
 		motor.rb.velocity = ( dest - motor.Position ).normalized * motor.maxPatrolSpeed * speedPercent;
-		motor.transform.rotation = Quaternion.RotateTowards ( motor.transform.rotation, Quaternion.LookRotation ( dest - motor.transform.position ), 90 * Time.deltaTime );
+		Vector3 look = dest - motor.transform.position;
+		look.y = 0;
+		motor.transform.rotation = Quaternion.RotateTowards ( motor.transform.rotation, Quaternion.LookRotation ( look, Vector3.up ), 90 * Time.deltaTime );
 	}
 	
 	public override void OnExit ()
