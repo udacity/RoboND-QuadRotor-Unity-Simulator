@@ -27,12 +27,13 @@ public class LocalInputState : DroneState
 		if ( camTransform == null )
 			camTransform = FollowCamera.ActiveCamera.transform;
 		follower.Stop ();
+		gimbal.StopLooking ();
 	}
 
-	public override void OnUpdate ()
-	{
-		
-	}
+//	public override void OnUpdate ()
+//	{
+//		
+//	}
 
 	public override void OnLateUpdate ()
 	{

@@ -74,15 +74,21 @@ public class Menu : MonoBehaviour
 		// deep learning
 		if ( mode == 1 )
 		{
-			peopleSpawnerObject.GetComponent<PeopleSpawner> ().UseHero ( heroToggle.isOn, otherToggle.isOn );
-			rosObject.SetActive ( false );
-			quadObject.SetActive ( false );
-			quadCamObject.SetActive ( false );
+			if ( peopleToggle.isOn )
+				peopleSpawnerObject.GetComponent<PeopleSpawner> ().UseHero ( heroToggle.isOn, otherToggle.isOn );
+			quadObject.SetActive ( true );
+			quadCamObject.SetActive ( true );
+//			quadCanvasObject.SetActive ( true );
+			commandServerObject.SetActive ( true );
+//			rosObject.SetActive ( false );
+//			quadObject.SetActive ( false );
+//			quadCamObject.SetActive ( false );
 			quadCanvasObject.SetActive ( false );
-			commandServerObject.SetActive ( false );
+//			commandServerObject.SetActive ( false );
 			peopleSpawnerObject.SetActive ( true );
-			peopleCamObject.SetActive ( true );
+//			peopleCamObject.SetActive ( true );
 			recordingObject.SetActive ( true );
+			SimpleQuadController.ActiveController.gimbal.SetSecondaryCam ( 1 );
 		}
 
 		gameObject.SetActive ( false );

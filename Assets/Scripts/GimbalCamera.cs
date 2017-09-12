@@ -149,7 +149,10 @@ public class GimbalCamera : MonoBehaviour
 
 	public void SetSecondaryCam (int cam)
 	{
-		depthCam.enabled = ( cam == 0 );
-		maskCam.enabled = ( cam == 1 );
+		depthCam.gameObject.SetActive ( cam == 0 );
+		maskCam.gameObject.SetActive ( cam == 1 );
+		maskCam2.gameObject.SetActive ( cam == 1 );
+//		depthCam.enabled = ( cam == 0 );
+//		maskCam.enabled = maskCam2.enabled = ( cam == 1 );
 	}
 }

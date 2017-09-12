@@ -22,9 +22,10 @@ public class FollowTargetState : DroneState
 		followPoint = control.LastTargetPoint;
 		followTarget = PeopleSpawner.instance.targetInstance;
 		rb.freezeRotation = true;
+		rb.velocity = Vector3.zero;
 	}
 
-	public override void OnUpdate ()
+	public override void OnLateUpdate ()
 	{
 		if ( followTarget != null )
 			followPoint = followTarget.position;

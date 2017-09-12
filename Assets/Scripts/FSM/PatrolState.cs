@@ -34,10 +34,10 @@ public class PatrolState : DroneState
 		speedPercent = 0;
 	}
 
-	public override void OnUpdate ()
-	{
-		
-	}
+//	public override void OnUpdate ()
+//	{
+//		
+//	}
 
 	public override void OnLateUpdate ()
 	{
