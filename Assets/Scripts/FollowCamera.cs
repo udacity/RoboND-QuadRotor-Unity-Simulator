@@ -155,7 +155,8 @@ public class FollowCamera : MonoBehaviour
 
 		case CameraPoseType.Iso:
 		case CameraPoseType.Free:
-			targetRotation = Quaternion.LookRotation ( ( Vector3.forward - Vector3.up ).normalized, ( Vector3.forward + Vector3.up ).normalized );
+			targetRotation = Quaternion.Euler ( new Vector3 ( 30, target.transform.eulerAngles.y, 0 ) );
+//			targetRotation = Quaternion.LookRotation ( ( Vector3.forward - Vector3.up ).normalized, ( Vector3.forward + Vector3.up ).normalized );
 			break;
 		}
 

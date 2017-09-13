@@ -5,7 +5,6 @@ using UnityEngine;
 public class PatrolState : DroneState
 {
 	public float arriveDist = 0.05f;
-	public bool debug;
 
 	Transform[] points;
 	int curPoint;
@@ -29,7 +28,7 @@ public class PatrolState : DroneState
 //		follower.arriveCallback = OnArrived;
 		FindNearestPoint ();
 		gimbal.Sweep ( motor.gimbalSweepVAngle );
-
+		waiting = false;
 		startTime = Time.time;
 		speedPercent = 0;
 	}
@@ -111,17 +110,9 @@ public class PatrolState : DroneState
 
 	void OnGUI ()
 	{
-		if ( !debug )
-			return;
-		Rect r = new Rect ( Screen.width/2 - 50, Screen.height/2 - 10, 100, 20 );
-		if ( waiting )
-		{
-			GUI.Box ( r, "" );
-			GUI.Label ( r, "Waiting: " + ( Time.time - startTime ).ToString ( "F1" ) );
-		} else
-		{
-			GUI.Box ( r, "" );
-			GUI.Label ( r, "Speed: " + ( speedPercent * motor.maxPatrolSpeed ).ToString ( "F1" ) );
-		}
+		Rect r = new Rect ( 10, Screen.height - 35, 150, 25 );
+		GUILayout.BeginArea ( r );
+		GUILayout.Box ( "Quad is patrolling" );
+		GUILayout.EndArea ();
 	}
 }

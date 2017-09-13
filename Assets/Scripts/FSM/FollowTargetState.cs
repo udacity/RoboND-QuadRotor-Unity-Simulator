@@ -49,4 +49,12 @@ public class FollowTargetState : DroneState
 	public override void OnExit ()
 	{
 	}
+
+	void OnGUI ()
+	{
+		Rect r = new Rect ( 10, Screen.height - 35, 150, 25 );
+		GUILayout.BeginArea ( r );
+		GUILayout.Box ( "Quad is following" );
+		GUILayout.EndArea ();
+	}
 }

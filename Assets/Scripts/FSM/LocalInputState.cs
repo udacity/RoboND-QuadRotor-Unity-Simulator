@@ -38,7 +38,7 @@ public class LocalInputState : DroneState
 	public override void OnLateUpdate ()
 	{
 //		Debug.Log ( "local" );
-		if ( Input.GetKeyDown ( KeyCode.R ) )
+		if ( Input.GetKeyDown ( KeyCode.F11 ) )
 		{
 			motor.ResetOrientation ();
 			control.followCam.ChangePoseType ( CameraPoseType.Iso );
@@ -69,5 +69,13 @@ public class LocalInputState : DroneState
 	public override void OnExit ()
 	{
 //		motor.rb.freezeRotation = false;
+	}
+
+	void OnGUI ()
+	{
+		Rect r = new Rect ( 10, Screen.height - 35, 150, 25 );
+		GUILayout.BeginArea ( r );
+		GUILayout.Box ( "Local input is on" );
+		GUILayout.EndArea ();
 	}
 }

@@ -57,18 +57,14 @@ public class SimpleQuadController : MonoBehaviour
 				stateController.SetState ( "Local" );
 				
 		}
-		if ( Input.GetMouseButtonDown ( 0 ) )
-		{
-			OnTargetDetected ( Vector3.zero );
-//			Ray ray = followCam.cam.ScreenPointToRay ( Input.mousePosition );
-//			RaycastHit hit;
-//			if ( Physics.Raycast ( ray, out hit ) )
-//			{
-//				follower.SetFollowPoint ( hit.point );
-//			}
-		}
 		if ( Input.GetMouseButtonDown ( 2 ) )
-			OnTargetLost ();
+		{
+			if ( stateController.IsCurrentStateName ( "Patrol" ) )
+				OnTargetDetected ( Vector3.zero );
+			else
+			if ( stateController.IsCurrentStateName ( "Follow" ) )
+				OnTargetLost ();
+		}
 	}
 
 /*	void LateUpdate ()
@@ -139,19 +135,19 @@ public class SimpleQuadController : MonoBehaviour
 		}
 	}*/
 
-	void OnGUI ()
-	{
-		GUI.backgroundColor = localInput ? Color.green : Color.red;
-//		GUI.contentColor = Color.white;
-		Rect r = new Rect ( 10, Screen.height - 100, 60, 25 );
-		if ( GUI.Button ( r, "Input " + ( localInput ? "on" : "off" ) ) )
-		{
-			if ( stateController.IsCurrentStateName ( "Local" ) )
-				stateController.RevertState ();
-			else
-				stateController.SetState ( "Local" );
-		}
-	}
+//	void OnGUI ()
+//	{
+//		GUI.backgroundColor = localInput ? Color.green : Color.red;
+////		GUI.contentColor = Color.white;
+//		Rect r = new Rect ( 10, Screen.height - 100, 60, 25 );
+//		if ( GUI.Button ( r, "Input " + ( localInput ? "on" : "off" ) ) )
+//		{
+//			if ( stateController.IsCurrentStateName ( "Local" ) )
+//				stateController.RevertState ();
+//			else
+//				stateController.SetState ( "Local" );
+//		}
+//	}
 
 	public void OnTargetDetected (Vector3 point)
 	{

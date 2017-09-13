@@ -30,7 +30,7 @@ public class PersonBehavior : MonoBehaviour
 
 		if ( moveMode == PersonMoveMode.Path )
 		{
-			if ( agent.hasPath && agent.remainingDistance <= agent.stoppingDistance )
+			if ( agent.hasPath && agent.remainingDistance <= agent.stoppingDistance + 0.015f * Time.timeScale )
 			{
 				if ( curNode < path.points.Length - 1 )
 				{

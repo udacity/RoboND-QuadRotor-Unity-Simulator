@@ -435,7 +435,8 @@ Q/E: Turn around
 Scroll wheel: zoom in/out
 RMB (drag): Rotate camera
 RMB: Reset camera
-R: Reset Quad orientation
+MMB: Toggle patrol/follow
+F11: Reset Quad (Local mode)
 Esc: Quit";
 
 			size = label.CalcSize ( new GUIContent ( info ) );
