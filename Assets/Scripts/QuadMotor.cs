@@ -233,6 +233,13 @@ public class QuadMotor : MonoBehaviour
 			rearLeftRotor.Rotate ( -rot );
 			rearRightRotor.Rotate ( rot );
 		}
+
+		if ( Input.GetKeyDown ( KeyCode.F5 ) )
+		{
+			int level = QualitySettings.GetQualityLevel ();
+			level = ++level % 3;
+			QualitySettings.SetQualityLevel ( level, true );
+		}
 	}
 
 /*	void FixedUpdate ()
@@ -437,6 +444,7 @@ RMB (drag): Rotate camera
 RMB: Reset camera
 MMB: Toggle patrol/follow
 F11: Reset Quad (Local mode)
+F5: Cycle quality settings
 Esc: Quit";
 
 			size = label.CalcSize ( new GUIContent ( info ) );

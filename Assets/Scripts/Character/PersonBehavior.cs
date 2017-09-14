@@ -15,12 +15,22 @@ public class PersonBehavior : MonoBehaviour
 
 	int curNode;
 	Transform myTransform;
+	Renderer[] renderers;
+	Material[] originalMaterials;
 	float start;
 
 	void Awake ()
 	{
 		agent = GetComponent<NavMeshAgent> ();
 		myTransform = GetComponent<Transform> ();
+	}
+
+	void Start ()
+	{
+		renderers = GetComponentsInChildren<Renderer> ( false );
+		originalMaterials = new Material[renderers.Length];
+		for ( int i = 0; i < renderers.Length; i++ )
+			originalMaterials [ i ] = renderers [ i ].sharedMaterial;
 	}
 
 	void LateUpdate ()
@@ -89,5 +99,17 @@ public class PersonBehavior : MonoBehaviour
 
 		moveMode = PersonMoveMode.Wander;
 		active = true;
+	}
+
+	public void SetMaterial (Material mat)
+	{
+		for ( int i = 0; i < renderers.Length; i++ )
+			renderers [ i ].material = mat;
+	}
+
+	public void RestoreMaterials ()
+	{
+		for ( int i = 0; i < renderers.Length; i++ )
+			renderers [ i ].material = originalMaterials [ i ];
 	}
 }

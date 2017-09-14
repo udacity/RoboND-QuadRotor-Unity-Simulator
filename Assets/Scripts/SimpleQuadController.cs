@@ -149,6 +149,19 @@ public class SimpleQuadController : MonoBehaviour
 //		}
 //	}
 
+	void OnGUI ()
+	{
+		int qLevel = QualitySettings.GetQualityLevel ();
+		string info = qLevel == 0 ? "Quality: Fastest" :
+			qLevel == 1 ? "Quality : Good" :
+			"Quality: Fantastic";
+		Vector2 size = GUI.skin.box.CalcSize ( new GUIContent ( info ) );
+		Rect r = new Rect ( Screen.width / 2 - size.x / 2 - 10, Screen.height - 30, size.x + 20, size.y + 10 );
+		GUILayout.BeginArea ( r );
+		GUILayout.Box ( info );
+		GUILayout.EndArea ();
+	}
+
 	public void OnTargetDetected (Vector3 point)
 	{
 		lastTargetPoint = point;

@@ -19,7 +19,7 @@ public class PeopleSpawner : MonoBehaviour
 	[HideInInspector]
 	public bool othersWithHero;
 
-	List<GameObject> activePeople;
+	List<PersonBehavior> activePeople;
 	List<float> spawnTimers;
 	float nextSpawnTime;
 	int peopleLayer;
@@ -27,7 +27,7 @@ public class PeopleSpawner : MonoBehaviour
 	void Awake ()
 	{
 		instance = this;
-		activePeople = new List<GameObject> ();
+		activePeople = new List<PersonBehavior> ();
 		spawnTimers = new List<float> ();
 		spawnPoints = GetComponentsInChildren<Transform> ( false );
 		peopleLayer = LayerMask.NameToLayer ( "People" );
@@ -93,15 +93,16 @@ public class PeopleSpawner : MonoBehaviour
 			person.position = spawn.position;
 //			person.GetComponent<CharacterCustomization> ().SetAppearance ( presets [ 0 ] );
 			person.gameObject.SetActive ( true );
+			PersonBehavior behavior = person.GetComponent<PersonBehavior> ();
 			if ( activeIndex != -1 )
 			{
-				Destroy ( activePeople [ activeIndex ] );
-				activePeople [ activeIndex ] = person.gameObject;
+				Destroy ( activePeople [ activeIndex ].gameObject );
+				activePeople [ activeIndex ] = behavior;
 				spawnTimers [ activeIndex ] = Time.time + Random.Range ( 30f, 45f );
 				
 			} else
 			{
-				activePeople.Add ( person.gameObject );
+				activePeople.Add ( behavior );
 				spawnTimers.Add ( Time.time + Random.Range ( 30f, 45f ) );
 			}
 			SetLayerRecursively ( person, peopleLayer );
