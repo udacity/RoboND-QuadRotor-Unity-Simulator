@@ -42,7 +42,7 @@ public class BuildScript : MonoBehaviour
 		};
 
 		string basePath = "Builds/QuadSim/";
-		string settingFile = Application.dataPath + "/ros_settings.txt";
+//		string settingFile = Application.dataPath + "/ros_settings.txt";
 		string settingPath = "QuadSim_Win_Data";
 
 		string extension = "QuadSim_Win.exe";
@@ -60,8 +60,8 @@ public class BuildScript : MonoBehaviour
 		BuildPipeline.BuildPlayer ( scenes, basePath + extension, target, showBuilt ? BuildOptions.ShowBuiltPlayer : BuildOptions.None );
 
 		// go up one from Assets
-		string targetFile = Application.dataPath + "/../" + basePath + settingPath + "/ros_settings.txt";
+//		string targetFile = Application.dataPath + "/../" + basePath + settingPath + "/ros_settings.txt";
 //		Debug.Log ( "source file: " + settingFile + "\ntarget file: " + targetFile );
-		System.IO.File.Copy ( settingFile, targetFile );
+//		System.IO.File.Copy ( settingFile, targetFile );
 	}
 }
