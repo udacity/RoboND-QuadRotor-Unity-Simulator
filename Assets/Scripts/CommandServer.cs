@@ -110,7 +110,7 @@ public class CommandServer : MonoBehaviour
 		Transform target = PeopleSpawner.instance.targetInstance;
 		Transform cam = gimbal.colorCam.transform;
 		bool success = false;
-		if ( Physics.Linecast ( cam.position, target.position + Vector3.up * 1.8f ) )
+		if ( !Physics.Linecast ( cam.position, target.position + Vector3.up * 1.8f ) )
 		{
 			control.OnTargetDetected ( position );
 			success = true;
