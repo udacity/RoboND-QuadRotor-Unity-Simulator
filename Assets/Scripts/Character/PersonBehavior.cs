@@ -45,15 +45,23 @@ public class PersonBehavior : MonoBehaviour
 				if ( curNode < path.points.Length - 1 )
 				{
 					curNode++;
-					agent.SetDestination ( path.points [ curNode ].position );
+					bool setDest = agent.SetDestination ( path.points [ curNode ].position );
+					if ( !setDest )
+					{
+						Debug.Log ( name + " can't set destination, repathing" );
+						Repath ();
+					}
 
 				} else
 				{
-					agent.Stop ();
-					active = false;
-					if ( endPathCallback != null )
-						endPathCallback ( this );
+					Despawn ();
 				}
+			}
+			if ( !agent.hasPath )
+			{
+				Debug.Log ( name + " lost path, repathing" );
+				Repath ();
+//				Despawn ();
 			}
 		} else
 		{
@@ -74,6 +82,43 @@ public class PersonBehavior : MonoBehaviour
 
 			myTransform.eulerAngles = euler;
 			agent.Move ( myTransform.forward * agent.speed * Time.deltaTime );
+		}
+	}
+
+	void OnDestroy ()
+	{
+		active = false;
+	}
+
+	void Repath ()
+	{
+		if ( active )
+		{
+			Vector3 pos = transform.position;
+			NavMeshHit hit;
+			if ( NavMesh.SamplePosition ( pos, out hit, 2, 1 << NavMesh.GetAreaFromName ( "Walkable" ) ) )
+			{
+				Debug.Log ( "placing agent back on navmesh" );
+				agent.Warp ( hit.position );
+				agent.SetDestination ( path.points [ curNode ].position );
+				
+			} else
+			{
+				Debug.Log ( "couldn't find a nearby point on navmesh, despawning" );
+				Despawn ();
+			}
+		}
+	}
+
+	void Despawn ()
+	{
+		if ( active )
+		{
+			active = false;
+			if ( agent.isOnNavMesh )
+				agent.Stop ();
+			if ( endPathCallback != null )
+				endPathCallback ( this );
 		}
 	}
 
