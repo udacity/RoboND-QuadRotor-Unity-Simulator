@@ -110,11 +110,15 @@ public class CommandServer : MonoBehaviour
 		Transform target = PeopleSpawner.instance.targetInstance;
 		Transform cam = gimbal.colorCam.transform;
 		bool success = false;
-		if ( !Physics.Linecast ( cam.position, target.position + Vector3.up * 1.8f ) )
+		RaycastHit hit;
+		if ( !Physics.Linecast ( cam.position, target.position + Vector3.up * 1.8f, out hit ) )
 		{
 			control.OnTargetDetected ( position );
 			success = true;
-		}
+			Debug.DrawLine ( cam.position, target.position + Vector3.up * 1.8f, Color.green, 1, false );
+		} else
+			Debug.DrawLine ( cam.position, hit.point, Color.red, 1, false );
+			
 //		follower.SetFollowPoint ( position );
 
 		Dictionary<string, string> data = new Dictionary<string, string> ();
