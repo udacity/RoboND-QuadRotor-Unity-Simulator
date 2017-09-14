@@ -69,6 +69,7 @@ public class Menu : MonoBehaviour
 				peopleSpawnerObject.SetActive ( false );
 			peopleCamObject.SetActive ( false );
 			recordingObject.SetActive ( false );
+			SimpleQuadController.ActiveController.gimbal.SetSecondaryCam ( 0 );
 		} else
 
 		// deep learning

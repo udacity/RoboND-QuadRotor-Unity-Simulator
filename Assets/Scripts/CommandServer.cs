@@ -26,6 +26,7 @@ public class CommandServer : MonoBehaviour
 
 	Thread broadcastThread;
 	int broadcastFrequency;
+	bool paused;
 
 	DateTime origin = new DateTime (1970, 1, 1, 0, 0, 0);
 
@@ -48,11 +49,16 @@ public class CommandServer : MonoBehaviour
 		gimbal = control.gimbal;
 		Debug.Log ( "starting" );
 //		EmitTelemetry ();
+		#if UNITY_EDITOR
+		UnityEditor.EditorApplication.playmodeStateChanged += HandleCallbackFunction;
+		#endif
 	}
 
-	void Update ()
+	void HandleCallbackFunction ()
 	{
-//		EmitTelemetry (); // sending in thread instead
+		#if UNITY_EDITOR
+		paused = UnityEditor.EditorApplication.isPaused;
+		#endif
 	}
 
 	void OnDestroy ()
@@ -67,6 +73,9 @@ public class CommandServer : MonoBehaviour
 
 		while ( true )
 		{
+			#if UNITY_EDITOR
+			if ( !paused )
+			#endif
 			EmitTelemetry ();
 			Thread.Sleep ( sleepTime );
 		}
@@ -98,11 +107,19 @@ public class CommandServer : MonoBehaviour
 
 		Vector3 position = new Vector3 ( pos [ 0 ], pos [ 1 ], pos [ 2 ] ).ToUnity ();
 		Debug.Log ( "Target detected at " + position );
-		control.OnTargetDetected ( position );
+		Transform target = PeopleSpawner.instance.targetInstance;
+		Transform cam = gimbal.colorCam.transform;
+		bool success = false;
+		if ( Physics.Linecast ( cam.position, target.position + Vector3.up * 1.8f ) )
+		{
+			control.OnTargetDetected ( position );
+			success = true;
+		}
 //		follower.SetFollowPoint ( position );
 
 		Dictionary<string, string> data = new Dictionary<string, string> ();
 		data [ "action" ] = "object";
+		data [ "result" ] = success ? "true" : "false";
 //		data [ "name" ] = name;
 
 		Ack ( new JSONObject ( data ) );

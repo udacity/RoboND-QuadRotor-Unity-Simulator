@@ -15,7 +15,7 @@
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-			zwrite on
+//			zwrite on
 			
 			#include "UnityCG.cginc"
 
