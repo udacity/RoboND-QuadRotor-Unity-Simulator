@@ -34,8 +34,9 @@ public class GimbalCamera : MonoBehaviour
 	FollowType followType;
 	Transform followTarget;
 	Vector3 followPosition;
-	Quaternion lastRotation;
+//	Quaternion lastRotation;
 	float sweepAccum;
+	float lastSweepAngle;
 
 	Transform vizSphere;
 
@@ -52,7 +53,7 @@ public class GimbalCamera : MonoBehaviour
 		if ( gimbalParent == null )
 			gimbalParent = tr;
 		initialLocalRotation = gimbalParent.localRotation;
-		lastRotation = gimbalParent.rotation;
+//		lastRotation = gimbalParent.rotation;
 		followType = FollowType.None;
 		cam1 = colorCam.GetComponent<Camera> ();
 		cam2 = maskCam.GetComponent<Camera> ();
@@ -106,6 +107,10 @@ public class GimbalCamera : MonoBehaviour
 		switch ( followType )
 		{
 		case FollowType.None:
+			Vector3 euler = gimbalParent.eulerAngles;
+			euler.z = 0;
+			euler.x = lastSweepAngle;
+			gimbalParent.eulerAngles = euler;
 //			gimbalParent.rotation = lastRotation;
 			break;
 
@@ -132,7 +137,7 @@ public class GimbalCamera : MonoBehaviour
 				sweepAccum = -sweepCone;
 				sweepSpeed *= -1;
 			}
-			Vector3 euler = gimbalParent.eulerAngles;
+			euler = gimbalParent.eulerAngles;
 			euler.y = sweepAccum;
 			euler.z = 0;
 			gimbalParent.eulerAngles = euler;
@@ -260,12 +265,14 @@ public class GimbalCamera : MonoBehaviour
 	public void StopLooking ()
 	{
 		followType = FollowType.None;
-		lastRotation = gimbalParent.rotation;
+		gimbalParent.localRotation = Quaternion.Euler ( new Vector3 ( lastSweepAngle, 0, 0 ) );
+//		lastRotation = gimbalParent.rotation;
 //		vizSphere.gameObject.SetActive ( false );
 	}
 
 	public void Sweep (float vAngle = 45)
 	{
+		lastSweepAngle = vAngle;
 		followType = FollowType.Sweep;
 		gimbalParent.localRotation = Quaternion.Euler ( new Vector3 ( vAngle, 0, 0 ) );
 //		gimbalParent.localRotation = Quaternion.identity;
