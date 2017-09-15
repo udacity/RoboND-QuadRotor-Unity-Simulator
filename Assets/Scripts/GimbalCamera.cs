@@ -26,6 +26,8 @@ public class GimbalCamera : MonoBehaviour
 	Camera cam1;
 	Camera cam2;
 	Camera cam3;
+	RenderTexture tt2;
+	RenderTexture tt3;
 	Transform tr;
 	Quaternion initialLocalRotation;
 
@@ -62,6 +64,8 @@ public class GimbalCamera : MonoBehaviour
 		recordFrequency = 1f / recordFrequency;
 		RecordingController.BeginRecordCallback = OnBeginRecording;
 		RecordingController.EndRecordCallback = OnEndRecording;
+		tt2 = cam2.targetTexture;
+		tt3 = cam3.targetTexture;
 
 //		vizSphere = GameObject.CreatePrimitive ( PrimitiveType.Sphere ).transform;
 //		vizSphere.localScale = Vector3.one * 0.5f;
@@ -216,7 +220,8 @@ public class GimbalCamera : MonoBehaviour
 		string path = Path.Combine ( directory, "cam1_" + prefix + ".png" );
 		File.WriteAllBytes ( path, bytes );
 
-		targetTexture = cam2.targetTexture;
+		targetTexture = tt2;
+//		targetTexture = cam2.targetTexture;
 		RenderTexture.active = targetTexture;
 		tex.ReadPixels ( new Rect ( 0, 0, targetTexture.width, targetTexture.height ), 0, 0 );
 		tex.Apply ();
@@ -224,7 +229,8 @@ public class GimbalCamera : MonoBehaviour
 		path = Path.Combine ( directory, "cam2_" + prefix + ".png" );
 		File.WriteAllBytes ( path, bytes );
 
-		targetTexture = cam3.targetTexture;
+		targetTexture = tt3;
+//		targetTexture = cam3.targetTexture;
 		RenderTexture.active = targetTexture;
 		tex.ReadPixels ( new Rect ( 0, 0, targetTexture.width, targetTexture.height ), 0, 0 );
 		tex.Apply ();
