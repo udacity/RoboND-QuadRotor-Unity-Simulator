@@ -19,20 +19,20 @@ public class FileReadWrite : MonoBehaviour
 		browser.AcceptNonExistingFilename = true;
 	}
 
-	void LateUpdate ()
-	{
-
-		if ( Input.GetKeyDown ( KeyCode.Y ) )
-		{
-			BrowseSaveFile ();
-		}
-
-		if ( Input.GetKeyDown ( KeyCode.H ) )
-		{
-			BrowseLoadFile ();
-		}
-
-	}
+//	void LateUpdate ()
+//	{
+//
+//		if ( Input.GetKeyDown ( KeyCode.Y ) )
+//		{
+//			BrowseSaveFile ();
+//		}
+//
+//		if ( Input.GetKeyDown ( KeyCode.H ) )
+//		{
+//			BrowseLoadFile ();
+//		}
+//
+//	}
 
 
 	public void BrowseLoadFile ()

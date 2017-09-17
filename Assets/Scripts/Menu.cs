@@ -13,6 +13,7 @@ public class Menu : MonoBehaviour
 	public GameObject quadCamObject;
 	public GameObject quadCanvasObject;
 	public GameObject commandServerObject;
+	public GameObject defaultTaskObject;
 	public Toggle peopleToggle;
 
 	// training
@@ -62,6 +63,7 @@ public class Menu : MonoBehaviour
 			quadCamObject.SetActive ( true );
 			quadCanvasObject.SetActive ( true );
 			commandServerObject.SetActive ( true );
+			defaultTaskObject.SetActive ( true );
 			if ( peopleToggle.isOn )
 			{
 				peopleSpawnerObject.GetComponent<PeopleSpawner> ().UseHero ( heroToggle.isOn, otherToggle.isOn );
@@ -87,6 +89,7 @@ public class Menu : MonoBehaviour
 //			quadCamObject.SetActive ( false );
 			quadCanvasObject.SetActive ( false );
 //			commandServerObject.SetActive ( false );
+			defaultTaskObject.SetActive ( false );
 			peopleSpawnerObject.SetActive ( false );
 			fileReadWrite.SetActive ( true );
 
