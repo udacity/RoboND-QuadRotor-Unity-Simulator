@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Pathing;
 
 public enum PersonMoveMode { Path, Wander }
 
@@ -9,7 +10,7 @@ public class PersonBehavior : MonoBehaviour
 {
 	System.Action<PersonBehavior> endPathCallback;
 	NavMeshAgent agent;
-	PersonPath path;
+	PathSample[] path;
 	PersonMoveMode moveMode;
 	bool active;
 
@@ -42,15 +43,15 @@ public class PersonBehavior : MonoBehaviour
 		{
 			if ( agent.pathPending )
 				return;
-			Vector3 toDest = path.points [ curNode ].position - myTransform.position;
+			Vector3 toDest = path [ curNode ].position - myTransform.position;
 			toDest.y = 0;
 			float testDist = agent.stoppingDistance + 0.015f * Time.timeScale;
 			if ( ( agent.hasPath && agent.remainingDistance <= testDist ) || toDest.sqrMagnitude < testDist * testDist )
 			{
-				if ( curNode < path.points.Length - 1 )
+				if ( curNode < path.Length - 1 )
 				{
 					curNode++;
-					bool setDest = agent.SetDestination ( path.points [ curNode ].position );
+					bool setDest = agent.SetDestination ( path [ curNode ].position );
 					if ( !setDest )
 					{
 						Debug.Log ( name + " can't set destination, repathing" );
@@ -126,7 +127,7 @@ public class PersonBehavior : MonoBehaviour
 			{
 				Debug.Log ( "placing agent back on navmesh" );
 				agent.Warp ( hit.position );
-				if ( !agent.SetDestination ( path.points [ curNode ].position ) )
+				if ( !agent.SetDestination ( path [ curNode ].position ) )
 				{
 					Debug.Log ( "aaa" );
 					Despawn ();
@@ -152,13 +153,13 @@ public class PersonBehavior : MonoBehaviour
 		}
 	}
 
-	public void UsePath (PersonPath _path, System.Action<PersonBehavior> callback)
+	public void UsePath (PathSample[] _path, System.Action<PersonBehavior> callback)
 	{
 		endPathCallback = callback;
 		curNode = 1;
 		moveMode = PersonMoveMode.Path;
 		path = _path;
-		agent.SetDestination ( path.points [ 1 ].position );
+		agent.SetDestination ( path [ 1 ].position );
 		active = true;
 	}
 

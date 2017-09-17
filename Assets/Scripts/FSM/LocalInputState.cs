@@ -9,6 +9,7 @@ public class LocalInputState : DroneState
 	public float maxTilt = 22.5f;
 	public float tiltSpeed = 22.5f;
 	public float turnSpeed = 90;
+	public GameObject spawner;
 
 	Transform camTransform;
 	Transform tr;
@@ -42,6 +43,48 @@ public class LocalInputState : DroneState
 		{
 			motor.ResetOrientation ();
 			control.followCam.ChangePoseType ( CameraPoseType.Iso );
+		}
+
+		if ( Input.GetKeyDown ( KeyCode.P ) )
+		{
+			PatrolPathManager.AddNode ( motor.Position, motor.Rotation );
+		}
+
+		if ( Input.GetKeyDown ( KeyCode.O ) )
+		{
+			HeroPathManager.AddNode ( motor.Position, motor.Rotation );
+		}
+
+		if ( Input.GetKeyDown ( KeyCode.I ) )
+		{
+			SpawnPointManager.AddNode ( motor.Position, motor.Rotation );
+		}
+
+		if ( Input.GetKeyDown ( KeyCode.N ) )
+		{
+			spawner.SetActive(false);
+		}
+
+		if ( Input.GetKeyDown ( KeyCode.M ) )
+		{
+		
+			spawner.SetActive(true);
+
+		}
+
+		if ( Input.GetKeyDown ( KeyCode.L ) )
+		{
+			PatrolPathManager.Clear ();
+		}
+
+		if ( Input.GetKeyDown ( KeyCode.K ) )
+		{
+			HeroPathManager.Clear ();
+		}
+
+		if ( Input.GetKeyDown ( KeyCode.J ) )
+		{
+			SpawnPointManager.Clear ();
 		}
 
 		Vector3 input = new Vector3 ( Input.GetAxis ( "Horizontal" ), Input.GetAxis ( "Thrust" ), Input.GetAxis ( "Vertical" ) );

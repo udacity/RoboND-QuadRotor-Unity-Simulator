@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathing;
 
 public class PatrolState : DroneState
 {
 	public float arriveDist = 0.05f;
 
-	Transform[] points;
+	PathSample[] points;
 	int curPoint;
 	float speedPercent;
 	float startTime;
@@ -16,21 +17,19 @@ public class PatrolState : DroneState
 	{
 		base.OnEnter ();
 
-		if ( points == null )
-		{
-			GameObject pointsParent = GameObject.Find ( "Patrol Points" );
-			points = new Transform[ pointsParent.transform.childCount ];
-			for ( int i = 0; i < points.Length; i++ )
-				points [ i ] = pointsParent.transform.GetChild ( i );
-		}
+		points = PatrolPathManager.GetPath();
 
 
-//		follower.arriveCallback = OnArrived;
-		FindNearestPoint ();
 		gimbal.Sweep ( motor.gimbalSweepVAngle );
 		waiting = false;
 		startTime = Time.time;
 		speedPercent = 0;
+
+//		follower.arriveCallback = OnArrived;
+		if ( points.Length < 2 );
+			return;
+
+		FindNearestPoint ();
 	}
 
 //	public override void OnUpdate ()
@@ -49,6 +48,12 @@ public class PatrolState : DroneState
 			}
 			return;
 		}
+		
+		if ( points.Length < 2 )
+			return;
+
+		Debug.Log ( points.Length );
+
 		Vector3 dest = points [ curPoint ].position;
 		float distance = ( dest - motor.Position ).sqrMagnitude;
 		if ( distance < arriveDist * arriveDist )
@@ -70,6 +75,7 @@ public class PatrolState : DroneState
 		Vector3 look = dest - motor.transform.position;
 		look.y = 0;
 		motor.transform.rotation = Quaternion.RotateTowards ( motor.transform.rotation, Quaternion.LookRotation ( look, Vector3.up ), 90 * Time.deltaTime );
+
 	}
 	
 	public override void OnExit ()

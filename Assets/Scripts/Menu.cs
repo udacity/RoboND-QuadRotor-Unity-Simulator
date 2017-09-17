@@ -19,6 +19,7 @@ public class Menu : MonoBehaviour
 	public GameObject peopleSpawnerObject;
 	public GameObject peopleCamObject;
 	public GameObject recordingObject;
+	public GameObject fileReadWrite;
 	public Toggle heroToggle;
 	public Toggle otherToggle;
 	public Text otherText;
@@ -86,7 +87,9 @@ public class Menu : MonoBehaviour
 //			quadCamObject.SetActive ( false );
 			quadCanvasObject.SetActive ( false );
 //			commandServerObject.SetActive ( false );
-			peopleSpawnerObject.SetActive ( true );
+			peopleSpawnerObject.SetActive ( false );
+			fileReadWrite.SetActive ( true );
+
 //			peopleCamObject.SetActive ( true );
 			recordingObject.SetActive ( true );
 			SimpleQuadController.ActiveController.gimbal.SetSecondaryCam ( 1 );
