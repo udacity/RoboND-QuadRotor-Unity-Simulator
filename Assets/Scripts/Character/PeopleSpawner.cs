@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathing;
 
 public class PeopleSpawner : MonoBehaviour
 {
 	public static PeopleSpawner instance;
 	public Transform[] spawnTargets;
-	public Transform[] spawnPoints;
+	public PathSample[] spawnPoints;
 	public Transform targetInstance;
 	public OrbitCamera followCam;
 	public bool spawnNewPeople;
@@ -29,7 +30,7 @@ public class PeopleSpawner : MonoBehaviour
 		instance = this;
 		activePeople = new List<PersonBehavior> ();
 		spawnTimers = new List<float> ();
-		spawnPoints = GetComponentsInChildren<Transform> ( false );
+		spawnPoints = SpawnPointManager.GetPath();
 		peopleLayer = LayerMask.NameToLayer ( "People" );
 
 	}
@@ -73,12 +74,11 @@ public class PeopleSpawner : MonoBehaviour
 //		Transform spawn = GetRandomPoint ();
 		if ( isTarget )
 		{
-			PersonPath path = PathCollection.GetPath ();
-			Transform spawn = path.points [ 0 ];
+			PathSample[] path = HeroPathManager.GetPath ();
 			if ( targetInstance != null )
 				Destroy ( targetInstance.gameObject );
 			targetInstance = Instantiate ( target );
-			targetInstance.position = spawn.position;
+			targetInstance.position = path[0].position;
 			if ( useHeroPreset )
 				targetInstance.GetComponent<CharacterCustomization> ().SetAppearance ( heroPreset );
 			targetInstance.gameObject.SetActive ( true );
@@ -88,7 +88,7 @@ public class PeopleSpawner : MonoBehaviour
 			
 		} else
 		{
-			Transform spawn = GetRandomPoint ();
+			PathSample spawn = GetRandomPoint ();
 			Transform person = Instantiate ( target );
 			person.position = spawn.position;
 //			person.GetComponent<CharacterCustomization> ().SetAppearance ( presets [ 0 ] );
@@ -110,7 +110,7 @@ public class PeopleSpawner : MonoBehaviour
 		}
 	}
 
-	Transform GetRandomPoint ()
+	PathSample GetRandomPoint ()
 	{
 		return spawnPoints [ Random.Range ( 0, spawnPoints.Length ) ];
 	}
