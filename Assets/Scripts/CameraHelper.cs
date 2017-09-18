@@ -23,14 +23,15 @@ public static class CameraHelper
     return image;
   }
   
-  public static byte[] CaptureDepthFrame(Camera camera)
+  public static byte[] CaptureDepthFrame(RenderTexture tex)
   {
-		if ( camera == null )
-		{
-			Debug.Log ( "null camera" );
-			return new byte[0];
-		}
-    RenderTexture targetTexture = camera.targetTexture;
+//		if ( camera == null )
+//		{
+//			Debug.Log ( "null camera" );
+//			return new byte[0];
+//		}
+		RenderTexture targetTexture = tex;
+//    RenderTexture targetTexture = camera.targetTexture;
     RenderTexture.active = targetTexture;
 	  Texture2D texture2D = new Texture2D(targetTexture.width, targetTexture.height, TextureFormat.ARGB32, false);
     texture2D.ReadPixels(new Rect(0, 0, targetTexture.width, targetTexture.height), 0, 0);

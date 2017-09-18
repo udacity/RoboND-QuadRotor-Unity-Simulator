@@ -6,7 +6,13 @@ using UnityEngine;
 
 public class DisableShadows : MonoBehaviour
 {
+	public bool disable = true;
 	ShadowQuality storedShadows;
+
+	void Awake ()
+	{
+		enabled = disable;
+	}
 
 	void OnPreRender ()
 	{

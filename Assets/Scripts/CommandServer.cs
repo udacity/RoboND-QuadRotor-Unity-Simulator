@@ -13,7 +13,8 @@ public class CommandServer : MonoBehaviour
 	public QuadMotor quad;
 	public TargetFollower follower;
 	public Camera colorCam;
-	public Camera depthCam;
+	public RenderTexture depthImage;
+//	public Camera depthCam;
 	private SocketIOComponent _socket;
 	SimpleQuadController control;
 	GimbalCamera gimbal;
@@ -52,6 +53,7 @@ public class CommandServer : MonoBehaviour
 		#if UNITY_EDITOR
 		UnityEditor.EditorApplication.playmodeStateChanged += HandleCallbackFunction;
 		#endif
+		depthImage = gimbal.colorCam.GetComponent<RGBToDepth> ().destTex;
 	}
 
 	void HandleCallbackFunction ()
@@ -288,7 +290,7 @@ public class CommandServer : MonoBehaviour
 //			CameraHelper.CaptureFrame (colorCam);
 //			CameraHelper.CaptureDepthFrame (depthCam);
 			data [ "rgb_image" ] = Convert.ToBase64String ( CameraHelper.CaptureFrame ( colorCam ) );
-			data [ "depth_image" ] = Convert.ToBase64String ( CameraHelper.CaptureDepthFrame ( depthCam ) );
+			data [ "depth_image" ] = Convert.ToBase64String ( CameraHelper.CaptureDepthFrame ( depthImage ) );
 //			w.Stop ();
 //			Debug.Log ("capture took " + w.ElapsedMilliseconds + "ms");
 

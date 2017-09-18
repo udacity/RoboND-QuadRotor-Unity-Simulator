@@ -21,9 +21,15 @@ public class ReplaceDepthBuffer : MonoBehaviour
 		ownTex = cam.targetTexture;
 		tt1 = bwCam1.targetTexture;
 		tt2 = bwCam2.targetTexture;
-//		cam.depthTextureMode = DepthTextureMode.Depth;
+		cam.depthTextureMode = DepthTextureMode.Depth;
 //		Debug.Log ( "cam " + name + " depth texture: " + cam.depthTextureMode );
-		bwCam1.enabled = bwCam2.enabled = false;
+//		bwCam1.enabled = bwCam2.enabled = false;
+	}
+
+	void Start ()
+	{
+//		if ( !bwCam1.gameObject.activeSelf )
+			enabled = false;
 	}
 
 	void OnPostRender ()

@@ -11,9 +11,14 @@ public class GimbalCamera : MonoBehaviour
 	public Quaternion Rotation { get; protected set; }
 	public Transform gimbalParent;
 	public Camera colorCam;
-	public Camera depthCam;
+//	public Camera depthCam;
 	public Camera maskCam;
 	public Camera maskCam2;
+	public Camera envMaskCam;
+	public RenderTexture rt1;
+	public RenderTexture rt2;
+	public RenderTexture rt3;
+	public RenderTexture rt4;
 	[Range (5, 180)]
 	public float sweepCone = 90;
 	public float sweepSpeed = 0.5f;
@@ -22,12 +27,6 @@ public class GimbalCamera : MonoBehaviour
 	public float timeScale = 1;
 	public float recordFrequency = 0.33f;
 
-
-	Camera cam1;
-	Camera cam2;
-	Camera cam3;
-	RenderTexture tt2;
-	RenderTexture tt3;
 	Transform tr;
 	Quaternion initialLocalRotation;
 
@@ -37,8 +36,6 @@ public class GimbalCamera : MonoBehaviour
 //	Quaternion lastRotation;
 	float sweepAccum;
 	float lastSweepAngle;
-
-	Transform vizSphere;
 
 	float lastTimeChange;
 	string timeLabel;
@@ -55,23 +52,14 @@ public class GimbalCamera : MonoBehaviour
 		initialLocalRotation = gimbalParent.localRotation;
 //		lastRotation = gimbalParent.rotation;
 		followType = FollowType.None;
-		cam1 = colorCam.GetComponent<Camera> ();
-		cam2 = maskCam.GetComponent<Camera> ();
-		cam3 = maskCam2.GetComponent<Camera> ();
-		cam2.SetReplacementShader ( whiteShader, "" );
-		cam3.SetReplacementShader ( whiteShader, "" );
+//		maskCam.depthTextureMode = DepthTextureMode.Depth;
+//		maskCam2.depthTextureMode = DepthTextureMode.Depth;
+//		envMaskCam.depthTextureMode = DepthTextureMode.Depth;
 
 		Time.timeScale = timeScale;
 		recordFrequency = 1f / recordFrequency;
 		RecordingController.BeginRecordCallback = OnBeginRecording;
 		RecordingController.EndRecordCallback = OnEndRecording;
-		tt2 = cam2.targetTexture;
-		tt3 = cam3.targetTexture;
-
-//		vizSphere = GameObject.CreatePrimitive ( PrimitiveType.Sphere ).transform;
-//		vizSphere.localScale = Vector3.one * 0.5f;
-//		vizSphere.GetComponent<Renderer> ().material.color = Color.blue * 0.5f;
-//		Destroy ( vizSphere.GetComponent<Collider> () );
 	}
 
 	void LateUpdate ()
@@ -116,12 +104,10 @@ public class GimbalCamera : MonoBehaviour
 
 		case FollowType.Position:
 			gimbalParent.LookAt ( followPosition, Vector3.up );
-//			vizSphere.position = followPosition;
 			break;
 
 		case FollowType.Transform:
 			gimbalParent.LookAt ( followTarget.position, Vector3.up );
-//			vizSphere.position = followTarget.position;
 			break;
 
 		case FollowType.Sweep:
@@ -214,7 +200,7 @@ public class GimbalCamera : MonoBehaviour
 //		Debug.Log ( "writing " + prefix );
 		imageCount++;
 		// needed to force camera update 
-		RenderTexture targetTexture = cam1.targetTexture;
+		RenderTexture targetTexture = rt1;
 		RenderTexture.active = targetTexture;
 		byte[] bytes;
 		Texture2D tex = new Texture2D ( targetTexture.width, targetTexture.height, TextureFormat.RGB24, false );
@@ -225,8 +211,7 @@ public class GimbalCamera : MonoBehaviour
 		string path = Path.Combine ( directory, "cam1_" + prefix + ".png" );
 		File.WriteAllBytes ( path, bytes );
 
-		targetTexture = tt2;
-//		targetTexture = cam2.targetTexture;
+		targetTexture = rt2;
 		RenderTexture.active = targetTexture;
 		tex.ReadPixels ( new Rect ( 0, 0, targetTexture.width, targetTexture.height ), 0, 0 );
 		tex.Apply ();
@@ -234,13 +219,20 @@ public class GimbalCamera : MonoBehaviour
 		path = Path.Combine ( directory, "cam2_" + prefix + ".png" );
 		File.WriteAllBytes ( path, bytes );
 
-		targetTexture = tt3;
-//		targetTexture = cam3.targetTexture;
+		targetTexture = rt3;
 		RenderTexture.active = targetTexture;
 		tex.ReadPixels ( new Rect ( 0, 0, targetTexture.width, targetTexture.height ), 0, 0 );
 		tex.Apply ();
 		bytes = tex.EncodeToPNG ();
 		path = Path.Combine ( directory, "cam3_" + prefix + ".png" );
+		File.WriteAllBytes ( path, bytes );
+
+		targetTexture = rt4;
+		RenderTexture.active = targetTexture;
+		tex.ReadPixels ( new Rect ( 0, 0, targetTexture.width, targetTexture.height ), 0, 0 );
+		tex.Apply ();
+		bytes = tex.EncodeToPNG ();
+		path = Path.Combine ( directory, "cam4_" + prefix + ".png" );
 		File.WriteAllBytes ( path, bytes );
 
 		bytes = null;
@@ -252,14 +244,12 @@ public class GimbalCamera : MonoBehaviour
 	{
 		followType = FollowType.Position;
 		followPosition = position;
-//		vizSphere.gameObject.SetActive ( true );
 	}
 
 	public void LookAt (Transform target)
 	{
 		followType = FollowType.Transform;
 		followTarget = target;
-//		vizSphere.gameObject.SetActive ( true );
 	}
 
 	public void StopLooking ()
@@ -267,7 +257,6 @@ public class GimbalCamera : MonoBehaviour
 		followType = FollowType.None;
 		gimbalParent.localRotation = Quaternion.Euler ( new Vector3 ( lastSweepAngle, 0, 0 ) );
 //		lastRotation = gimbalParent.rotation;
-//		vizSphere.gameObject.SetActive ( false );
 	}
 
 	public void Sweep (float vAngle = 45)
@@ -276,16 +265,15 @@ public class GimbalCamera : MonoBehaviour
 		followType = FollowType.Sweep;
 		gimbalParent.localRotation = Quaternion.Euler ( new Vector3 ( vAngle, 0, 0 ) );
 //		gimbalParent.localRotation = Quaternion.identity;
-//		vizSphere.gameObject.SetActive ( false );
 		sweepAccum = 0;
 	}
 
 	public void SetSecondaryCam (int cam)
 	{
-		depthCam.gameObject.SetActive ( cam == 0 );
+//		depthCam.gameObject.SetActive ( false );
+//		depthCam.gameObject.SetActive ( cam == 0 );
 		maskCam.gameObject.SetActive ( cam == 1 );
 		maskCam2.gameObject.SetActive ( cam == 1 );
-//		depthCam.enabled = ( cam == 0 );
-//		maskCam.enabled = maskCam2.enabled = ( cam == 1 );
+		envMaskCam.gameObject.SetActive ( cam == 1 );
 	}
 }

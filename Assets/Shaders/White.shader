@@ -8,8 +8,8 @@
 	{
 		Tags { "RenderType"="Opaque" }
 		LOD 100
-		zwrite off
-//		ztest always
+//		zwrite off
+//		ztest lequal
 
 		Pass
 		{
