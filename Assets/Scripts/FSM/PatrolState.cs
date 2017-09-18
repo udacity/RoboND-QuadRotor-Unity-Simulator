@@ -26,7 +26,7 @@ public class PatrolState : DroneState
 		speedPercent = 0;
 
 //		follower.arriveCallback = OnArrived;
-		if ( points.Length < 2 );
+		if ( points.Length < 2 )
 			return;
 
 		FindNearestPoint ();
@@ -52,7 +52,7 @@ public class PatrolState : DroneState
 		if ( points.Length < 2 )
 			return;
 
-		Debug.Log ( points.Length );
+//		Debug.Log ( points.Length );
 
 		Vector3 dest = points [ curPoint ].position;
 		float distance = ( dest - motor.Position ).sqrMagnitude;

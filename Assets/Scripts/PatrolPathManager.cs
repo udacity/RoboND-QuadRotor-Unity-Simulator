@@ -100,6 +100,7 @@ public class PatrolPathManager : MonoBehaviour
 			Destroy ( nodeObjects [ i ].gameObject );
 		nodeObjects.Clear ();
 		count = path.Count;
+		pathRenderer.numPositions = count;
 		for ( int i = 0; i < count; i++ )
 		{
 			if ( path [ i ].timestamp == -1 )
