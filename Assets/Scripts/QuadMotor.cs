@@ -180,9 +180,15 @@ public class QuadMotor : MonoBehaviour
 
 		if ( Input.GetKeyDown ( KeyCode.Escape ) )
 		{
-			#if !UNITY_EDITOR
-			ROSController.StopROS ( new System.Action ( () => { Application.Quit (); } ) );
-			#endif
+			UnityMainThreadDispatcher.Cleanup ();
+			UnityEngine.SceneManagement.SceneManager.LoadScene ( "proto4" );
+//			#if !UNITY_EDITOR
+//			ROSController.StopROS ( new System.Action ( () => { Application.Quit (); } ) );
+//			#endif
+		}
+		if ( Input.GetKeyDown ( KeyCode.Q ) && ( Input.GetKey ( KeyCode.LeftControl ) || Input.GetKey ( KeyCode.RightControl ) ) )
+		{
+			Application.Quit ();
 		}
 		
 		if ( Input.GetKeyDown ( KeyCode.L ) )
@@ -445,7 +451,8 @@ RMB: Reset camera
 MMB: Toggle patrol/follow
 F11: Reset Quad (Local mode)
 F5: Cycle quality settings
-Esc: Quit";
+Esc: Reload menu
+Ctrl-Q: Quit";
 
 			size = label.CalcSize ( new GUIContent ( info ) );
 			r = new Rect ( Screen.width - size.x - 20, 150, size.x + 10, size.y );

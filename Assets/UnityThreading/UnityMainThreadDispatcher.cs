@@ -89,7 +89,10 @@ public class UnityMainThreadDispatcher : MonoBehaviour {
 		_instance = null;
 	}
 
-
+	public static void Cleanup ()
+	{
+		GameObject.Destroy ( _instance.gameObject );
+	}
 }
 
 
