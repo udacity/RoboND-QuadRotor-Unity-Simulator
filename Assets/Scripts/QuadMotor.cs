@@ -82,6 +82,8 @@ public class QuadMotor : MonoBehaviour
 	// target follow vars
 	public float followDistance = 2;
 	public float followHeight = 2;
+	public float maxFollowSpeed = 15;
+	public float followAccelTime = 2;
 
 	[System.NonSerialized]
 	public Rigidbody rb;

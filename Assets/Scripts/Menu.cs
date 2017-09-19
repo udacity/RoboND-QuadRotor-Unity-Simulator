@@ -23,6 +23,7 @@ public class Menu : MonoBehaviour
 	public GameObject fileReadWrite;
 	public Toggle heroToggle;
 	public Toggle otherToggle;
+	public Text heroText;
 	public Text otherText;
 
 	void Awake ()
@@ -36,16 +37,13 @@ public class Menu : MonoBehaviour
 
 	void LateUpdate ()
 	{
-		if ( Input.GetKeyDown ( KeyCode.F1 ) )
+		if ( heroToggle.interactable != peopleToggle.isOn )
 		{
-			UnityEngine.SceneManagement.SceneManager.LoadScene ( UnityEngine.SceneManagement.SceneManager.GetActiveScene ().name );
-		}
-		if ( otherToggle.interactable != heroToggle.isOn )
-		{
-			otherToggle.interactable = heroToggle.isOn;
+			heroToggle.interactable = peopleToggle.isOn;
+			heroText.color = heroToggle.interactable ? Color.white : Color.gray;
+			otherToggle.interactable = peopleToggle.isOn;
 			otherText.color = otherToggle.interactable ? Color.white : Color.gray;
 		}
-
 	}
 
 	void EnableCanvas ()

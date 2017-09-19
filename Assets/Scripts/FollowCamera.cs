@@ -73,7 +73,6 @@ public class FollowCamera : MonoBehaviour
 
 		Vector3 look = target.Position + Vector3.up * followDistance / 3;
 		transform.position = look - transform.forward * followDistance;
-//		transform.position = target.Position - transform.forward * followDistance + Vector3.up * height;
 		if ( blurRotors )
 		{
 			float forcePercent = Mathf.Abs ( target.Force.y / target.maxForce );
@@ -95,44 +94,16 @@ public class FollowCamera : MonoBehaviour
 			rmbTime = Time.time;
 		if ( Input.GetMouseButtonUp ( 1 ) && Time.time - rmbTime < 0.1f )
 		{
-//			transform.position = look - target.transform.forward * followDistance;
 			transform.rotation = Quaternion.Euler ( new Vector3 ( 30, target.transform.eulerAngles.y, 0 ) );
-//			transform.rotation = Quaternion.LookRotation ( target.transform.forward - Vector3.up, target.transform.forward + Vector3.up );
 		}
 
 		if ( Input.GetMouseButton ( 1 ) && Time.time - rmbTime > 0.2f )
 		{
 			float x = Input.GetAxis ( "Mouse X" );
 			transform.RotateAround ( look, Vector3.up, x * rotateSpeed );
-//			transform.RotateAround ( target.Position, Vector3.up, x * rotateSpeed );
 			float y = Input.GetAxis ( "Mouse Y" );
 			transform.RotateAround ( look, transform.right, -y * rotateSpeed );
-//			transform.RotateAround ( target.Position, transform.right, -y * rotateSpeed );
 		}
-
-//		if ( Input.GetKeyDown ( KeyCode.Alpha1 ) || Input.GetKeyDown ( KeyCode.Alpha2 ) || Input.GetKeyDown ( KeyCode.Alpha3 ) || Input.GetKeyDown ( KeyCode.Alpha4 ) || Input.GetKeyDown ( KeyCode.Alpha5 ) )
-//		{
-//			int pose = 0;
-//			if ( Input.GetKeyDown ( KeyCode.Alpha2 ) )
-//				pose = 1;
-//			if ( Input.GetKeyDown ( KeyCode.Alpha3 ) )
-//				pose = 2;
-//			if ( Input.GetKeyDown ( KeyCode.Alpha4 ) )
-//				pose = 3;
-//			if ( Input.GetKeyDown ( KeyCode.Alpha5 ) )
-//				pose = 4;
-//			new System.Threading.Thread ( () =>
-//			{
-//				SetInt.Request req = new SetInt.Request ();
-//				SetInt.Response resp = new SetInt.Response ();
-//				req.data = pose;
-//
-//				if ( nh.serviceClient<SetInt.Request, SetInt.Response> ( "/quad_rotor/camera_pose_type" ).call ( req, ref resp ) )
-//					Debug.Log ( resp.success + " " + resp.newData );
-//				else
-//					Debug.Log ( "Failed" );
-//			} ).Start ();
-//		}
 	}
 
 	public void ChangePoseType (CameraPoseType newType)
@@ -156,7 +127,6 @@ public class FollowCamera : MonoBehaviour
 		case CameraPoseType.Iso:
 		case CameraPoseType.Free:
 			targetRotation = Quaternion.Euler ( new Vector3 ( 30, target.transform.eulerAngles.y, 0 ) );
-//			targetRotation = Quaternion.LookRotation ( ( Vector3.forward - Vector3.up ).normalized, ( Vector3.forward + Vector3.up ).normalized );
 			break;
 		}
 
