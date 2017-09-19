@@ -24,6 +24,7 @@ public class PeopleSpawner : MonoBehaviour
 	List<float> spawnTimers;
 	float nextSpawnTime;
 	int peopleLayer;
+	Transform peopleParent;
 
 	void Awake ()
 	{
@@ -32,7 +33,7 @@ public class PeopleSpawner : MonoBehaviour
 		spawnTimers = new List<float> ();
 		spawnPoints = SpawnPointManager.GetPath();
 		peopleLayer = LayerMask.NameToLayer ( "People" );
-
+		peopleParent = new GameObject ( "People Instances" ).transform;
 	}
 
 	void Start ()
@@ -107,6 +108,7 @@ public class PeopleSpawner : MonoBehaviour
 			}
 			SetLayerRecursively ( person, peopleLayer );
 			person.GetComponent<PersonBehavior> ().Wander ();
+			person.parent = peopleParent;
 		}
 	}
 

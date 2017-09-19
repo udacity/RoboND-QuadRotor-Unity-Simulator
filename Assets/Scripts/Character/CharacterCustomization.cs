@@ -79,6 +79,7 @@ public class AppearancePreset
 
 public class CharacterCustomization : MonoBehaviour
 {
+	public bool canCustomize = true;
 	public GameObject[] fullBody;
 	public GameObject[] overs;
 	public GameObject[] tops;
@@ -106,7 +107,7 @@ public class CharacterCustomization : MonoBehaviour
 
 	void Start ()
 	{
-		if ( !spawned )
+		if ( !spawned && canCustomize )
 		{
 			bool useFullBody = false;
 			
@@ -155,6 +156,12 @@ public class CharacterCustomization : MonoBehaviour
 
 	public void SetAppearance (AppearancePreset preset)
 	{
+		if ( !canCustomize )
+		{
+			spawned = true;
+			return;
+		}
+		
 		DisableAll ();
 
 		if ( preset.fullBody != -1 )
