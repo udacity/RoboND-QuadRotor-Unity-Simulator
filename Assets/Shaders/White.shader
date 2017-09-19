@@ -40,7 +40,8 @@
 			half4 frag(vertOutput output) : COLOR
 			{
 //				return _maskColor;
-				return half4(1.0, 1.0, 1.0, 1.0); 
+				return half4(0.0, 0.0, 0.0, 1.0);
+//				return half4(1.0, 1.0, 1.0, 1.0);
 			}
 			ENDCG
 		}
