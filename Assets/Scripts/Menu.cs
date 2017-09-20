@@ -53,7 +53,10 @@ public class Menu : MonoBehaviour
 
 	public void OnModeSelect (int mode)
 	{
-		// controls
+		ModeController.isTrainingMode = ( mode == 1 );
+		ModeController.spawnNonHero = peopleToggle.isOn;
+
+		// follow me mode
 		if ( mode == 0 )
 		{
 //			rosObject.SetActive ( true );
@@ -62,22 +65,15 @@ public class Menu : MonoBehaviour
 			quadCanvasObject.SetActive ( true );
 			commandServerObject.SetActive ( true );
 			defaultTaskObject.SetActive ( true );
-			if ( peopleToggle.isOn )
-			{
-				peopleSpawnerObject.GetComponent<PeopleSpawner> ().UseHero ( heroToggle.isOn, otherToggle.isOn );
-				peopleSpawnerObject.SetActive ( true );
-			} else
-				peopleSpawnerObject.SetActive ( false );
+			peopleSpawnerObject.SetActive ( true );
 			peopleCamObject.SetActive ( false );
 			recordingObject.SetActive ( false );
 			SimpleQuadController.ActiveController.gimbal.SetSecondaryCam ( 0 );
 		} else
 
-		// deep learning
+		// training mode
 		if ( mode == 1 )
 		{
-			if ( peopleToggle.isOn )
-				peopleSpawnerObject.GetComponent<PeopleSpawner> ().UseHero ( heroToggle.isOn, otherToggle.isOn );
 			quadObject.SetActive ( true );
 			quadCamObject.SetActive ( true );
 //			quadCanvasObject.SetActive ( true );

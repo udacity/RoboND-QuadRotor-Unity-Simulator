@@ -2,13 +2,12 @@
 {
 	Properties
 	{
-		_maskColor ("Mask Color", Color) = (1.0, 1.0, 1.0, 1.0)
 	}
 	SubShader
 	{
 		Tags { "RenderType"="Opaque" }
 		LOD 100
-//		zwrite off
+		zwrite off
 //		ztest lequal
 
 		Pass
@@ -17,8 +16,6 @@
 
 			#pragma vertex vert             
 			#pragma fragment frag
-
-			float4 _maskColor;
 
 			struct vertInput
 			{
@@ -39,9 +36,8 @@
 
 			half4 frag(vertOutput output) : COLOR
 			{
-//				return _maskColor;
-				return half4(0.0, 0.0, 0.0, 1.0);
-//				return half4(1.0, 1.0, 1.0, 1.0);
+//				return half4(0.0, 0.0, 0.0, 1.0);
+				return half4(1.0, 1.0, 1.0, 1.0);
 			}
 			ENDCG
 		}
