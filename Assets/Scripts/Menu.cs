@@ -26,6 +26,9 @@ public class Menu : MonoBehaviour
 	public Text heroText;
 	public Text otherText;
 
+	// other
+	public GameObject timeManagerObj;
+
 	void Awake ()
 	{
 	}
@@ -69,6 +72,8 @@ public class Menu : MonoBehaviour
 			peopleCamObject.SetActive ( false );
 			recordingObject.SetActive ( false );
 			SimpleQuadController.ActiveController.gimbal.SetSecondaryCam ( 0 );
+			timeManagerObj.SetActive ( true );
+
 		} else
 
 		// training mode
@@ -90,6 +95,7 @@ public class Menu : MonoBehaviour
 //			peopleCamObject.SetActive ( true );
 			recordingObject.SetActive ( true );
 			SimpleQuadController.ActiveController.gimbal.SetSecondaryCam ( 1 );
+			timeManagerObj.SetActive ( true );
 		}
 
 		gameObject.SetActive ( false );
