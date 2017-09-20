@@ -64,9 +64,9 @@ public class GimbalCamera : MonoBehaviour
 
 	void LateUpdate ()
 	{
-		Vector3 v = Vector3.RotateTowards ( tr.forward, Vector3.up, colorCam.fieldOfView * Mathf.Deg2Rad * 0.5f, 0 );
-		v = v.normalized * colorCam.farClipPlane;
-		Debug.DrawRay ( tr.position, v, Color.green, Time.deltaTime, false );
+//		Vector3 v = Vector3.RotateTowards ( tr.forward, Vector3.up, colorCam.fieldOfView * Mathf.Deg2Rad * 0.5f, 0 );
+//		v = v.normalized * colorCam.farClipPlane;
+//		Debug.DrawRay ( tr.position, v, Color.green, Time.deltaTime, false );
 		// manual input test
 /*		if ( Input.GetMouseButtonDown ( 0 ) )
 		{

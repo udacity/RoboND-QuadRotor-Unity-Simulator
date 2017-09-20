@@ -27,7 +27,6 @@ public class LocalInputState : DroneState
 		rb.freezeRotation = true;
 		if ( camTransform == null )
 			camTransform = FollowCamera.ActiveCamera.transform;
-		follower.Stop ();
 		gimbal.StopLooking ();
 	}
 

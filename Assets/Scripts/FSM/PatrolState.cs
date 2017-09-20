@@ -71,7 +71,28 @@ public class PatrolState : DroneState
 		else
 			speedPercent = 1;
 
-		motor.rb.velocity = ( dest - motor.Position ).normalized * motor.maxPatrolSpeed * speedPercent;
+		float speed = motor.maxPatrolSpeed * speedPercent;
+		Vector3 velocity = ( dest - motor.Position ).normalized;
+
+		// add some avoidance
+		BoxCollider bc = motor.boxCollider;
+		RaycastHit hit;
+		float rayDist = 5;
+		if ( Physics.BoxCast ( motor.transform.position, bc.size/2, velocity.normalized, out hit, bc.transform.rotation, rayDist, control.collisionMask.value ) )
+		{
+//			Debug.DrawLine ( motor.transform.position, hit.point, Color.red, Time.deltaTime * 2, false );
+//			Debug.DrawRay ( hit.point, hit.normal, Color.blue, Time.deltaTime * 2, false );
+//			Debug.DrawLine ( motor.transform.position, motor.transform.position + velocity * speed, Color.white, Time.deltaTime * 2, false );
+			Vector3 localTarget = motor.transform.InverseTransformPoint ( dest );
+			Vector3 direction = new Vector3 ( hit.normal.z, hit.normal.y, hit.normal.x );
+			if ( Vector3.Angle ( velocity, direction ) > 90 )
+				direction = -direction;
+			float distPercent = Mathf.InverseLerp ( ( bc.size / 2 ).sqrMagnitude, rayDist * rayDist, hit.distance * hit.distance ); // using squares instead of sqrts
+			velocity = Vector3.Lerp ( velocity, direction, 1f - distPercent );
+		}
+
+		motor.rb.velocity = velocity.normalized * speed;
+
 		Vector3 look = dest - motor.transform.position;
 		look.y = 0;
 		motor.transform.rotation = Quaternion.RotateTowards ( motor.transform.rotation, Quaternion.LookRotation ( look, Vector3.up ), 90 * Time.deltaTime );

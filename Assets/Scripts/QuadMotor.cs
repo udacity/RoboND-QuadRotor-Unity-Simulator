@@ -85,8 +85,10 @@ public class QuadMotor : MonoBehaviour
 	public float maxFollowSpeed = 15;
 	public float followAccelTime = 2;
 
+
 	[System.NonSerialized]
 	public Rigidbody rb;
+	public BoxCollider boxCollider;
 	Transform[] rotors;
 	Vector3 force;
 	Vector3 torque;

@@ -22,6 +22,7 @@ public class SimpleQuadController : MonoBehaviour
 	public float turnSpeed = 90;
 	public StateController stateController;
 	public bool allowPathPlanning;
+	public LayerMask collisionMask;
 
 	Rigidbody rb;
 	float tiltX;
