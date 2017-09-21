@@ -88,7 +88,7 @@ public class PeopleSpawner : MonoBehaviour
 
 	void SpawnPerson (bool isTarget = true, int activeIndex = -1)
 	{
-		Transform target = isTarget ? ( spawnTargets [ heroPreset.female ? 1 : 0 ] ) : spawnTargets [ Random.Range ( 0, spawnTargets.Length ) ];
+		Transform target = isTarget ? ( spawnTargets [ heroPreset.female ? 1 : 0 ] ) : spawnTargets [ Random.Range ( 2, spawnTargets.Length ) ];
 		if ( isTarget )
 		{
 			PathSample[] path = HeroPathManager.GetPath ();
