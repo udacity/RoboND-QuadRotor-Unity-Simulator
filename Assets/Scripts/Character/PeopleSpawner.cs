@@ -38,7 +38,7 @@ public class PeopleSpawner : MonoBehaviour
 	{
 		SpawnPerson ();
 		nextSpawnTime = Time.time + spawnTimer;
-		if ( ModeController.spawnNonHero || !ModeController.isTrainingMode )
+		if ( ModeController.spawnNonHero || ModeController.isTrainingMode )
 		{
 			for ( int i = 0; i < spawnCount - 1; i++ )
 			{
