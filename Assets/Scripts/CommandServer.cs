@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#define OUTPUT_EVENTS // uncomment this to log when events are called
+using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using SocketIO;
@@ -28,8 +29,14 @@ public class CommandServer : MonoBehaviour
 	Thread broadcastThread;
 	int broadcastFrequency;
 	bool paused;
+	float nextBroadcast;
+	bool canBroadcast;
 
 	DateTime origin = new DateTime (1970, 1, 1, 0, 0, 0);
+
+	string rgbString;
+	string depthString;
+	object locker;
 
 	void Start ()
 	{
@@ -39,13 +46,12 @@ public class CommandServer : MonoBehaviour
 		_socket.On ( "object_lost", OnObjectLost );
 		_socket.On ( "create_box_marker", OnCreateBoxMarker );
 		_socket.On ( "delete_marker", OnDeleteMarker );
+		_socket.On ( "error", OnError );
 		inset1Tex = new Texture2D ( 1, 1 );
 		inset2Tex = new Texture2D ( 1, 1 );
 //		inset3Tex = new Texture2D ( 1, 1 );
 
-		broadcastFrequency = 10; //30; //60;
-		broadcastThread = new Thread ( ThreadFunc );
-		broadcastThread.Start ();
+		broadcastFrequency = 5; // 10; //30; //60;
 		control = quad.inputCtrl;
 		gimbal = control.gimbal;
 		Debug.Log ( "starting" );
@@ -54,6 +60,33 @@ public class CommandServer : MonoBehaviour
 		UnityEditor.EditorApplication.playmodeStateChanged += HandleCallbackFunction;
 		#endif
 		depthImage = gimbal.colorCam.GetComponent<RGBToDepth> ().destTex;
+//		StartCoroutine ( BroadcastFunc () );
+		nextBroadcast = Time.realtimeSinceStartup + 1f / broadcastFrequency;
+		locker = new object ();
+//		broadcastThread = new Thread ( ThreadFunc );
+//		broadcastThread.Start ();
+	}
+
+	void Update ()
+	{
+		if ( !_socket.IsConnected )
+			return;
+		#if UNITY_EDITOR
+		if ( paused )
+			return;
+		#endif
+		if ( Time.realtimeSinceStartup > nextBroadcast )
+		{
+//			lock ( locker )
+//			{
+				rgbString = Convert.ToBase64String ( CameraHelper.CaptureFrame ( colorCam ) );
+				depthString = Convert.ToBase64String ( CameraHelper.CaptureDepthFrame ( depthImage ) );
+//			}
+			canBroadcast = true;
+			NewTelemetry ();
+
+			nextBroadcast = Time.realtimeSinceStartup + 1f / broadcastFrequency;
+		}
 	}
 
 	void HandleCallbackFunction ()
@@ -71,7 +104,26 @@ public class CommandServer : MonoBehaviour
 
 	void ThreadFunc ()
 	{
-		int sleepTime = (int) ( 1000f / broadcastFrequency );
+		int sleepTime = 10;
+
+		while ( true )
+		{
+			if ( canBroadcast )
+			{
+				NewTelemetry ();
+				canBroadcast = false;
+			}
+			Thread.Sleep ( sleepTime);
+		}
+	}
+
+	IEnumerator BroadcastFunc ()
+	{
+		float sleepTime = 1f / broadcastFrequency;
+		while ( !_socket.IsConnected )
+			yield return null;
+
+		Debug.Log ( "Initiating telemetry emission" );
 
 		while ( true )
 		{
@@ -79,19 +131,23 @@ public class CommandServer : MonoBehaviour
 			if ( !paused )
 			#endif
 			EmitTelemetry ();
-			Thread.Sleep ( sleepTime );
+			yield return new WaitForSecondsRealtime ( sleepTime );
 		}
 	}
 
 	void OnOpen(SocketIOEvent obj)
 	{
+		#if OUTPUT_EVENTS
 		Debug.Log ( "Connection Open" );
-		EmitTelemetry ();
+		#endif
+//		EmitTelemetry ();
 	}
 
 	void OnObjectDetected (SocketIOEvent obj)
 	{
+		#if OUTPUT_EVENTS
 		Debug.Log ( "Object detected" );
+		#endif
 
 		JSONObject json = obj.data;
 		List<JSONObject> list = json.GetField ( "coords" ).list;
@@ -108,7 +164,9 @@ public class CommandServer : MonoBehaviour
 //		float timestamp = json.GetField ( "timestamp" ).f;
 
 		Vector3 position = new Vector3 ( pos [ 0 ], pos [ 1 ], pos [ 2 ] ).ToUnity ();
+		#if OUTPUT_EVENTS
 		Debug.Log ( "Target detected at " + position );
+		#endif
 		Transform target = PeopleSpawner.instance.targetInstance;
 		Transform cam = gimbal.colorCam.transform;
 		bool success = false;
@@ -133,13 +191,17 @@ public class CommandServer : MonoBehaviour
 
 	void OnObjectLost (SocketIOEvent obj)
 	{
+		#if OUTPUT_EVENTS
 		Debug.Log ( "Object lost" );
+		#endif
 		control.OnTargetLost ();
 	}
 
 	void OnCreateBoxMarker (SocketIOEvent obj)
 	{
+		#if OUTPUT_EVENTS
 		Debug.Log ( "Create marker" );
+		#endif
 		JSONObject json = obj.data;
 		// grab the info from json. info is set up as:
 		// "id": "id"
@@ -147,12 +209,12 @@ public class CommandServer : MonoBehaviour
 		// "dimensions": [w,h,d]
 		// "color": [r,g,b,a]
 		// "duration": #.#
-		Debug.Log ( "json:\n" + json.Print ( true ) );
-		Debug.Log ( "id is a " + json.GetField ( "id" ).type );
-		Debug.Log ( "pose is a " + json.GetField ( "pose" ).type );
-		Debug.Log ( "dimensions is a " + json.GetField ( "dimensions" ).type );
-		Debug.Log ( "color is a " + json.GetField ( "color" ).type );
-		Debug.Log ( "duration is a " + json.GetField ( "duration" ).type );
+//		Debug.Log ( "json:\n" + json.Print ( true ) );
+//		Debug.Log ( "id is a " + json.GetField ( "id" ).type );
+//		Debug.Log ( "pose is a " + json.GetField ( "pose" ).type );
+//		Debug.Log ( "dimensions is a " + json.GetField ( "dimensions" ).type );
+//		Debug.Log ( "color is a " + json.GetField ( "color" ).type );
+//		Debug.Log ( "duration is a " + json.GetField ( "duration" ).type );
 
 		int id = (int) json.GetField ( "id" ).n;
 		List<JSONObject> values = json.GetField ( "pose" ).list;
@@ -184,72 +246,11 @@ public class CommandServer : MonoBehaviour
 		Ack ( new JSONObject ( data ) );
 	}
 
-/*	void OnCreateBoxMarker (SocketIOEvent obj)
-	{
-		Debug.Log ( "Create marker" );
-		JSONObject json = obj.data;
-		// grab the info from json. info is set up as:
-		// "id": "id"
-		// "pose": [x,y,z,roll,pitch,yaw]
-		// "dimensions": [w,h,d]
-		// "color": [r,g,b,a]
-		// "duration": #.#
-
-		// check that all the fields exist
-		Debug.Log ( "json is:\n" + json.Print ( true ) );
-		ValidateField ( json, "id", JSONObject.Type.STRING );
-		ValidateField ( json, "pose", JSONObject.Type.STRING );
-		ValidateField ( json, "dimensions", JSONObject.Type.STRING );
-		ValidateField ( json, "color", JSONObject.Type.STRING );
-		ValidateField ( json, "duration", JSONObject.Type.NUMBER );
-
-		string id = json.GetField ( "id" ).str;
-		string pose = json.GetField ( "pose" ).str;
-		string dims = json.GetField ( "dimensions" ).str;
-		string color = json.GetField ( "color" ).str;
-		string[] values = pose.Split ( ',' );
-		double[] vals = new double[9];
-		for ( int i = 0; i < values.Length; i++ )
-			vals [ i ] = double.Parse ( values [ i ] );
-		values = dims.Split ( ',' );
-		for ( int i = 0; i < values.Length; i++ )
-			vals [ 6 + i ] = double.Parse ( values [ i ] );
-
-		string[] channels = color.Split ( ',' );
-		float[] newChannels = new float[4];
-		for ( int i = 0; i < 4; i++ )
-			newChannels [ i ] = (float) double.Parse ( channels [ i ] );
-		Color c = new Color ( newChannels [ 0 ], newChannels [ 1 ], newChannels [ 2 ], newChannels [ 3 ] );
-		float duration = json.GetField ( "duration" ).f;
-
-		Vector3 pos = new Vector3 ( (float) vals [ 0 ], (float) vals [ 1 ], (float) vals [ 2 ] ).ToUnity ();
-		Vector3 euler = new Vector3 ( (float) vals [ 3 ], (float) vals [ 4 ], (float) vals [ 5 ] ).ToUnity ();
-		Quaternion rot = Quaternion.Euler ( euler );
-		Vector3 size = new Vector3 ( (float) vals [ 6 ], (float) vals [ 7 ], (float) vals [ 8 ] ).ToUnity ();
-
-		MarkerMaker.AddMarker ( id, pos, rot, size, c, duration );
-
-
-		Dictionary<string, string> data = new Dictionary<string, string> ();
-		data [ "action" ] = "create";
-		data [ "id" ] = id;
-
-		Ack ( new JSONObject ( data ) );
-	}*/
-	void ValidateField (JSONObject obj, string fieldName, JSONObject.Type fieldType)
-	{
-		if ( obj.HasField ( fieldName ) && obj.GetField ( fieldName ).type == fieldType )
-			Debug.Log ( "Field " + fieldName + "ok" );
-		else
-		if ( obj.HasField ( fieldName ) )
-			Debug.Log ( "Field " + fieldName + " is type " + obj.GetField ( fieldName ).type + ", expected: " + fieldType );
-		else
-			Debug.Log ( "No field named " + fieldName );
-	}
-
 	void OnDeleteMarker (SocketIOEvent obj)
 	{
+		#if OUTPUT_EVENTS
 		Debug.Log ( "Delete marker" );
+		#endif
 		JSONObject json = obj.data;
 		int id = (int) json.GetField ( "id" ).n;
 //		string id = json.GetField ( "id" ).str;
@@ -263,16 +264,24 @@ public class CommandServer : MonoBehaviour
 		Ack ( new JSONObject ( data ) );
 	}
 
+	void OnError (SocketIOEvent obj)
+	{
+		#if OUTPUT_EVENTS
+		Debug.Log ( "error!" );
+		#endif
+	}
+
 	void Ack (JSONObject obj)
 	{
-		_socket.Emit ( "Ack", obj );
+//		_socket.Emit ( "Ack", obj );
 	}
 
 	void EmitTelemetry ()
 	{
-//		Debug.Log ( "Emitting" );
-		UnityMainThreadDispatcher.Instance ().Enqueue ( () =>
-		{
+//		if ( UnityEngine.Random.value < 0.1f )
+//			Debug.Log ( "Emitting (random)" );
+//		UnityMainThreadDispatcher.Instance ().Enqueue ( () =>
+//		{
 //			print ( "Attempting to Send..." );
 
 			// Collect Data from the Car
@@ -295,9 +304,39 @@ public class CommandServer : MonoBehaviour
 //			Debug.Log ("capture took " + w.ElapsedMilliseconds + "ms");
 
 //			Debug.Log ("sangle " + data["steering_angle"] + " vert " + data["vert_angle"] + " throt " + data["throttle"] + " speed " + data["speed"] + " image " + data["image"]);
-			_socket.Emit ( "sensor_frame", new JSONObject ( data ) );
+//			new Thread ( () =>{
+//				_socket.Emit ( "sensor_frame", new JSONObject ( data ) );}
+//			).Start ();
+		_socket.Emit ( "sensor_frame", new JSONObject ( data ) );
 //			Debug.Log ("Emitted");
-		} );
+//		} );
+	}
+
+	void NewTelemetry ()
+	{
+		#if OUTPUT_EVENTS
+//		Debug.Log ( "Emitting" );
+		#endif
+
+//		UnityMainThreadDispatcher.Instance ().Enqueue ( () =>
+//		{
+			Dictionary<string, string> data = new Dictionary<string, string> ();
+
+			data [ "timestamp" ] = Timestamp ().ToString ();
+			Vector3 v = quad.Position.ToRos ();
+			Vector3 v2 = ( -quad.Rotation.eulerAngles ).ToRos ();
+			data [ "pose" ] = v.x.ToString ( "N4" ) + "," + v.y.ToString ( "N4" ) + "," + v.z.ToString ( "N4" ) + "," + v2.x.ToString ( "N4" ) + "," + v2.y.ToString ( "N4" ) + "," + v2.z.ToString ( "N4" );
+			v = gimbal.Position.ToRos ();
+			v2 = ( -gimbal.Rotation.eulerAngles ).ToRos ();
+			data [ "gimbal_pose" ] = v.x.ToString ( "N4" ) + "," + v.y.ToString ( "N4" ) + "," + v.z.ToString ( "N4" ) + "," + v2.x.ToString ( "N4" ) + "," + v2.y.ToString ( "N4" ) + "," + v2.z.ToString ( "N4" );
+			lock ( locker )
+			{
+				data [ "rgb_image" ] = rgbString;
+				data [ "depth_image" ] = depthString;
+			}
+			_socket.Emit ( "sensor_frame", new JSONObject ( data ) );
+		JSONObject j = new JSONObject ( data );
+//		} );
 	}
 
 	double Timestamp ()
