@@ -38,7 +38,7 @@ public class LocalInputState : DroneState
 	public override void OnLateUpdate ()
 	{
 //		Debug.Log ( "local" );
-		if ( Input.GetKeyDown ( KeyCode.F11 ) )
+		if ( Input.GetKeyDown ( KeyCode.G ) )
 		{
 			motor.ResetOrientation ();
 			control.followCam.ChangePoseType ( CameraPoseType.Iso );

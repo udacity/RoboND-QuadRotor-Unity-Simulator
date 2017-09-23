@@ -445,15 +445,15 @@ public class QuadMotor : MonoBehaviour
 		if ( showLegend )
 		{
 			info = @"L: Legend on/off
-F12: Control on/off
+H: Control on/off
 WSAD/Arrows: Move around
 Space/C: Thrust up/down
 Q/E: Turn around
+G: Reset Quad orientation
 Scroll wheel: zoom in/out
 RMB (drag): Rotate camera
 RMB: Reset camera
 MMB: Toggle patrol/follow
-F11: Reset Quad (Local mode)
 F5: Cycle quality settings
 Esc: Reload menu
 Ctrl-Q: Quit";

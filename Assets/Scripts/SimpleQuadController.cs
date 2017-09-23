@@ -50,7 +50,7 @@ public class SimpleQuadController : MonoBehaviour
 
 	void LateUpdate ()
 	{
-		if ( Input.GetKeyDown ( KeyCode.F12 ) )
+		if ( Input.GetKeyDown ( KeyCode.H ) )
 		{
 			if ( stateController.IsCurrentStateName ( "Local" ) )
 				stateController.RevertState ();
