@@ -306,7 +306,11 @@ namespace SocketIO
 			#endif
 			
 			try {
+//				var sw = new System.Diagnostics.Stopwatch ();
+//				sw.Start ();
 				ws.Send(encoder.Encode(packet));
+//				sw.Stop ();
+//				UnityEngine.Debug.Log ("send took " + sw.Elapsed.TotalSeconds + " seconds");
 			} catch(SocketIOException ex) {
 				#if SOCKET_IO_DEBUG
 				debugMethod.Invoke(ex.ToString());

@@ -199,6 +199,15 @@ public class GimbalCamera : MonoBehaviour
 		string prefix = imageCount.ToString ( "D5" );
 //		Debug.Log ( "writing " + prefix );
 		imageCount++;
+
+		// render the cameras
+		maskCam.Render ();
+		maskCam2.Render ();
+		envMaskCam.Render ();
+//		maskCam.RenderWithShader ( whiteShader, "" );
+//		maskCam2.RenderWithShader ( whiteShader, "" );
+//		envMaskCam.RenderWithShader ( whiteShader, "" );
+
 		// needed to force camera update 
 		RenderTexture targetTexture = rt1;
 		RenderTexture.active = targetTexture;
