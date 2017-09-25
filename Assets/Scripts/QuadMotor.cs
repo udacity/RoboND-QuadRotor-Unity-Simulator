@@ -459,6 +459,7 @@ F5: Cycle quality settings
 Esc: Reload menu
 Ctrl-Q: Quit";
 
+			label.alignment = TextAnchor.MiddleLeft;
 			size = label.CalcSize ( new GUIContent ( info ) );
 			r = new Rect ( Screen.width - size.x - 20, 150, size.x + 10, size.y );
 			GUI.Box ( r, "" );
@@ -470,11 +471,11 @@ Ctrl-Q: Quit";
 			GUILayout.EndArea ();
 		} else
 		{
+			label.alignment = TextAnchor.MiddleLeft;
 			info = "L: Legend on/off";
 
 			size = label.CalcSize ( new GUIContent ( info ) );
-			r = new Rect ( Screen.width - size.x - 10, 150, size.x + 10, size.y );
-			r.x -= 10;
+			r = new Rect ( Screen.width - size.x - 20, 150, size.x + 10, size.y );
 			GUI.Box ( r, "" );
 			GUI.Box ( r, "" );
 			r.x += 5;

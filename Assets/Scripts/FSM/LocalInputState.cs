@@ -157,10 +157,17 @@ public class LocalInputState : DroneState
 				a = ( 3f - delta ) / 0.3f;
 
 			float heightRatio = 1f * Screen.height / 1080f;
-			GUI.skin.label.fontSize = (int) ( heightRatio * 32 );
-			GUI.skin.label.clipping = TextClipping.Overflow;
-			GUI.skin.label.wordWrap = false;
-			GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+
+			GUIStyle label = GUI.skin.label;
+			int fs = label.fontSize;
+			TextClipping clip = label.clipping;
+			bool wrap = label.wordWrap;
+			TextAnchor align = label.alignment;
+			label.fontSize = (int) ( heightRatio * 32 );
+			label.clipping = TextClipping.Overflow;
+			label.wordWrap = false;
+			label.alignment = TextAnchor.MiddleCenter;
+
 			Vector2 size = new Vector2 ( 100, 17.5f ) * heightRatio;
 			r = new Rect ( Screen.width / 2 - size.x, 0.5f * Screen.height - size.y, size.x * 2, size.y * 2 );
 			GUI.color = new Color ( 0, 0, 0, a );
@@ -170,6 +177,11 @@ public class LocalInputState : DroneState
 			warningColor.a = a;
 			GUI.color = warningColor;
 			GUI.Label ( r, error );
+
+			label.fontSize = fs;
+			label.clipping = clip;
+			label.wordWrap = wrap;
+			label.alignment = align;
 		}
 	}
 }
