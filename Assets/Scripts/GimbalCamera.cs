@@ -55,6 +55,9 @@ public class GimbalCamera : MonoBehaviour
 //		maskCam.depthTextureMode = DepthTextureMode.Depth;
 //		maskCam2.depthTextureMode = DepthTextureMode.Depth;
 //		envMaskCam.depthTextureMode = DepthTextureMode.Depth;
+//		maskCam.enabled = true;
+//		maskCam2.enabled = true;
+//		envMaskCam.enabled = true;
 
 		Time.timeScale = timeScale;
 		recordFrequency = 1f / recordFrequency;
@@ -196,14 +199,33 @@ public class GimbalCamera : MonoBehaviour
 
 	void WriteImage ()
 	{
+		StartCoroutine ( _WriteImage () );
+	}
+
+	IEnumerator _WriteImage ()
+	{
+		// start by turning the cameras on
+		maskCam.enabled = true;
+		maskCam2.enabled = true;
+		envMaskCam.enabled = true;
+
+		// yield a frame so they render
+		yield return null;
+
+		// then turn them back off again
+		maskCam.enabled = false;
+		maskCam2.enabled = false;
+		envMaskCam.enabled = false;
+
 		string prefix = imageCount.ToString ( "D5" );
 //		Debug.Log ( "writing " + prefix );
 		imageCount++;
 
 		// render the cameras
-		maskCam.Render ();
-		maskCam2.Render ();
-		envMaskCam.Render ();
+		// test: leave cameras on instead of manually rendering them, to check weird offset/lag issue
+//		maskCam.Render ();
+//		maskCam2.Render ();
+//		envMaskCam.Render ();
 //		maskCam.RenderWithShader ( whiteShader, "" );
 //		maskCam2.RenderWithShader ( whiteShader, "" );
 //		envMaskCam.RenderWithShader ( whiteShader, "" );
