@@ -455,6 +455,7 @@ RMB (drag): Rotate camera
 RMB: Reset camera
 MMB: Toggle patrol/follow
 F5: Cycle quality settings
+/: Path display on/off
 Esc: Reload menu
 Ctrl-Q: Quit";
 

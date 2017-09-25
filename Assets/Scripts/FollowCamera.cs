@@ -44,6 +44,7 @@ public class FollowCamera : MonoBehaviour
 	bool setRotationFlag;
 	Quaternion targetRotation;
 	float initialFollowDistance;
+	LayerMask pathMask;
 
 	float rmbTime;
 
@@ -54,6 +55,7 @@ public class FollowCamera : MonoBehaviour
 		initialFollowDistance = followDistance;
 		cam = GetComponent<Camera> ();
 		cam.depthTextureMode |= DepthTextureMode.MotionVectors;
+		pathMask = 1 << LayerMask.NameToLayer ( "TransparentFX" );
 	}
 
 	void Start ()
@@ -61,6 +63,10 @@ public class FollowCamera : MonoBehaviour
 //		forward = target.Forward;
 		if ( ROSController.instance != null )
 			ROSController.StartROS ( OnRosInit );
+		if ( ModeController.isTrainingMode )
+			cam.cullingMask |= pathMask.value;
+		else
+			cam.cullingMask &= ~pathMask.value;
 	}
 
 	void LateUpdate ()
@@ -103,6 +109,12 @@ public class FollowCamera : MonoBehaviour
 			transform.RotateAround ( look, Vector3.up, x * rotateSpeed );
 			float y = Input.GetAxis ( "Mouse Y" );
 			transform.RotateAround ( look, transform.right, -y * rotateSpeed );
+		}
+
+		// check for key to toggle path/waypoint visibility
+		if ( Input.GetKeyDown ( KeyCode.Slash ) )
+		{
+			cam.cullingMask ^= pathMask.value;
 		}
 	}
 
