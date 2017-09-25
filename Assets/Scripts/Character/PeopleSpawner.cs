@@ -76,7 +76,7 @@ public class PeopleSpawner : MonoBehaviour
 //		button.fontSize = (int) ( 22f * Screen.height / 1080 );
 
 		Vector2 size = button.CalcSize ( new GUIContent ( timerText ) );
-		Rect r = new Rect ( Screen.width/4 - size.x/2, Screen.height - size.y - 10, size.x, size.y );
+		Rect r = new Rect ( Screen.width/4, Screen.height - size.y - 10, size.x, size.y );
 		if ( GUI.Button ( new Rect ( r.x - 5, r.y, r.width + 10, r.height ), timerText ) )
 		{
 			timerLength = ++timerLength % 3;

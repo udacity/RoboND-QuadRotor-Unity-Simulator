@@ -33,9 +33,14 @@ public class FollowTargetState : DroneState
 
 	public override void OnLateUpdate ()
 	{
+		if ( followTarget == null && lockOnTarget )
+			followTarget = PeopleSpawner.instance.targetInstance;
+
 		if ( followTarget != null )
+		{
 			followPoint = followTarget.position;
-		else
+			control.LastTargetPoint = followPoint;
+		} else
 			followPoint = control.LastTargetPoint;
 		Vector3 toTarget = followPoint - motor.transform.position;
 		Vector3 backPoint;
