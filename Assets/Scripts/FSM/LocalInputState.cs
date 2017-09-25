@@ -14,6 +14,10 @@ public class LocalInputState : DroneState
 	Transform camTransform;
 	Transform tr;
 	Rigidbody rb;
+	bool showError;
+	float errorTime;
+	string error;
+	public Color warningColor;
 
 	public override void OnEnter ()
 	{
@@ -37,6 +41,8 @@ public class LocalInputState : DroneState
 
 	public override void OnLateUpdate ()
 	{
+		if ( showError && Time.unscaledTime - errorTime >= 3f )
+			showError = false;
 //		Debug.Log ( "local" );
 		if ( Input.GetKeyDown ( KeyCode.G ) )
 		{
@@ -66,9 +72,29 @@ public class LocalInputState : DroneState
 
 		if ( Input.GetKeyDown ( KeyCode.M ) )
 		{
-		
+			if ( PatrolPathManager.Count < 2 )
+			{
+				showError = true;
+				errorTime = Time.unscaledTime;
+				error = "Patrol path needs at least 2 waypoints";
+				return;
+			}
+			if ( HeroPathManager.Count < 2 )
+			{
+				showError = true;
+				errorTime = Time.unscaledTime;
+				error = "Hero path needs at least 2 waypoints";
+				return;
+			}
+			if ( SpawnPointManager.Count < 1 )
+			{
+				showError = true;
+				errorTime = Time.unscaledTime;
+				error = "Need at least 1 crowd spawn point";
+				return;
+			}
+			showError = false;
 			spawner.SetActive(true);
-
 		}
 
 		if ( Input.GetKeyDown ( KeyCode.L ) )
@@ -119,5 +145,31 @@ public class LocalInputState : DroneState
 		GUILayout.BeginArea ( r );
 		GUILayout.Box ( "Local input is on" );
 		GUILayout.EndArea ();
+
+		if ( showError )
+		{
+			float a = 1;
+			float delta = Time.unscaledTime - errorTime;
+			if ( delta < 0.15f )
+				a = delta / 0.15f;
+			else
+			if ( delta > 2.7f )
+				a = ( 3f - delta ) / 0.3f;
+
+			float heightRatio = 1f * Screen.height / 1080f;
+			GUI.skin.label.fontSize = (int) ( heightRatio * 32 );
+			GUI.skin.label.clipping = TextClipping.Overflow;
+			GUI.skin.label.wordWrap = false;
+			GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+			Vector2 size = new Vector2 ( 100, 17.5f ) * heightRatio;
+			r = new Rect ( Screen.width / 2 - size.x, 0.5f * Screen.height - size.y, size.x * 2, size.y * 2 );
+			GUI.color = new Color ( 0, 0, 0, a );
+			GUI.Label ( r, error );
+			r.x--;
+			r.y--;
+			warningColor.a = a;
+			GUI.color = warningColor;
+			GUI.Label ( r, error );
+		}
 	}
 }

@@ -5,6 +5,9 @@ using Pathing;
 
 public class HeroPathManager : MonoBehaviour
 {
+	public static int Count { get { if ( instance != null )
+			return instance.path.Count; return 0; } }
+
 	static HeroPathManager instance;
 	public LineRenderer pathPrefab;
 	public Transform nodePrefab;

@@ -82,12 +82,12 @@ public class Menu : MonoBehaviour
 			quadObject.SetActive ( true );
 			quadCamObject.SetActive ( true );
 //			quadCanvasObject.SetActive ( true );
-			commandServerObject.SetActive ( true );
+//			commandServerObject.SetActive ( true );
 //			rosObject.SetActive ( false );
 //			quadObject.SetActive ( false );
 //			quadCamObject.SetActive ( false );
 			quadCanvasObject.SetActive ( false );
-//			commandServerObject.SetActive ( false );
+			commandServerObject.SetActive ( false );
 			defaultTaskObject.SetActive ( false );
 			peopleSpawnerObject.SetActive ( false );
 			fileReadWrite.SetActive ( true );
