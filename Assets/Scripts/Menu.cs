@@ -13,7 +13,6 @@ public class Menu : MonoBehaviour
 	public GameObject quadCamObject;
 	public GameObject quadCanvasObject;
 	public GameObject commandServerObject;
-	public GameObject defaultTaskObject;
 	public Toggle peopleToggle;
 
 	// training
@@ -28,6 +27,9 @@ public class Menu : MonoBehaviour
 
 	// other
 	public GameObject timeManagerObj;
+	public GameObject valTaskObject;
+	public GameObject gradeTaskObject;
+	public GameObject challengeTaskObject;
 
 	void Awake ()
 	{
@@ -67,7 +69,11 @@ public class Menu : MonoBehaviour
 			quadCamObject.SetActive ( true );
 			quadCanvasObject.SetActive ( true );
 			commandServerObject.SetActive ( true );
-			defaultTaskObject.SetActive ( true );
+
+			valTaskObject.SetActive ( true );
+			gradeTaskObject.SetActive ( false );
+			challengeTaskObject.SetActive ( false );
+
 			peopleSpawnerObject.SetActive ( true );
 			peopleCamObject.SetActive ( false );
 			recordingObject.SetActive ( false );
@@ -86,9 +92,14 @@ public class Menu : MonoBehaviour
 //			rosObject.SetActive ( false );
 //			quadObject.SetActive ( false );
 //			quadCamObject.SetActive ( false );
+//
 			quadCanvasObject.SetActive ( false );
 			commandServerObject.SetActive ( false );
-			defaultTaskObject.SetActive ( false );
+
+			valTaskObject.SetActive ( true );
+			gradeTaskObject.SetActive ( false );
+			challengeTaskObject.SetActive ( false );
+
 			peopleSpawnerObject.SetActive ( false );
 			fileReadWrite.SetActive ( true );
 

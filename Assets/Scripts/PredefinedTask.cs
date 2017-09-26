@@ -4,7 +4,7 @@ using UnityEngine;
 using Pathing;
 
 // a place to define the default task for FollowMe mode
-public class DefaultTask : MonoBehaviour
+public class PredefinedTask : MonoBehaviour
 {
 	public Transform patrolPathPoints;
 	public Transform heroPathPoints;
