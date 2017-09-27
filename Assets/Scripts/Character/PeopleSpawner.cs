@@ -76,7 +76,7 @@ public class PeopleSpawner : MonoBehaviour
 //		button.fontSize = (int) ( 22f * Screen.height / 1080 );
 
 		Vector2 size = button.CalcSize ( new GUIContent ( timerText ) );
-		Rect r = new Rect ( Screen.width/4 - size.x/2, Screen.height - size.y - 10, size.x, size.y );
+		Rect r = new Rect ( Screen.width/4, Screen.height - size.y - 10, size.x, size.y );
 		if ( GUI.Button ( new Rect ( r.x - 5, r.y, r.width + 10, r.height ), timerText ) )
 		{
 			timerLength = ++timerLength % 3;
@@ -96,6 +96,7 @@ public class PeopleSpawner : MonoBehaviour
 				Destroy ( targetInstance.gameObject );
 			targetInstance = Instantiate ( target );
 			targetInstance.position = path[0].position;
+			targetInstance.eulerAngles = new Vector3 ( 0, Random.Range ( 0f, 360f ), 0 );
 			targetInstance.GetComponent<CharacterCustomization> ().SetAppearance ( heroPreset );
 			targetInstance.gameObject.SetActive ( true );
 			followCam.target = targetInstance;
@@ -107,6 +108,7 @@ public class PeopleSpawner : MonoBehaviour
 			PathSample spawn = GetRandomPoint ();
 			Transform person = Instantiate ( target );
 			person.position = spawn.position;
+			person.eulerAngles = new Vector3 ( 0, Random.Range ( 0f, 360f ), 0 );
 			person.gameObject.SetActive ( true );
 			PersonBehavior behavior = person.GetComponent<PersonBehavior> ();
 			int timerIndex = timerLength * 2;

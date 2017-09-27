@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SimpleQuadController : MonoBehaviour
 {
-	public Vector3 LastTargetPoint { get { return lastTargetPoint; } }
+	public Vector3 LastTargetPoint { get { return lastTargetPoint; } set { lastTargetPoint = value; } }
 
 	public static SimpleQuadController ActiveController;
 	public Transform chassis;

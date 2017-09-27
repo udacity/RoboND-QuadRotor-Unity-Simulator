@@ -5,6 +5,9 @@ using Pathing;
 
 public class SpawnPointManager : MonoBehaviour
 {
+	public static int Count { get { if ( instance != null )
+			return instance.path.Count; return 0; } }
+
 	static SpawnPointManager instance;
 	public LineRenderer pathPrefab;
 	public Transform nodePrefab;
