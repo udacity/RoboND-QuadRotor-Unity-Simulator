@@ -12,24 +12,23 @@ public class PatrolState : DroneState
 	float speedPercent;
 	float startTime;
 	bool waiting;
+	bool idleWait;
 
 	public override void OnEnter ()
 	{
 		base.OnEnter ();
 
-		points = PatrolPathManager.GetPath();
-
-
-		gimbal.Sweep ( motor.gimbalSweepVAngle );
-		waiting = false;
-		startTime = Time.time;
-		speedPercent = 0;
-
-//		follower.arriveCallback = OnArrived;
+		points = PatrolPathManager.GetPath ();
 		if ( points.Length < 2 )
 			return;
 
-		FindNearestPoint ();
+		gimbal.Sweep360 ();
+		waiting = false;
+		idleWait = true;
+		startTime = Time.time;
+		speedPercent = 0;
+
+		Debug.Log ( "idling for " + ( 360f / gimbal.sweepSpeed ) + " seconds" );
 	}
 
 //	public override void OnUpdate ()
@@ -39,6 +38,24 @@ public class PatrolState : DroneState
 
 	public override void OnLateUpdate ()
 	{
+		if ( idleWait )
+		{
+			if ( motor.rb.velocity.sqrMagnitude > 0.001f )
+				motor.rb.velocity *= 0.5f;
+			else
+				motor.rb.velocity = Vector3.zero;
+			if ( Time.time - startTime > 360f / gimbal.sweepSpeed )
+			{
+				gimbal.Sweep ( motor.gimbalSweepVAngle );
+				waiting = false;
+				idleWait = false;
+				startTime = Time.time;
+				speedPercent = 0;
+				FindNearestPoint ();
+			}
+			return;
+		}
+
 		if ( waiting )
 		{
 			if ( Time.time - startTime > motor.patrolWaitTime )
