@@ -28,11 +28,12 @@ Shader "Hidden/ConvertDepth" {
 	{
 		float d = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv.xy);
 		d = Linear01Depth(d);
-			 
-		if(d>0.99999)
-			return half4(1,1,1,1);
-		else
-			return EncodeFloatRGBA(d); 
+
+		return half4 (d, d, d, d);
+//		if(d>0.99999)
+//			return half4(1,1,1,1);
+//		else
+//			return EncodeFloatRGBA(d); 
 	}
 
 	ENDCG
