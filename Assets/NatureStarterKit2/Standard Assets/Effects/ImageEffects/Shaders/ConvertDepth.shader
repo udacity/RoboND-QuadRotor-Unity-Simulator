@@ -21,6 +21,9 @@ Shader "Hidden/ConvertDepth" {
 		v2f o;
 		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
 		o.uv =  v.texcoord.xy;
+		#if SHADER_API_D3D9
+		o.uv.y = 1 - o.uv.y;
+        #endif
 		return o;
 	}
 	
