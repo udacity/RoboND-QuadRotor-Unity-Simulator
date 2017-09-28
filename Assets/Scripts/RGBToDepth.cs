@@ -10,6 +10,8 @@ public class RGBToDepth : MonoBehaviour
 	public RenderTexture destTex;
 	public Material material;
 	public GameObject bwCamObj;
+	public bool asImageEffect;
+	public bool useMaterial = true;
 
 	Camera cam;
 
@@ -25,14 +27,22 @@ public class RGBToDepth : MonoBehaviour
 			enabled = false;
 	}
 
-//	void DoPostRender (Camera _cam)
-//	{
-//		if ( _cam == cam )
-//			Graphics.Blit ( _cam.targetTexture, destTex, material );
-//	}
-
 	void OnPostRender ()
 	{
-		Graphics.Blit ( cam.targetTexture, destTex, material );
+		if ( !asImageEffect )
+		{
+			if ( useMaterial )
+				Graphics.Blit ( cam.targetTexture, destTex, material );
+			else
+				Graphics.Blit ( cam.targetTexture, destTex );
+		}
 	}
+
+//	void OnOnRenderImage (RenderTexture src, RenderTexture dst)
+//	{
+//		if ( asImageEffect )
+//			Graphics.Blit ( src, dst, material );
+//		else
+//			Graphics.Blit ( src, dst );
+//	}
 }

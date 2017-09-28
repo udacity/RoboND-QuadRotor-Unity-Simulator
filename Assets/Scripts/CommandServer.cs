@@ -171,7 +171,7 @@ public class CommandServer : MonoBehaviour
 		Transform cam = gimbal.colorCam.transform;
 		bool success = false;
 		RaycastHit hit;
-		if ( !Physics.Linecast ( cam.position, target.position + Vector3.up * 1.8f, out hit ) )
+		if ( !Physics.Linecast ( cam.position, target.position + Vector3.up * 1.8f, out hit ) && Vector3.Angle ( (target.position - cam.position).normalized, cam.forward ) < gimbal.colorCam.fieldOfView )
 		{
 			control.OnTargetDetected ( position );
 			success = true;
