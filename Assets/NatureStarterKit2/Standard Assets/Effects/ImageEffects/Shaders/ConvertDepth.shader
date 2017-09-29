@@ -21,6 +21,9 @@ Shader "Hidden/ConvertDepth" {
 		v2f o;
 		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
 		o.uv =  v.texcoord.xy;
+		#if SHADER_API_D3D9
+		o.uv.y = 1 - o.uv.y;
+        #endif
 		return o;
 	}
 	
@@ -28,11 +31,12 @@ Shader "Hidden/ConvertDepth" {
 	{
 		float d = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv.xy);
 		d = Linear01Depth(d);
-			 
-		if(d>0.99999)
-			return half4(1,1,1,1);
-		else
-			return EncodeFloatRGBA(d); 
+
+		return half4 (d, d, d, d);
+//		if(d>0.99999)
+//			return half4(1,1,1,1);
+//		else
+//			return EncodeFloatRGBA(d); 
 	}
 
 	ENDCG

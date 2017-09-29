@@ -171,7 +171,8 @@ public class CommandServer : MonoBehaviour
 		Transform cam = gimbal.colorCam.transform;
 		bool success = false;
 		RaycastHit hit;
-		if ( !Physics.Linecast ( cam.position, target.position + Vector3.up * 1.8f, out hit ) )
+		// do a quick obstacle check and a quick visibility check, with the angle to the target being less than the fov cone
+		if ( !Physics.Linecast ( cam.position, target.position + Vector3.up, out hit ) && Vector3.Angle ( (target.position + Vector3.up - cam.position).normalized, cam.forward ) < gimbal.colorCam.fieldOfView )
 		{
 			control.OnTargetDetected ( position );
 			success = true;

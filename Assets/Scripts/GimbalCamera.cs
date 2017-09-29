@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-enum FollowType { None, Position, Transform, Sweep };
+enum FollowType { None, Position, Transform, Sweep, Sweep360 };
 
 public class GimbalCamera : MonoBehaviour
 {
@@ -126,6 +126,19 @@ public class GimbalCamera : MonoBehaviour
 				sweepAccum = -sweepCone;
 				sweepSpeed *= -1;
 			}
+			euler = gimbalParent.eulerAngles;
+			euler.y = sweepAccum;
+			euler.z = 0;
+			gimbalParent.eulerAngles = euler;
+			break;
+
+		case FollowType.Sweep360:
+			sweepAccum += sweepSpeed * Time.deltaTime;
+			if ( sweepAccum > 360f )
+				sweepAccum -= 360f;
+			else
+			if ( sweepAccum < -360f )
+				sweepAccum += 360f;
 			euler = gimbalParent.eulerAngles;
 			euler.y = sweepAccum;
 			euler.z = 0;
@@ -297,6 +310,14 @@ public class GimbalCamera : MonoBehaviour
 		gimbalParent.localRotation = Quaternion.Euler ( new Vector3 ( vAngle, 0, 0 ) );
 //		gimbalParent.localRotation = Quaternion.identity;
 		sweepAccum = 0;
+	}
+
+	public void Sweep360 (bool sweepRight = true)
+	{
+		followType = FollowType.Sweep360;
+		sweepSpeed = Mathf.Abs ( sweepSpeed );
+		if ( !sweepRight )
+			sweepSpeed = -sweepSpeed;
 	}
 
 	public void SetSecondaryCam (int cam)
