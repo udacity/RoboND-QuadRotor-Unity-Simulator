@@ -55,7 +55,8 @@ public class SimpleQuadController : MonoBehaviour
 
 	void LateUpdate ()
 	{
-		if ( Input.GetKeyDown ( KeyCode.H ) )
+		if ( Input.GetButtonDown ( "Local Control" ) )
+//		if ( Input.GetKeyDown ( KeyCode.H ) )
 		{
 			if ( stateController.IsCurrentStateName ( "Local" ) )
 				stateController.RevertState ();
@@ -63,7 +64,8 @@ public class SimpleQuadController : MonoBehaviour
 				stateController.SetState ( "Local" );
 				
 		}
-		if ( Input.GetMouseButtonDown ( 2 ) )
+		if ( Input.GetButtonDown ( "Patrol/Follow" ) )
+//		if ( Input.GetMouseButtonDown ( 2 ) )
 		{
 			if ( stateController.IsCurrentStateName ( "Patrol" ) )
 				OnTargetDetected ( Vector3.zero );

@@ -49,6 +49,8 @@ public class SimpleFileBrowser : MonoBehaviour
 			return m_instance;
 		}
 	}
+
+	public static bool IsVisible { get { return m_instance != null && m_instance.gameObject.activeSelf; } }
 	#endregion
 
 	#region Variables

@@ -44,33 +44,39 @@ public class LocalInputState : DroneState
 		if ( showError && Time.unscaledTime - errorTime >= 3f )
 			showError = false;
 //		Debug.Log ( "local" );
-		if ( Input.GetKeyDown ( KeyCode.G ) )
+		if ( Input.GetButtonDown ( "Reset Quad" ) )
+//		if ( Input.GetKeyDown ( KeyCode.G ) )
 		{
 			motor.ResetOrientation ();
 			control.followCam.ChangePoseType ( CameraPoseType.Iso );
 		}
 
-		if ( Input.GetKeyDown ( KeyCode.P ) )
+		if ( Input.GetButtonDown ( "Patrol Waypoint" ) )
+//		if ( Input.GetKeyDown ( KeyCode.P ) )
 		{
 			PatrolPathManager.AddNode ( motor.Position, motor.Rotation );
 		}
 
-		if ( Input.GetKeyDown ( KeyCode.O ) )
+		if ( Input.GetButtonDown ( "Hero Waypoint" ) )
+//		if ( Input.GetKeyDown ( KeyCode.O ) )
 		{
 			HeroPathManager.AddNode ( motor.Position, motor.Rotation );
 		}
 
-		if ( Input.GetKeyDown ( KeyCode.I ) )
+		if ( Input.GetButtonDown ( "Crowd Spawnpoint" ) )
+//		if ( Input.GetKeyDown ( KeyCode.I ) )
 		{
 			SpawnPointManager.AddNode ( motor.Position, motor.Rotation );
 		}
 
-		if ( Input.GetKeyDown ( KeyCode.N ) )
+		if ( Input.GetButtonDown ( "Deactivate Spawner" ) )
+//		if ( Input.GetKeyDown ( KeyCode.N ) )
 		{
 			spawner.SetActive(false);
 		}
 
-		if ( Input.GetKeyDown ( KeyCode.M ) )
+		if ( Input.GetButtonDown ( "Activate Spawner" ) )
+//		if ( Input.GetKeyDown ( KeyCode.M ) )
 		{
 			if ( PatrolPathManager.Count < 2 )
 			{
@@ -97,17 +103,20 @@ public class LocalInputState : DroneState
 			spawner.SetActive(true);
 		}
 
-		if ( Input.GetKeyDown ( KeyCode.L ) )
+		if ( Input.GetButtonDown ( "Clear Patrol" ) )
+//		if ( Input.GetKeyDown ( KeyCode.L ) )
 		{
 			PatrolPathManager.Clear ();
 		}
 
-		if ( Input.GetKeyDown ( KeyCode.K ) )
+		if ( Input.GetButtonDown ( "Clear Hero" ) )
+//		if ( Input.GetKeyDown ( KeyCode.K ) )
 		{
 			HeroPathManager.Clear ();
 		}
 
-		if ( Input.GetKeyDown ( KeyCode.J ) )
+		if ( Input.GetButtonDown ( "Clear Crowd" ) )
+//		if ( Input.GetKeyDown ( KeyCode.J ) )
 		{
 			SpawnPointManager.Clear ();
 		}

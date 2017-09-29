@@ -182,7 +182,8 @@ public class QuadMotor : MonoBehaviour
 		}
 		CheckSetPose ();
 
-		if ( Input.GetKeyDown ( KeyCode.Escape ) )
+		if ( Input.GetButtonDown ( "Menu" ) )
+//		if ( Input.GetKeyDown ( KeyCode.Escape ) )
 		{
 			UnityMainThreadDispatcher.Cleanup ();
 			UnityEngine.SceneManagement.SceneManager.LoadScene ( "proto4" );
@@ -190,12 +191,17 @@ public class QuadMotor : MonoBehaviour
 //			ROSController.StopROS ( new System.Action ( () => { Application.Quit (); } ) );
 //			#endif
 		}
-		if ( Input.GetKeyDown ( KeyCode.Q ) && ( Input.GetKey ( KeyCode.LeftControl ) || Input.GetKey ( KeyCode.RightControl ) ) )
+
+		KeyCode leftCtrl = Application.platform == RuntimePlatform.OSXPlayer ? KeyCode.LeftCommand : KeyCode.LeftControl;
+		KeyCode rightCtrl = Application.platform == RuntimePlatform.OSXPlayer ? KeyCode.RightCommand : KeyCode.RightControl;
+		if ( Input.GetButtonDown ( "Quit" ) && ( Input.GetKey ( leftCtrl ) || Input.GetKeyDown ( rightCtrl ) ) )
+//		if ( Input.GetKeyDown ( KeyCode.Q ) && ( Input.GetKey ( KeyCode.LeftControl ) || Input.GetKey ( KeyCode.RightControl ) ) )
 		{
 			Application.Quit ();
 		}
-		
-		if ( Input.GetKeyDown ( KeyCode.L ) )
+
+		if ( Input.GetButtonDown ( "Legend" ) ) // f10 now
+//		if ( Input.GetKeyDown ( KeyCode.L ) )
 			showLegend = !showLegend;
 
 		// use this to have a follow camera rotate with the quad. not proper torque!
@@ -244,7 +250,8 @@ public class QuadMotor : MonoBehaviour
 			rearRightRotor.Rotate ( rot );
 		}
 
-		if ( Input.GetKeyDown ( KeyCode.F5 ) )
+		if ( Input.GetButtonDown ( "Quality" ) )
+//		if ( Input.GetKeyDown ( KeyCode.F5 ) )
 		{
 			int level = QualitySettings.GetQualityLevel ();
 			level = ++level % 3;
@@ -444,7 +451,7 @@ public class QuadMotor : MonoBehaviour
 		// show controls legend
 		if ( showLegend )
 		{
-			info = @"L: Legend on/off
+			info = @"F10: Legend on/off
 H: Control on/off
 WSAD/Arrows: Move around
 Space/C: Thrust up/down
@@ -472,7 +479,7 @@ Ctrl-Q: Quit";
 		} else
 		{
 			label.alignment = TextAnchor.MiddleLeft;
-			info = "L: Legend on/off";
+			info = "F10: Legend on/off";
 
 			size = label.CalcSize ( new GUIContent ( info ) );
 			r = new Rect ( Screen.width - size.x - 20, 150, size.x + 10, size.y );
