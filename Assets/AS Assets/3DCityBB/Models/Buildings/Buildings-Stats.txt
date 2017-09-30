@@ -1,0 +1,4 @@
+house: 13 Polys / 26 Verts
+longHouse 80x10: 27 Polys / 54 Verts
+squareBlock 90x90: 80 Polys / 80 Verts
+triangleBlock: 51 Polys / 99 Verts

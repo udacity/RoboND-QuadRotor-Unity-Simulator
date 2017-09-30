@@ -95,14 +95,15 @@ public class GimbalCamera : MonoBehaviour
 			Sweep ();
 		}*/
 
+//		Vector3 euler;
 		switch ( followType )
 		{
 		case FollowType.None:
 			Vector3 euler = gimbalParent.eulerAngles;
 			euler.z = 0;
+			euler.y = transform.root.eulerAngles.y;
 			euler.x = lastSweepAngle;
 			gimbalParent.eulerAngles = euler;
-//			gimbalParent.rotation = lastRotation;
 			break;
 
 		case FollowType.Position:
