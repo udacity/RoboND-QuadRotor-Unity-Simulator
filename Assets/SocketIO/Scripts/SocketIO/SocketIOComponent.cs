@@ -89,6 +89,8 @@ namespace SocketIO
 
 		#region Unity interface
 
+		SocketIOEvent pingEvent = new SocketIOEvent ( "ping" );
+
 		public void Awake()
 		{
 			encoder = new Encoder();
@@ -351,12 +353,14 @@ namespace SocketIO
 		private void HandlePing()
 		{
 			EmitPacket(new Packet(EnginePacketType.PONG));
+			lock(eventQueueLock){ eventQueue.Enqueue ( pingEvent ); }
 		}
 
 		private void HandlePong()
 		{
 			thPong = true;
 			thPinging = false;
+			lock(eventQueueLock){ eventQueue.Enqueue ( pingEvent ); }
 		}
 		
 		private void HandleMessage(Packet packet)

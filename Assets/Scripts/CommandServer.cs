@@ -38,6 +38,9 @@ public class CommandServer : MonoBehaviour
 	string depthString;
 	object locker;
 
+	float pingTimeout = 3;
+	float lastPingTime;
+
 	void Start ()
 	{
 		_socket = GetComponent<SocketIOComponent> ();
@@ -47,6 +50,7 @@ public class CommandServer : MonoBehaviour
 		_socket.On ( "create_box_marker", OnCreateBoxMarker );
 		_socket.On ( "delete_marker", OnDeleteMarker );
 		_socket.On ( "error", OnError );
+		_socket.On ( "ping", OnPing );
 		inset1Tex = new Texture2D ( 1, 1 );
 		inset2Tex = new Texture2D ( 1, 1 );
 //		inset3Tex = new Texture2D ( 1, 1 );
@@ -63,6 +67,7 @@ public class CommandServer : MonoBehaviour
 //		StartCoroutine ( BroadcastFunc () );
 		nextBroadcast = Time.realtimeSinceStartup + 1f / broadcastFrequency;
 		locker = new object ();
+		lastPingTime = Mathf.Infinity;
 //		broadcastThread = new Thread ( ThreadFunc );
 //		broadcastThread.Start ();
 	}
@@ -86,6 +91,13 @@ public class CommandServer : MonoBehaviour
 			NewTelemetry ();
 
 			nextBroadcast = Time.realtimeSinceStartup + 1f / broadcastFrequency;
+		}
+
+		if ( Time.unscaledTime - lastPingTime > pingTimeout )
+		{
+			Debug.Log ( "Ping has timed out" );
+			lastPingTime = Mathf.Infinity;
+			control.OnPingTimeout ();
 		}
 	}
 
@@ -270,6 +282,11 @@ public class CommandServer : MonoBehaviour
 		#if OUTPUT_EVENTS
 		Debug.Log ( "error!" );
 		#endif
+	}
+
+	void OnPing (SocketIOEvent obj)
+	{
+		lastPingTime = Time.unscaledTime;
 	}
 
 	void Ack (JSONObject obj)

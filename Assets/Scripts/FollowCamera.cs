@@ -63,10 +63,10 @@ public class FollowCamera : MonoBehaviour
 //		forward = target.Forward;
 		if ( ROSController.instance != null )
 			ROSController.StartROS ( OnRosInit );
-		if ( ModeController.isTrainingMode )
+//		if ( ModeController.isTrainingMode )
 			cam.cullingMask |= pathMask.value;
-		else
-			cam.cullingMask &= ~pathMask.value;
+//		else
+//			cam.cullingMask &= ~pathMask.value;
 	}
 
 	void LateUpdate ()
@@ -92,18 +92,24 @@ public class FollowCamera : MonoBehaviour
 		}
 
 		float scroll = Input.GetAxis ( "Mouse ScrollWheel" );
+		if ( SimpleFileBrowser.IsVisible )
+			scroll = 0;
 		float zoom = -scroll * zoomSpeed;
 		followDistance += zoom;
 		followDistance = Mathf.Clamp ( followDistance, minDist, maxDist );
 
-		if ( Input.GetMouseButtonDown ( 1 ) )
-			rmbTime = Time.time;
-		if ( Input.GetMouseButtonUp ( 1 ) && Time.time - rmbTime < 0.1f )
+		if ( Input.GetButtonDown ( "Camera Control" ) )
+//		if ( Input.GetMouseButtonDown ( 1 ) )
+			rmbTime = Time.unscaledTime;
+		if ( Input.GetButtonUp ( "Camera Control" ) && Time.unscaledTime - rmbTime < 0.1f )
+//		if ( Input.GetMouseButtonUp ( 1 ) && Time.time - rmbTime < 0.1f )
 		{
 			transform.rotation = Quaternion.Euler ( new Vector3 ( 30, target.transform.eulerAngles.y, 0 ) );
+			transform.position = look - transform.forward * followDistance;
 		}
 
-		if ( Input.GetMouseButton ( 1 ) && Time.time - rmbTime > 0.2f )
+		if ( Input.GetButton ( "Camera Control" ) && Time.unscaledTime - rmbTime > 0.11f  )
+//		if ( Input.GetMouseButton ( 1 ) && Time.time - rmbTime > 0.2f )
 		{
 			float x = Input.GetAxis ( "Mouse X" );
 			transform.RotateAround ( look, Vector3.up, x * rotateSpeed );
@@ -112,7 +118,8 @@ public class FollowCamera : MonoBehaviour
 		}
 
 		// check for key to toggle path/waypoint visibility
-		if ( Input.GetKeyDown ( KeyCode.Slash ) )
+		if ( Input.GetButtonDown ( "Show Waypoints" ) )
+//		if ( Input.GetKeyDown ( KeyCode.Slash ) )
 		{
 			cam.cullingMask ^= pathMask.value;
 		}
