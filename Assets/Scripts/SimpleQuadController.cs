@@ -23,7 +23,6 @@ public class SimpleQuadController : MonoBehaviour
 	public StateController stateController;
 	public bool allowPathPlanning;
 	public LayerMask collisionMask;
-	public float detectionTimeout = 3;
 
 	Rigidbody rb;
 	float tiltX;
@@ -31,9 +30,6 @@ public class SimpleQuadController : MonoBehaviour
 
 	public bool localInput;
 	Vector3 lastTargetPoint;
-
-	bool isObjectDetection;
-	float lastObjectDetectedTime;
 
 	
 	void Awake ()
@@ -72,15 +68,6 @@ public class SimpleQuadController : MonoBehaviour
 			else
 			if ( stateController.IsCurrentStateName ( "Follow" ) )
 				OnTargetLost ();
-		}
-		if ( isObjectDetection )
-		{
-			if ( Time.unscaledTime - lastObjectDetectedTime > detectionTimeout )
-			{
-				isObjectDetection = false;
-				Debug.Log ( "No more detection messages in " + detectionTimeout + " seconds. Back to patrolling!" );
-				OnTargetLost ();
-			}
 		}
 	}
 
@@ -183,12 +170,16 @@ public class SimpleQuadController : MonoBehaviour
 	{
 		lastTargetPoint = point;
 		stateController.SetState ( "Follow" );
-		isObjectDetection = true;
-		lastObjectDetectedTime = Time.unscaledTime;
 	}
 
 	public void OnTargetLost ()
 	{
 		stateController.SetState ( "Patrol" );
+	}
+
+	public void OnPingTimeout ()
+	{
+		if ( stateController.IsCurrentStateName ( "Follow" ) )
+			stateController.SetState ( "Patrol" );
 	}
 }
