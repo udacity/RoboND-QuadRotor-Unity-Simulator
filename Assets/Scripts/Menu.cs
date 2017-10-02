@@ -57,7 +57,7 @@ public class Menu : MonoBehaviour
 	public void OnModeSelect (int mode)
 	{
 		ModeController.isTrainingMode = ( mode == 1 );
-		ModeController.spawnNonHero = peopleToggle.isOn;
+//		ModeController.spawnNonHero = peopleToggle.isOn;
 
 		// follow me mode
 		if ( mode == 0 )
@@ -68,7 +68,7 @@ public class Menu : MonoBehaviour
 			quadCanvasObject.SetActive ( true );
 			commandServerObject.SetActive ( true );
 			defaultTaskObject.SetActive ( true );
-			peopleSpawnerObject.SetActive ( true );
+			peopleSpawnerObject.SetActive ( peopleToggle.isOn );
 			peopleCamObject.SetActive ( false );
 			recordingObject.SetActive ( false );
 			SimpleQuadController.ActiveController.gimbal.SetSecondaryCam ( 0 );

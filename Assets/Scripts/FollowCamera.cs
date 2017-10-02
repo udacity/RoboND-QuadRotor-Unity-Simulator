@@ -63,10 +63,10 @@ public class FollowCamera : MonoBehaviour
 //		forward = target.Forward;
 		if ( ROSController.instance != null )
 			ROSController.StartROS ( OnRosInit );
-		if ( ModeController.isTrainingMode )
+//		if ( ModeController.isTrainingMode )
 			cam.cullingMask |= pathMask.value;
-		else
-			cam.cullingMask &= ~pathMask.value;
+//		else
+//			cam.cullingMask &= ~pathMask.value;
 	}
 
 	void LateUpdate ()
