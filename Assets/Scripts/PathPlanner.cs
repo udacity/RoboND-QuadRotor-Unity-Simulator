@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;// Change ///////////////////////////////////////////////
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathing;
@@ -15,7 +16,8 @@ namespace Pathing
 			nodes = samples;
 		}
 	}
-	
+    
+    [Serializable]// Change ///////////////////////////////////////////////
 	public class PathSample
 	{
 		public Vector3 position;
@@ -33,7 +35,50 @@ namespace Pathing
 			orientation = q;
 			timestamp = t;
 		}
+
 	}
+
+    // Change ///////////////////////////////////////////////
+    [Serializable]
+    public class PathSampleCompound
+    {
+        public PathSample[] patrol;
+        public PathSample[] hero;
+        public PathSample[] spawns;
+
+        public PathSampleCompound()
+        {
+            
+        }
+
+        public PathSampleCompound( PathSample[] pPatrol,
+                                   PathSample[] pHero,
+                                   PathSample[] pSpawns )
+        {
+            this.patrol = pPatrol;
+            this.hero = pHero;
+            this.spawns = pSpawns;
+        }
+
+		public void dump()
+		{
+			Debug.Log( "LOG> PathSampleCompound *********" );
+			for ( int i = 0; i < patrol.Length; i++ )
+			{
+				Debug.Log( "patrol(" + i.ToString() + ").pos : " + patrol[i].position.ToString() );
+			}
+			for (int i = 0; i < hero.Length; i++)
+            {
+				Debug.Log( "hero(" + i.ToString() + ").pos : " + hero[i].position.ToString() );
+            }
+			for (int i = 0; i < spawns.Length; i++)
+            {
+				Debug.Log( "spawns(" + i.ToString() + ").pos : " + spawns[i].position.ToString() );
+            }
+			Debug.Log("LOG> PathSampleCompound *********");
+		}
+    }
+    /////////////////////////////////////////////////////////
 }
 
 public class PathPlanner : MonoBehaviour
@@ -54,7 +99,7 @@ public class PathPlanner : MonoBehaviour
 	{
 		instance = this;
 		pathRenderer = Instantiate ( pathPrefab, transform );
-		pathRenderer.numPositions = 0;
+		pathRenderer.positionCount = 0;
 //		pathRenderer.SetPositions ( new Vector3[0] );
 		path = new List<PathSample> ();
 		nodeObjects = new List<Transform> ();
@@ -80,8 +125,8 @@ public class PathPlanner : MonoBehaviour
 
 	void _AddNode (Vector3 position, Quaternion orientation)
 	{
-		pathRenderer.numPositions = pathRenderer.numPositions + 1;
-		pathRenderer.SetPosition ( pathRenderer.numPositions - 1, position );
+		pathRenderer.positionCount = pathRenderer.positionCount + 1;
+		pathRenderer.SetPosition ( pathRenderer.positionCount - 1, position );
 
 		PathSample sample = new PathSample ();
 		sample.position = position;
@@ -112,7 +157,7 @@ public class PathPlanner : MonoBehaviour
 
 	void _ClearViz ()
 	{
-		pathRenderer.numPositions = 0;
+		pathRenderer.positionCount = 0;
 		int count = nodeObjects.Count;
 		for ( int i = 0; i < count; i++ )
 			Destroy ( nodeObjects [ i ].gameObject );
