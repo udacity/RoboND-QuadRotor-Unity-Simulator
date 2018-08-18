@@ -24,7 +24,7 @@ namespace Pathing
 		public Quaternion orientation;
 		public float timestamp;
 
-		public PathSample ()
+        public PathSample ()
 		{
 			
 		}
@@ -46,6 +46,12 @@ namespace Pathing
         public PathSample[] hero;
         public PathSample[] spawns;
 
+        public int mode;
+        public string name;
+
+        public const int MODE_FREE = 0;
+        public const int MODE_FORCE_FOLLOW = 1;
+
         public PathSampleCompound()
         {
             
@@ -58,6 +64,18 @@ namespace Pathing
             this.patrol = pPatrol;
             this.hero = pHero;
             this.spawns = pSpawns;
+            this.mode = PathSampleCompound.MODE_FREE;
+        }
+
+        public PathSampleCompound( PathSample[] pPatrol,
+                                   PathSample[] pHero,
+                                   PathSample[] pSpawns,
+                                   int pMode )
+        {
+            this.patrol = pPatrol;
+            this.hero = pHero;
+            this.spawns = pSpawns;
+            this.mode = pMode;
         }
 
 		public void dump()

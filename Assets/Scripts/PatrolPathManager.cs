@@ -8,7 +8,7 @@ public class PatrolPathManager : MonoBehaviour
 	public static int Count { get { if ( instance != null )
 			return instance.path.Count; return 0; } }
 
-	static PatrolPathManager instance;
+	public static PatrolPathManager instance;
 	public LineRenderer pathPrefab;
 	public Transform nodePrefab;
 
@@ -86,7 +86,7 @@ public class PatrolPathManager : MonoBehaviour
 		Transform node = Instantiate ( nodePrefab, position, orientation, transform );
 		nodeObjects.Add ( node );
 
-		this.dumpPathToConsole();
+		// this.dumpPathToConsole();
 	}
 
 	public static PathSample[] GetPath ()
