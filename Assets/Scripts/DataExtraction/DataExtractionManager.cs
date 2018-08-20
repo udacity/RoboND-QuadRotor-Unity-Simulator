@@ -16,6 +16,7 @@ public class DataExtractionManager : MonoBehaviour
     public Transform nodePrefabPatrol;
     public Transform nodePrefabHero;
     public Transform nodePrefabSpawn;
+    public GameObject peopleSpawner;
 
     // private properties ***********************
     private int m_currentExtractionIndx;
@@ -34,7 +35,7 @@ public class DataExtractionManager : MonoBehaviour
     {
         DataExtractionManager.INSTANCE = this;
         // Initialize some stuff
-        m_currentExtractionMode = PathSampleCompound.MODE_FREE;
+        m_currentExtractionMode = PathSampleCompound.MODE_FORCE_FOLLOW_FIXED;
         m_currentExtractionIndx = -1;
         m_numSchedulesFinished = 0;
         m_numSchedulesToRun = 0;
@@ -388,29 +389,32 @@ public class DataExtractionManager : MonoBehaviour
 
     private void onFullExtractionEnded()
     {
-        m_isExtractionRunning = false;
-        m_isExtractionTypeBatch = false;
+        onEndRecordingSingle();
     }
 
-    public void extractFromCurrentSchedule()
+    public void beginExtractionFromCurrentSchedule()
     {
-        if ( !m_isExtractionRunning )
-        {
-            // Make sure no events are receiving while recording
-            m_isExtractionRunning = true;
+        if ( !validateExtracting() ) { return; }
+        if ( !validateCurrentSchedule() ) { return; }
 
-            // Reuse the logic of the recording controller
-            if ( RecordingController.INSTANCE.CheckSaveLocation() )
-            {
-                RecordingController.INSTANCE.OnBeginRecord();
-            }
-        }
-        else
-        {
-            RecordingController.INSTANCE.OnEndRecord();
-        }
+        // Ask user for save location to this place
+        SimpleFileBrowser.ShowSaveDialog( onRequestSingleRecording, 
+                                          null, true, null, 
+                                          "Select Output Folder", "Select" );
     }
 
+    public void onRequestSingleRecording( string location )
+    {
+        m_isExtractionRunning = true;
+        m_isExtractionTypeBatch = false;
+        m_isEditionEnabled = false;
+        m_batchsLocation = location;
+        m_numSchedulesFinished = 0;
+        m_numSchedulesToRun = 1;
+
+        extractFromSingleNoUser( m_schedules[ m_currentExtractionIndx ] );
+    }
+    
     public void onFrameSaved()
     {
         m_schedules[ m_currentExtractionIndx ].onFrameSaved();
@@ -421,6 +425,11 @@ public class DataExtractionManager : MonoBehaviour
             // Notify that the recording has ended
             onSingleBatchRecordingEnded();
         }
+    }
+
+    public bool isCurrentScheduleHalfWayThere()
+    {
+        return m_schedules[ m_currentExtractionIndx ].isHalfWayThere();
     }
 
     public void onBeginRecordingSingle()
@@ -434,8 +443,38 @@ public class DataExtractionManager : MonoBehaviour
         // load current schedule
         m_schedules[ m_currentExtractionIndx ].loadForExecution();
 
-        SimpleQuadController.ActiveController.stateController.SetState( "Patrol" );
-        PeopleSpawner.instance.gameObject.SetActive( true );
+        // Configure the spawner properly
+        peopleSpawner.SetActive( true );
+        PeopleSpawner.instance.restart();
+
+        // Configure the quad controller according to the type of extraction to use
+        var _mode = m_schedules[ m_currentExtractionIndx ].compound().mode;
+        if ( _mode == PathSampleCompound.MODE_FREE )
+        {
+            Debug.Log( "LOG> SETTING MODE TO FREE" );
+            // Force a reset by changing to another state
+            SimpleQuadController.ActiveController.OnTargetDetected( new Vector3( 0.0f, 0.0f, 0.0f ) );
+            // Change to the actual patrol state
+            SimpleQuadController.ActiveController.stateController.SetState( "Patrol" );
+        }
+        else
+        {
+            if ( PeopleSpawner.instance.targetInstance )
+            {
+                Debug.Log( "LOG> SETTING MODE TO FORCE-FOLLOW" );
+                var _targetPosition = PeopleSpawner.instance.targetInstance.position;
+                SimpleQuadController.ActiveController.OnTargetDetected( _targetPosition );
+            }
+            else
+            {
+                Debug.Log( "LOG> TOO BAD, NO TARGET INSTANCE FOR FORCE-FOLLOW" );
+                SimpleQuadController.ActiveController.OnTargetLost();
+            }
+        }
+
+        // Just in case, set the current quad's position to the first patrol point
+        var _start = m_schedules[ m_currentExtractionIndx ].compound().patrol[0];
+        QuadMotor.ActiveController.transform.position = _start.position;
     }
 
     public void onCancelRecordingSingle()
@@ -449,9 +488,11 @@ public class DataExtractionManager : MonoBehaviour
     public void onEndRecordingSingle()
     {
         m_isExtractionRunning = false;
+        m_isExtractionTypeBatch = false;
         _showSchedules();
 
-        PeopleSpawner.instance.gameObject.SetActive( false );
+        peopleSpawner.SetActive( false );
+        PeopleSpawner.instance.stop();
 
         PatrolPathManager.Clear( true );
         HeroPathManager.Clear( true );
@@ -552,10 +593,22 @@ public class DataExtractionManager : MonoBehaviour
             if ( Input.GetKeyDown( KeyCode.Z ) )
             {
                 loadDataSchedules( true );
+                // _hideSchedules();
+                // if ( validateCurrentSchedule() &&
+                //      validateExtracting() )
+                // {
+                //     onBeginRecordingSingle();
+                // }
             }
             if ( Input.GetKeyDown( KeyCode.X ) )
             {
                 saveDataSchedules( true );
+                // _showSchedules();
+                // if ( validateCurrentSchedule() &&
+                //      validateExtracting() )
+                // {
+                //     onEndRecordingSingle();
+                // }
             }
             if ( Input.GetKeyDown( KeyCode.U ) )
             {
@@ -563,7 +616,7 @@ public class DataExtractionManager : MonoBehaviour
             }
             if ( Input.GetKeyDown( KeyCode.V ) )
             {
-                extractFromCurrentSchedule();
+                beginExtractionFromCurrentSchedule();
             }
             if ( Input.GetKeyDown( KeyCode.PageDown ) )
             {
@@ -583,9 +636,26 @@ public class DataExtractionManager : MonoBehaviour
             }
             if ( Input.GetKeyDown( KeyCode.Return ) )
             {
-                m_currentExtractionMode = ( m_currentExtractionMode == PathSampleCompound.MODE_FREE ) ? 
-                                                    PathSampleCompound.MODE_FORCE_FOLLOW : 
-                                                    PathSampleCompound.MODE_FREE;
+                if ( m_isEditionEnabled )
+                {
+                    if ( validateCurrentSchedule() )
+                    {
+                        var _currentScheduleMode = m_schedules[ m_currentExtractionIndx ].compound().mode;
+                        _currentScheduleMode = ( _currentScheduleMode + 1 ) % PathSampleCompound.TOTAL_MODES;
+                        m_schedules[ m_currentExtractionIndx ].compound().mode = _currentScheduleMode;
+                    }
+                }
+                else
+                {
+                    m_currentExtractionMode = ( m_currentExtractionMode + 1 ) % PathSampleCompound.TOTAL_MODES;
+                }
+            }
+        }
+        else
+        {
+            if ( validateCurrentSchedule() )
+            {
+                m_schedules[ m_currentExtractionIndx ].tick();
             }
         }
 	}
@@ -633,6 +703,15 @@ public class DataExtractionManager : MonoBehaviour
         {
             m_currentExtractionIndx = -1;
         }
+    }
+
+    private string _getModeName( int mode )
+    {
+        if ( mode == PathSampleCompound.MODE_FREE ) { return "FREE"; }
+        else if ( mode == PathSampleCompound.MODE_FORCE_FOLLOW_FIXED ) { return "FORCE-FOLLOW-FIXED"; }
+        else if ( mode == PathSampleCompound.MODE_FORCE_FOLLOW_FIXED_FAR ) { return "FORCE-FOLLOW-FIXED-FAR"; }
+        else if ( mode == PathSampleCompound.MODE_FORCE_FOLLOW_DYNAMIC ) { return "FORCE-FOLLOW-DYNAMIC"; }
+        else { return "WTF?????"; }
     }
 
     private void _addNewScheduleFromManagers()
@@ -684,7 +763,7 @@ public class DataExtractionManager : MonoBehaviour
 
     void _drawTextInfo()
     {
-        string _smode = ( m_currentExtractionMode == PathSampleCompound.MODE_FREE ) ? "FREE" : "FORCE";
+        string _smode = _getModeName( m_currentExtractionMode );
         string _sinfo = @"Number of schedules: " + ( m_schedules.Count.ToString() ) + "\n" +
                          "Current schedule indx: " + ( m_currentExtractionIndx.ToString() ) + "\n" +
                          "Current mode : " + _smode + "\n" +
@@ -693,10 +772,13 @@ public class DataExtractionManager : MonoBehaviour
              m_currentExtractionIndx >= 0 && 
              m_currentExtractionIndx < m_schedules.Count )
         {
+            string _schMode = _getModeName( m_schedules[ m_currentExtractionIndx ].compound().mode );
             _sinfo += @"Patrol points in current schedule : " + ( m_schedules[ m_currentExtractionIndx ].compound().patrol.Length ) + "\n" +
                        "Hero points in current schedule : " + ( m_schedules[ m_currentExtractionIndx ].compound().hero.Length ) + "\n" +
                        "Spawn points in current schedule : " + ( m_schedules[ m_currentExtractionIndx ].compound().spawns.Length ) + "\n" +
-                       "Current schedule name : " + m_schedules[ m_currentExtractionIndx ].getName();
+                       "Current schedule name : " + m_schedules[ m_currentExtractionIndx ].getName() + "\n" + 
+                       "Current schedule mode : " + _schMode + "\n" +
+                       "num frames taken : " + m_schedules[ m_currentExtractionIndx ].getNumFramesTaken().ToString();
         }
 
         Vector2 _size;

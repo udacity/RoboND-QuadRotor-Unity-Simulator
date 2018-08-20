@@ -49,8 +49,11 @@ namespace Pathing
         public int mode;
         public string name;
 
-        public const int MODE_FREE = 0;
-        public const int MODE_FORCE_FOLLOW = 1;
+        public const int MODE_FREE = 0;// Just patrol
+        public const int MODE_FORCE_FOLLOW_FIXED = 1;// Follow target from quite close
+        public const int MODE_FORCE_FOLLOW_FIXED_FAR = 2;// Follow target from quite far
+        public const int MODE_FORCE_FOLLOW_DYNAMIC = 3;// Follow target and change some parameters
+        public const int TOTAL_MODES = 4;
 
         public PathSampleCompound()
         {

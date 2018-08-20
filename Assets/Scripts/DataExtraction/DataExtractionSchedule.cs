@@ -28,7 +28,7 @@ public class DataExtractionSchedule
         m_compound = new PathSampleCompound( pPatrol, pHero, pSpawns, pMode );
         // Initialize the samples counters to a good state
         m_samplesTaken = 0;
-        m_samplesToTake = 50;// this many frames to be taken using this schedule
+        m_samplesToTake = 1000;// this many frames to be taken using this schedule
         // name to something useful
         m_name = "default";
         // Create the holder for the references of the node
@@ -37,6 +37,7 @@ public class DataExtractionSchedule
         m_nodesSpawn = new List<Transform>();
     }
 
+    public int getNumFramesTaken() { return m_samplesTaken; }
     public void setName( string newName ) { m_name = m_compound.name = newName; }
     public string getName() { return m_name; }
     public PathSampleCompound compound() { return m_compound; }
@@ -91,6 +92,39 @@ public class DataExtractionSchedule
     public bool hasFinishedExecution()
     {
         return m_samplesTaken >= m_samplesToTake;
+    }
+
+    public bool isHalfWayThere()
+    {
+        return m_samplesTaken > ( m_samplesToTake / 2 );
+    }
+
+    public void tick()
+    {
+        if ( m_compound.mode == PathSampleCompound.MODE_FORCE_FOLLOW_DYNAMIC )
+        {
+            if ( QuadMotor.ActiveController != null )
+            {
+                QuadMotor.ActiveController.followDistance = 2.0f  + 2.0f * ( Mathf.Sin( 0.25f * Time.time ) + 1.0f );
+                QuadMotor.ActiveController.followHeight = 2.0f + 2.0f * ( Mathf.Sin( 0.25f * Time.time ) + 1.0f );
+            }
+        }
+        else if ( m_compound.mode == PathSampleCompound.MODE_FORCE_FOLLOW_FIXED )
+        {
+            if ( QuadMotor.ActiveController != null )
+            {
+                QuadMotor.ActiveController.followDistance = 2.0f;
+                QuadMotor.ActiveController.followHeight = 2.0f;
+            }
+        }
+        else if ( m_compound.mode == PathSampleCompound.MODE_FORCE_FOLLOW_FIXED_FAR )
+        {
+            if ( QuadMotor.ActiveController != null )
+            {
+                QuadMotor.ActiveController.followDistance = 8.0f;
+                QuadMotor.ActiveController.followHeight = 8.0f;
+            }
+        }
     }
 
     public static DataExtractionSchedule fromFile( string location )

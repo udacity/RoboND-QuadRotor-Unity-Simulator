@@ -85,24 +85,12 @@ public class RecordingController : MonoBehaviour
 		recordingStatus.color = Color.green;
 		if ( BeginRecordCallback != null )
 			BeginRecordCallback ();
-        if ( DataExtractionManager.INSTANCE.isExtractionRunning() )
-        {
-            if ( !DataExtractionManager.INSTANCE.isExtractionTypeBatch() )
-            {
-                DataExtractionManager.INSTANCE.onBeginRecordingSingle();
-            }
-        }
 	}
 
 	public void OnCancelRecord ()
 	{
 		recordingStatus.text = "Not Recording";
 		recordingStatus.color = Color.red;
-        if ( DataExtractionManager.INSTANCE.isExtractionRunning() &&
-             !DataExtractionManager.INSTANCE.isExtractionTypeBatch() )
-        {
-            DataExtractionManager.INSTANCE.onCancelRecordingSingle();
-        }
 	}
 
 	public void OnEndRecord ()
@@ -112,13 +100,6 @@ public class RecordingController : MonoBehaviour
 		recordingStatus.color = Color.red;
 		if ( EndRecordCallback != null )
 			EndRecordCallback ();
-        if ( DataExtractionManager.INSTANCE.isExtractionRunning() )
-        {
-            if ( !DataExtractionManager.INSTANCE.isExtractionTypeBatch() )
-            {
-                DataExtractionManager.INSTANCE.onEndRecordingSingle();
-            }
-        }
 	}
 
 	void OpenFolder (string location)
