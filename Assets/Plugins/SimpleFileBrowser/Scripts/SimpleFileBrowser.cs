@@ -145,6 +145,9 @@ public class SimpleFileBrowser : MonoBehaviour
 	private int currentPathIndex = -1;
 	private List<string> pathsFollowed = new List<string>();
 
+    private bool m_isCheckingFile = false;// Change ///////////////////////////////////////////////
+    private string m_currentItemName = "";// Change ///////////////////////////////////////////////
+
 	// Required in RefreshFiles() function
 	private UnityEngine.EventSystems.PointerEventData nullPointerEventData;
 	#endregion
@@ -267,8 +270,8 @@ public class SimpleFileBrowser : MonoBehaviour
 		}
 		set
 		{
-			if( m_folderSelectMode != value )
-			{
+			// if( m_folderSelectMode != value )
+			// {
 				m_folderSelectMode = value;
 
 				if( m_folderSelectMode )
@@ -283,7 +286,7 @@ public class SimpleFileBrowser : MonoBehaviour
 					filtersDropdown.options[0].text = ALL_FILES_FILTER_TEXT;
 					filtersDropdown.interactable = true;
 				}
-			}
+			// }
 		}
 	}
 
@@ -424,7 +427,15 @@ public class SimpleFileBrowser : MonoBehaviour
 //		else
 			path = GetPathWithoutTrailingDirectorySeparator( path );
 		
-		if( File.Exists( path ) )
+        // Change ///////////////////////////////////////////////
+        string _filepath = "";
+        if ( m_isCheckingFile )
+        {
+            _filepath = Path.Combine( path, m_currentItemName );
+        }
+
+		if( File.Exists( path ) ||
+            ( m_isCheckingFile && File.Exists( _filepath ) ) )
 		{
 			if( !m_folderSelectMode )
 			{
@@ -435,6 +446,7 @@ public class SimpleFileBrowser : MonoBehaviour
 				filenameImage.color = wrongFilenameColor;
 			}
 		}
+        /////////////////////////////////////////////////////////
 		else if( Directory.Exists( path ) )
 		{
 			if( m_folderSelectMode )
@@ -481,7 +493,18 @@ public class SimpleFileBrowser : MonoBehaviour
 
 		if( onSuccess != null )
 		{
-			onSuccess( path );
+            // Change ///////////////////////////////////////////////
+            // Dirty fix :/
+            if ( m_isCheckingFile )
+            {
+                string _filepath = Path.Combine( path, m_currentItemName );
+                onSuccess( _filepath );
+            }
+            else
+            {
+			    onSuccess( path );
+            }
+            /////////////////////////////////////////////////////////
 		}
 	}
 
@@ -540,7 +563,13 @@ public class SimpleFileBrowser : MonoBehaviour
 		}
 		else
 		{
+            // Change ///////////////////////////////////////////////
+            // Just a dirty fix for the item opening functionality
+            m_currentItemName = item.Name;
+            m_isCheckingFile = true;
 			OnSubmitButtonClicked();
+            m_isCheckingFile = false;
+            /////////////////////////////////////////////////////////
 		}
 	}
 

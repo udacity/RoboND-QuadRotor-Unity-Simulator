@@ -20,7 +20,6 @@ public class FollowTargetState : DroneState
 	public override void OnEnter ()
 	{
 		base.OnEnter ();
-
 		rb = motor.rb;
 		followPoint = control.LastTargetPoint;
 		if ( lockOnTarget )
@@ -45,7 +44,16 @@ public class FollowTargetState : DroneState
 		Vector3 toTarget = followPoint - motor.transform.position;
 		Vector3 backPoint;
 		if ( followTarget != null )
-			backPoint = followPoint - followTarget.forward * motor.followDistance + Vector3.up * ( motor.followHeight + 1 );
+        {
+            // if ( DataExtractionManager.INSTANCE.isCurrentScheduleHalfWayThere() )
+            // {
+			//     backPoint = followPoint + followTarget.forward * motor.followDistance + Vector3.up * ( motor.followHeight + 1 );
+            // }
+            // else
+            // {
+                backPoint = followPoint - followTarget.forward * motor.followDistance + Vector3.up * ( motor.followHeight + 1 );
+            // }
+        }
 		else
 		{
 			toTarget.y = 0;

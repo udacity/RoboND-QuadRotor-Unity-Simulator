@@ -35,7 +35,7 @@ public class Lidar : MonoBehaviour
 				GameObject get_layer = (GameObject) Instantiate ( layer );
 				get_layer.transform.SetParent ( LidarParent );
 				layers.Add ( get_layer.GetComponent<LineRenderer> () );
-				layers [ j ].numPositions = rayCount;
+				layers [ j ].positionCount = rayCount;
 				layers [ j ].SetWidth ( lineWidth, lineWidth );
 				lidar_points.Add ( new List<Vector3> ( new Vector3[rayCount] ) );
 			}
