@@ -9,11 +9,11 @@ While working on the follow me project, I found a bit troublesome to record the 
 
 This works, but I found it difficult when trying to get large amounts of data, as I had to repeat the process again and again for each recording. If I made a mistake, then I should clear the path and start over, and if I had a working configuration, I could not save it for later editing or re-usage.
 
-To solve these issues I made some changes to the codebase of the simulator, adding some tools solve these issues.
+To solve these issues I made some changes to the codebase of the simulator, adding some tools to solve these issues.
 
 ## **Modified approach**
 
-The approach I took was to allow the user edition and saving/loading of the paths and spawn points he's currently editing. Now, the steps would look like this (modified state machine) :
+The approach I took was to allow user edition and saving/loading of the paths and spawn points he's currently editing. Now, the steps would look like this (modified state machine) :
 
 ![APPROACH SUMMARY](./imgs/img_modified_approach.png)
 
@@ -21,7 +21,7 @@ The functionality from the previous version is kept as usual, and we just added 
 
 ### _**Schedules**_
 
-The paths for the hero and quad, as well as the spawn points for the crowd are abstracted into a single object called [**PathSampleCompound**](https://github.com/wpumacay/RoboND-QuadRotor-Unity-Simulator/blob/master/Assets/Scripts/PathPlanner.cs) (had to make this in order to make it serializable and allow saving to a json easily).
+The paths for the hero and quad, as well as the spawn points for the crowd are abstracted into a single object called [**PathSampleCompound**](https://github.com/wpumacay/RoboND-QuadRotor-Unity-Simulator/blob/master/Assets/Scripts/PathPlanner.cs) (in order to make it serializable and allow saving to a json easily).
 
 Then, this is further abstracted into an object called [**DataExtractionSchedule**](https://github.com/wpumacay/RoboND-QuadRotor-Unity-Simulator/blob/master/Assets/Scripts/DataExtraction/DataExtractionSchedule.cs), which holds a compound, as well as some more functionality for batch recording, visualization, etc.
 
@@ -43,4 +43,40 @@ These are the features exposed to the user using the appropiate keys :
 
 ### _**Batch recording**_
 
-This is the main feature I made these changes for. This allows the user to send a single request to record data from all schedules so far. It does so one by one until all have finished recording the data (each one is hard-coded to take a batch of 1000 images, for now, but can be extracted to another option).
+This is the main feature I made these changes for. This allows the user to send a single request to record data from all schedules so far. It does so one by one until all have finished recording the data (each one is hard-coded to take a batch of 1000 images, for now, but can be extracted to another option). The data is saved in one folder per schedule, with each folder containing the input data to the preprocess step.
+
+## New features in action
+
+*   _**Creating and navigating schedules**_
+
+![](./imgs/gif_feature_creating_navigating_schedules.gif)
+
+*   _**Deleting schedules**_
+
+![](./imgs/gif_feature_deleting_schedules.gif)
+
+*   _**Loading previously saved schedules**_
+
+![](./imgs/gif_feature_loading_schedules.gif)
+
+*   _**Batch Recording**_
+
+![](./imgs/gif_feature_batch_recording.gif)
+
+## Modified preprocessing script
+
+In order to transform the whole batch recorded, we modified the preprocessing script to account for these changes. Basically, you can still run the original preprocessing script, but it would have to be done for each folder. Instead, using [**this**] version of the preprocessing script you can you can generate your dataset from all the folders created for each recording. The usage is the following :
+
+```
+python preprocess_ims.py "ROOT_FOLDER" "MODE" --joinFolder "JOIN_FOLDER" --singleFolder "SINGLE_FOLDER"
+```
+
+There are two mandatory arguments :
+
+*   ROOT_FOLDER : The base folder where all the recording folders were saved.
+*   MODE : Mode of operation, which could be SINGLE (generate for just a single folder), GROUP (generate for all subfolders in the base root folder), or JOIN (to join each generated folder into an output folder, as preprocessing in group mode is done per-folder).
+
+The other are optional parameters, used depending on the mode :
+
+*   JOIN_FOLDER : A base folder where all results are located. This folder is used to search for all images and generate an unique dataset.
+*   SINGLE_FOLDER : A folder path to use if in single mode.
