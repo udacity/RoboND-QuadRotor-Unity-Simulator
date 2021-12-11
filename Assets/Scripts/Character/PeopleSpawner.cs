@@ -11,7 +11,7 @@ public class PeopleSpawner : MonoBehaviour
 	public Transform targetInstance;
 	public OrbitCamera followCam;
 	public bool spawnNewPeople;
-	public float spawnTimer = 60;
+	public float spawnTimer = 30;
 	public int spawnCount = 1;
 
 	public AppearancePreset heroPreset;
@@ -26,7 +26,9 @@ public class PeopleSpawner : MonoBehaviour
 
 	void Awake ()
 	{
+        Debug.Log( "LOG> People spawner HAS BEEN WOKEN UP!!! ?????" );
 		instance = this;
+        targetInstance = null;
 		activePeople = new List<PersonBehavior> ();
 		spawnTimers = new List<float> ();
 		spawnPoints = SpawnPointManager.GetPath();
@@ -34,8 +36,38 @@ public class PeopleSpawner : MonoBehaviour
 		peopleParent = new GameObject ( "People Instances" ).transform;
 	}
 
+    public void restart()
+    {
+        Debug.Log( "LOG> People spawner restarted" );
+        spawnPoints = SpawnPointManager.GetPath();
+        SpawnPerson();
+        spawnTimers = new List<float>();
+        nextSpawnTime = Time.time + spawnTimer;
+		for ( int i = 0; i < spawnCount - 1; i++ )
+		{
+			SpawnPerson( false );
+		}
+    }
+
+    public void stop()
+    {
+        Debug.Log( "LOG> People spawner stopped" );
+        if ( targetInstance != null )
+        {
+            Destroy( targetInstance.gameObject );
+            targetInstance = null;
+        }
+        for ( int q = 0; q < activePeople.Count; q++ )
+        {
+            Destroy( activePeople[ q ].gameObject );
+        }
+        activePeople.Clear();
+
+    }
+
 	void Start ()
 	{
+        Debug.Log( "LOG> People spawner HAS BEEN ACTIVATED" );
 		SpawnPerson ();
 		nextSpawnTime = Time.time + spawnTimer;
 //		if ( ModeController.spawnNonHero || ModeController.isTrainingMode )

@@ -168,6 +168,10 @@ public class GimbalCamera : MonoBehaviour
 			if ( Time.time >= nextRecordTime )
 			{
 				WriteImage ();
+                if ( DataExtractionManager.INSTANCE.isExtractionRunning() )
+                {
+                    DataExtractionManager.INSTANCE.onFrameSaved();
+                }
 				nextRecordTime = Time.time + recordFrequency;
 			}
 		}

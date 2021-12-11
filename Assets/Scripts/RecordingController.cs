@@ -7,6 +7,7 @@ using Action = System.Action;
 
 public class RecordingController : MonoBehaviour
 {
+    public static RecordingController INSTANCE;
 	public static Action BeginRecordCallback;
 	public static Action EndRecordCallback;
 	public static string SaveLocation { get; protected set; }
@@ -22,6 +23,8 @@ public class RecordingController : MonoBehaviour
 
 	void Awake ()
 	{
+        RecordingController.INSTANCE = this;
+
 		SaveLocation = "";
 		OnCancelRecord ();
 	}
@@ -29,11 +32,19 @@ public class RecordingController : MonoBehaviour
 	void LateUpdate ()
 	{
 		if ( Input.GetButtonDown ( "Record" ) )
+        {
+            if ( DataExtractionManager.INSTANCE.isExtractionRunning() )
+            {
+                Debug.Log( "THERE IS AN EXTRACTION IN PROCESS" );
+                return;
+            }
+            
 			ToggleRecording ();
+        }
 		
 	}
 
-	void ToggleRecording ()
+	public void ToggleRecording ()
 	{
 		if ( recording )
 		{
@@ -50,6 +61,11 @@ public class RecordingController : MonoBehaviour
 		}
 	}
 
+    public void forceSaveLocation( string newSaveLocation )
+    {
+        RecordingController.SaveLocation = newSaveLocation;
+    }
+
 	public bool CheckSaveLocation ()
 	{
 		if ( SaveLocation != "" )
@@ -62,7 +78,7 @@ public class RecordingController : MonoBehaviour
 		return false;
 	}
 
-	void OnBeginRecord ()
+	public void OnBeginRecord ()
 	{
 		recording = true;
 		recordingStatus.text = "Recording!";
@@ -71,13 +87,13 @@ public class RecordingController : MonoBehaviour
 			BeginRecordCallback ();
 	}
 
-	void OnCancelRecord ()
+	public void OnCancelRecord ()
 	{
 		recordingStatus.text = "Not Recording";
 		recordingStatus.color = Color.red;
 	}
 
-	void OnEndRecord ()
+	public void OnEndRecord ()
 	{
 		recording = false;
 		recordingStatus.text = "Not Recording";

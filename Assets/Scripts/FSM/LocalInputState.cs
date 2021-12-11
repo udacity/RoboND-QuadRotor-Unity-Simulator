@@ -54,13 +54,30 @@ public class LocalInputState : DroneState
 		if ( Input.GetButtonDown ( "Patrol Waypoint" ) )
 //		if ( Input.GetKeyDown ( KeyCode.P ) )
 		{
-			PatrolPathManager.AddNode ( motor.Position, motor.Rotation );
+            // Debug.Log( "LOG> Adding patrol point" );
+            if ( DataExtractionManager.INSTANCE.isEditionEnabled() )
+            {
+                DataExtractionManager.INSTANCE.editionAddPatrolNode( motor.Position,
+                                                                     motor.Rotation );
+            }
+            else
+            {
+			    PatrolPathManager.AddNode ( motor.Position, motor.Rotation );         
+            }
 		}
 
 		if ( Input.GetButtonDown ( "Hero Waypoint" ) )
 //		if ( Input.GetKeyDown ( KeyCode.O ) )
 		{
-			HeroPathManager.AddNode ( motor.Position, motor.Rotation );
+            if ( DataExtractionManager.INSTANCE.isEditionEnabled() )
+            {
+                DataExtractionManager.INSTANCE.editionAddHeroNode( motor.Position, 
+                                                                   motor.Rotation );
+            }
+            else
+            {
+                HeroPathManager.AddNode( motor.Position, motor.Rotation );
+            }
 		}
 
 		if ( Input.GetButtonDown ( "Crowd Spawnpoint" ) )
@@ -106,19 +123,40 @@ public class LocalInputState : DroneState
 		if ( Input.GetButtonDown ( "Clear Patrol" ) )
 //		if ( Input.GetKeyDown ( KeyCode.L ) )
 		{
-			PatrolPathManager.Clear ();
+            if ( DataExtractionManager.INSTANCE.isEditionEnabled() )
+            {
+                DataExtractionManager.INSTANCE.editionRemovePatrolNode();
+            }
+            else
+            {
+			    PatrolPathManager.Clear ();
+            }
 		}
 
 		if ( Input.GetButtonDown ( "Clear Hero" ) )
 //		if ( Input.GetKeyDown ( KeyCode.K ) )
 		{
-			HeroPathManager.Clear ();
+            if ( DataExtractionManager.INSTANCE.isEditionEnabled() )
+            {
+                DataExtractionManager.INSTANCE.editionRemoveHeroNode();
+            }
+            else
+            {
+			    HeroPathManager.Clear ();
+            }
 		}
 
 		if ( Input.GetButtonDown ( "Clear Crowd" ) )
 //		if ( Input.GetKeyDown ( KeyCode.J ) )
 		{
-			SpawnPointManager.Clear ();
+            if ( DataExtractionManager.INSTANCE.isEditionEnabled() )
+            {
+                DataExtractionManager.INSTANCE.editionRemoveSpawnNode();
+            }
+            else
+            {
+			    SpawnPointManager.Clear ();
+            }
 		}
 
 		Vector3 input = new Vector3 ( Input.GetAxis ( "Horizontal" ), Input.GetAxis ( "Thrust" ), Input.GetAxis ( "Vertical" ) );
